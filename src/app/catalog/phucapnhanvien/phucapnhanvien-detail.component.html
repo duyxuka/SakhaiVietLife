@@ -1,0 +1,61 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết phụ cấp nhân viên">
+    <div class="formgrid grid">
+      <!-- Tên phụ cấp -->
+      <div class="field col-12 md:col-6">
+        <label for="tenPhuCap" class="block">Tên phụ cấp <span class="required">*</span></label>
+        <input
+          id="tenPhuCap"
+          pInputText
+          type="text"
+          formControlName="tenPhuCap"
+          placeholder="Nhập tên phụ cấp"
+          [style]="{ width: '100%' }"
+        />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="tenPhuCap"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Số tiền -->
+      <div class="field col-12 md:col-6">
+        <label for="soTien" class="block">Số tiền <span class="required">*</span></label>
+        <p-inputNumber id="soTien"  formControlName="soTien" placeholder="Nhập số tiền" inputStyleClass="w-full"></p-inputNumber>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="soTien"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Chức vụ -->
+      <div class="field col-12 md:col-6">
+        <label for="chucVuId" class="block">Chức vụ</label>
+        <p-select
+          [options]="chucVuList"
+          formControlName="chucVuId"
+          placeholder="Chọn chức vụ"
+          [showClear]="true"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

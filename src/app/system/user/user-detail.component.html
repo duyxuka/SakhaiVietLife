@@ -1,0 +1,206 @@
+<form
+  class="form-horizontal form-label-left"
+  skipValidation
+  [formGroup]="form"
+  (ngSubmit)="saveChange()"
+>
+  <p-panel #pnlDetail header="Thông tin nhân viên" [toggleable]="true" [collapsed]="false">
+    <div class="formgrid grid">
+      <!-- Tài khoản -->
+      <div class="field col-12 md:col-6">
+        <label for="userName">Tài khoản <span class="required">*</span></label>
+        <input id="userName" type="text" pInputText formControlName="userName" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="userName" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Mật khẩu -->
+      <div class="field col-12 md:col-6">
+        <label for="password">Mật khẩu <span class="required">*</span></label>
+        <input id="password" type="password" pInputText formControlName="password" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="password" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Họ -->
+      <div class="field col-12 md:col-6">
+        <label for="surname">Họ <span class="required">*</span></label>
+        <input id="surname" type="text" pInputText formControlName="surname" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="surname" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Tên -->
+      <div class="field col-12 md:col-6">
+        <label for="name">Tên <span class="required">*</span></label>
+        <input id="name" type="text" pInputText formControlName="name" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="name" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Email -->
+      <div class="field col-12 md:col-6">
+        <label for="email">Email <span class="required">*</span></label>
+        <input id="email" type="text" pInputText formControlName="email" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="email" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Số điện thoại -->
+      <div class="field col-12 md:col-6">
+        <label for="phoneNumber">Số điện thoại <span class="required">*</span></label>
+        <input id="phoneNumber" type="text" pInputText formControlName="phoneNumber" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="phoneNumber" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Mã nhân viên -->
+      <div class="field col-12 md:col-6">
+        <label for="maNv">Mã nhân viên <span class="required">*</span></label>
+        <input id="maNv" type="text" pInputText formControlName="maNv" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="maNv" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Họ và tên -->
+      <div class="field col-12 md:col-6">
+        <label for="hoTen">Họ và tên <span class="required">*</span></label>
+        <input id="hoTen" type="text" pInputText formControlName="hoTen" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="hoTen" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="luongCoBan">Lương cơ bản <span class="required">*</span></label>
+        <p-inputNumber id="luongCoBan" type="text" formControlName="luongCoBan" class="w-full"></p-inputNumber>
+        <app-validation-message [entityForm]="form" fieldName="luongCoBan" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label for="donGiaCong">Đơn giá công <span class="required">*</span></label>
+        <p-inputNumber id="donGiaCong" type="text" formControlName="donGiaCong" class="w-full"></p-inputNumber>
+        <app-validation-message [entityForm]="form" fieldName="donGiaCong" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Giới tính -->
+      <div class="field col-12 md:col-6">
+        <label for="gioiTinh">Giới tính <span class="required">*</span></label>
+        <p-select
+          [options]="GioiTinh"
+          formControlName="gioiTinh"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Chọn giới tính"
+          [showClear]="true"
+          class="w-full"
+        ></p-select>
+        <app-validation-message [entityForm]="form" fieldName="gioiTinh" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Ngày sinh -->
+      <div class="field col-12 md:col-6">
+        <label for="ngaySinh">Ngày sinh <span class="required">*</span></label>
+        <p-datepicker
+          formControlName="ngaySinh"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          placeholder="Chọn ngày"
+          class="w-full"
+        ></p-datepicker>
+        <app-validation-message [entityForm]="form" fieldName="ngaySinh" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Số CMND -->
+      <div class="field col-12 md:col-6">
+        <label for="soCmnd">Số CMND/CCCD</label>
+        <input id="soCmnd" type="text" pInputText formControlName="soCmnd" class="w-full" />
+        <app-validation-message [entityForm]="form" fieldName="soCmnd" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Ngày cấp -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayCapCmnd">Ngày cấp</label>
+        <p-datepicker
+          formControlName="ngayCapCmnd"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          placeholder="Chọn ngày cấp"
+          class="w-full"
+        ></p-datepicker>
+      </div>
+
+      <!-- Nơi cấp -->
+      <div class="field col-12 md:col-6">
+        <label for="noiCapCmnd">Nơi cấp</label>
+        <input id="noiCapCmnd" type="text" pInputText formControlName="noiCapCmnd" class="w-full" />
+      </div>
+
+      <!-- Địa chỉ -->
+      <div class="field col-12 md:col-6">
+        <label for="diaChi">Địa chỉ</label>
+        <input id="diaChi" type="text" pInputText formControlName="diaChi" class="w-full" />
+      </div>
+
+      <!-- Phòng ban -->
+      <div class="field col-12 md:col-6">
+        <label for="phongBanId">Phòng ban <span class="required">*</span></label>
+        <p-select
+          [options]="phongBanList"
+          formControlName="phongBanId"
+          placeholder="Chọn phòng ban"
+          [showClear]="true"
+          class="w-full"
+        ></p-select>
+        <app-validation-message [entityForm]="form" fieldName="phongBanId" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Chức vụ -->
+      <div class="field col-12 md:col-6">
+        <label for="chucVuId">Chức vụ <span class="required">*</span></label>
+        <p-select
+          [options]="chucVuList"
+          formControlName="chucVuId"
+          placeholder="Chọn chức vụ"
+          [showClear]="true"
+          class="w-full"
+        ></p-select>
+        <app-validation-message [entityForm]="form" fieldName="chucVuId" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Ngày vào làm -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayVaoLam">Ngày vào làm <span class="required">*</span></label>
+        <p-datepicker
+          formControlName="ngayVaoLam"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          placeholder="Chọn ngày vào làm"
+          class="w-full"
+        ></p-datepicker>
+        <app-validation-message [entityForm]="form" fieldName="ngayVaoLam" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Trạng thái -->
+      <div class="field col-12 md:col-6">
+        <label for="trangThai">Trạng thái <span class="required">*</span></label>
+        <p-select
+          [options]="[
+            { label: 'Đang làm việc', value: 'Đang làm việc' },
+            { label: 'Đã nghỉ', value: 'Đã nghỉ' }
+          ]"
+          formControlName="trangThai"
+          placeholder="Chọn trạng thái"
+          [showClear]="true"
+          class="w-full"
+        ></p-select>
+        <app-validation-message [entityForm]="form" fieldName="trangThai" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid || btnDisabled">
+        Lưu lại
+      </button>
+    </ng-template>
+
+    <p-blockUI [target]="pnlDetail" [blocked]="blockedPanelDetail">
+      <p-progressSpinner
+        [style]="{ width: '100px', height: '100px', position: 'absolute', top: '25%', left: '50%' }"
+        strokeWidth="2"
+        animationDuration=".5s"
+      ></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

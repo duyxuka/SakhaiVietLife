@@ -1,0 +1,110 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết kế hoạch công việc">
+    <div class="formgrid grid">
+      <!-- KPI Nhân viên -->
+      <div class="field col-12 md:col-6">
+        <label for="kpiNhanVienId">KPI Nhân viên <span class="required">*</span></label>
+        <p-select
+          [options]="kpiNhanVienList"
+          formControlName="kpiNhanVienId"
+          placeholder="Chọn KPI nhân viên"
+          [showClear]="true"
+          [style]="{ width: '100%' }"
+        ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="kpiNhanVienId"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Tên kế hoạch -->
+      <div class="field col-12 md:col-6">
+        <label for="tenKeHoach">Tên kế hoạch <span class="required">*</span></label>
+        <input
+          id="tenKeHoach"
+          type="text"
+          pInputText
+          formControlName="tenKeHoach"
+          placeholder="Nhập tên kế hoạch"
+          [style]="{ width: '100%' }"
+        />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="tenKeHoach"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Mô tả -->
+      <div class="field col-12">
+        <label for="moTa">Mô tả</label>
+        <textarea
+          id="moTa"
+          pInputTextarea
+          formControlName="moTa"
+          rows="3"
+          placeholder="Nhập mô tả kế hoạch"
+          style="width: 100%"
+        ></textarea>
+      </div>
+
+      <!-- Ngày bắt đầu -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayBatDau">Ngày bắt đầu</label>
+        <p-datepicker
+          formControlName="ngayBatDau"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          placeholder="Chọn ngày bắt đầu"
+          [style]="{ width: '100%' }"
+        ></p-datepicker>
+      </div>
+
+      <!-- Ngày kết thúc -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayKetThuc">Ngày kết thúc</label>
+        <p-datepicker
+          formControlName="ngayKetThuc"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          placeholder="Chọn ngày kết thúc"
+          [style]="{ width: '100%' }"
+        ></p-datepicker>
+      </div>
+
+      <!-- Trọng số -->
+      <div class="field col-12 md:col-6">
+        <label for="trongSo">Trọng số <span class="required">*</span></label>
+        <p-inputNumber
+          id="trongSo"
+          formControlName="trongSo"
+          [min]="0"
+          [max]="100"
+          [suffix]="'%'"
+          [style]="{ width: '100%' }"
+        ></p-inputNumber>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="trongSo"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

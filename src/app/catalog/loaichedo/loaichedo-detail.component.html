@@ -1,0 +1,43 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết loại chế độ">
+    <!--form grid-->
+    <div class="formgrid grid">
+      <div class="field col-6">
+        <label for="tenLoaiCheDo" class="block">Tên loại chế độ <span class="required">*</span></label>
+        <input id="tenLoaiCheDo" pInputText type="text" formControlName="tenLoaiCheDo" class="w-full"/>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="tenLoaiCheDo"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+      <div class="field col-6">
+        <label for="heSoCong" class="block">Hệ số công<span class="required">*</span></label>
+        <input id="heSoCong" pInputText type="text" type="number" formControlName="heSoCong" class="w-full"/>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="heSoCong"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+      <div class="field col-12">
+        <label for="note" class="block">Mô tả</label>
+        <textarea id="note" pInputTextarea class="w-full" formControlName="moTa"></textarea>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+    </ng-template>
+    <!--Block UI-->
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

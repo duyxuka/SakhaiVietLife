@@ -9,7 +9,7 @@ const oAuthConfig = {
   dummyClientSecret:'1q2w3e*',
   responseType: 'code',
   scope: 'offline_access VietLife.Admin',
-  requireHttps: true,
+  requireHttps: false,
   useRefreshToken: true,
 };
 

@@ -1,0 +1,145 @@
+<p-panel header="Danh sách chấm công">
+  <!-- Filter (search panel) -->
+  <div class="grid">
+    <div class="col-4">
+      <button
+        pButton
+        type="button"
+        (click)="showAddModal()"
+        icon="fa fa-plus"
+        iconPos="left"
+        label="Thêm"
+      ></button>
+      <button
+        pButton
+        type="button"
+        (click)="showEditModal()"
+        *ngIf="selectedItems.length == 1"
+        class="ml-1 p-button-help"
+        icon="fa fa-pencil"
+        iconPos="left"
+        label="Sửa"
+      ></button>
+      <button
+        pButton
+        type="button"
+        (click)="deleteItems()"
+        *ngIf="selectedItems.length > 0"
+        class="ml-1 p-button-danger"
+        icon="fa fa-trash"
+        iconPos="left"
+        label="Xóa"
+      ></button>
+    </div>
+
+    <div class="col-8">
+      <div class="formgroup-inline">
+        <div class="field">
+          <p-select
+            [options]="userslist"
+            [(ngModel)]="nhanVienId"
+            optionLabel="name"
+            optionValue="id"
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            placeholder="Chọn nhân viên"
+            styleClass="w-15rem"
+            (onChange)="onNhanVienChange()"
+          >
+            <!-- Template khi đã chọn -->
+            <ng-template pTemplate="selectedItem" let-selected>
+              <div class="flex align-items-center gap-2">
+                <img
+                  src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                  alt="Avatar"
+                  width="24"
+                  class="border-circle"
+                />
+                <div>{{ selected?.name }}</div>
+              </div>
+            </ng-template>
+
+            <!-- Template hiển thị danh sách -->
+            <ng-template pTemplate="item" let-item>
+              <div class="flex align-items-center gap-2">
+                <img
+                  src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                  alt="Avatar"
+                  width="24"
+                  class="border-circle"
+                />
+                <div>
+                  <div class="font-medium">{{ item.name }}</div>
+                </div>
+              </div>
+            </ng-template>
+          </p-select>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <p-table #pnl [value]="items" [(selection)]="selectedItems" selectionMode="multiple">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 10px">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Tên nhân viên</th>
+        <th>Ngày làm</th>
+        <th>Giờ vào</th>
+        <th>Giờ ra</th>
+        <th>Số giờ làm</th>
+        <th>Đi muộn</th>
+        <th>Về sớm</th>
+        <th>Trạng thái</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td>
+          <p-tableCheckbox [value]="row"></p-tableCheckbox>
+        </td>
+        <td>{{ row.tenNhanVien }}</td>
+        <td>{{ row.ngayLam | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ row.gioVao ? (row.gioVao | date: 'HH:mm:ss') : '-' }}</td>
+        <td>{{ row.gioRa ? (row.gioRa | date: 'HH:mm:ss') : '-' }}</td>
+        <td>{{ row.soGioLam ? (row.soGioLam | number: '1.1-2') : '0' }}</td>
+        <td>
+          {{row.soPhutDiMuon}} phút
+        </td>
+        <td>
+          {{row.soPhutVeSom ? row.soPhutVeSom + ' phút' : ''}}
+        </td>
+        <td>
+          <p-badge
+            [severity]="row.trangThai ? 'success' : 'secondary'"
+            [value]="row.trangThai ? 'Đã check-in' : 'Đã check-out'"
+          ></p-badge>
+        </td>
+
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      <div style="text-align: left">Tổng số bản ghi: {{ totalCount | number }}</div>
+    </ng-template>
+  </p-table>
+
+  <!-- Paginator -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+  ></p-paginator>
+
+  <!-- Block UI -->
+  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+</p-panel>

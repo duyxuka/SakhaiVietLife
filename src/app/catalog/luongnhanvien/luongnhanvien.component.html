@@ -1,0 +1,82 @@
+<p-panel header="Danh sách lương nhân viên">
+  <div class="grid">
+    <div class="col-4">
+      <button pButton type="button" (click)="showAddModal()" icon="fa fa-plus" label="Thêm"></button>
+      <button pButton type="button" (click)="showEditModal()" *ngIf="selectedItems.length == 1" class="ml-1 p-button-help" icon="fa fa-pencil" label="Sửa"></button>
+      <button pButton type="button" (click)="deleteItems()" *ngIf="selectedItems.length > 0" class="ml-1 p-button-danger" icon="fa fa-trash" label="Xóa"></button>
+      <button pButton type="button" (click)="tinhLuong()" class="ml-1 p-button-success" icon="fa fa-calculator" label="Tính lương"></button>
+    </div>
+
+    <div class="col-8">
+      <div class="formgroup-inline">
+        <div class="field">
+          <p-select
+            [options]="userslist"
+            [(ngModel)]="nhanVienId"
+            placeholder="Chọn nhân viên"
+            [showClear]="true"
+            [filter]="true"
+            filterBy="label"
+            styleClass="w-15rem"
+            (onChange)="onFilterChange()"
+          ></p-select>
+        </div>
+        <div class="field ml-2">
+          <p-select
+            [options]="thangOptions"
+            [(ngModel)]="thang"
+            placeholder="Tháng"
+            styleClass="w-10rem"
+            (onChange)="onFilterChange()"
+          ></p-select>
+        </div>
+        <div class="field ml-2">
+          <input type="number" pInputText [(ngModel)]="nam" placeholder="Năm" style="width: 80px" (change)="onFilterChange()" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-table #pnl [value]="items" [(selection)]="selectedItems" selectionMode="multiple">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 10px"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+        <th>Nhân viên</th>
+        <th>Tháng/Năm</th>
+        <th>Lương ngày công</th>
+        <th>Phụ cấp</th>
+        <th>Thưởng KPI</th>
+        <th>Khấu trừ</th>
+        <th>Tổng lương</th>
+        <th>Ngày tính</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row"></p-tableCheckbox></td>
+        <td>{{ row.tenNhanVien }}</td>
+        <td>{{ row.thang }}/{{ row.nam }}</td>
+        <td>{{ row.luongTheoNgayCong | currency:'VND':'symbol':'1.0-0' }}</td>
+        <td>{{ row.phuCap | currency:'VND':'symbol':'1.0-0' }}</td>
+        <td>{{ row.thuongKpi | currency:'VND':'symbol':'1.0-0' }}</td>
+        <td>{{ row.khauTru | currency:'VND':'symbol':'1.0-0' }}</td>
+        <td><strong>{{ row.tongLuong | currency:'VND':'symbol':'1.0-0' }}</strong></td>
+        <td>{{ row.ngayTinhLuong | date:'dd/MM/yyyy' }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div style="text-align: left">Tổng: {{ totalCount | number }} bản ghi</div>
+    </ng-template>
+  </p-table>
+
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 50, 100]"
+  ></p-paginator>
+
+  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+</p-panel>

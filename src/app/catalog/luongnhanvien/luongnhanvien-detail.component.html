@@ -1,0 +1,174 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết lương nhân viên">
+    <div class="formgrid grid">
+
+      <!-- Nhân viên -->
+      <div class="field col-12 md:col-6">
+        <label for="nhanVienId">Nhân viên <span class="required">*</span></label>
+        <p-select
+          [options]="userslist"
+          formControlName="nhanVienId"
+          placeholder="Chọn nhân viên"
+          [showClear]="true"
+          optionLabel="label"
+          optionValue="value"
+          [style]="{ width: '100%' }"
+        ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="nhanVienId"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Tháng -->
+      <div class="field col-12 md:col-6">
+        <label for="thang">Tháng <span class="required">*</span></label>
+        <p-select
+          [options]="thangOptions"
+          formControlName="thang"
+          placeholder="Chọn tháng"
+          [style]="{ width: '100%' }"
+        ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="thang"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Năm -->
+      <div class="field col-12 md:col-6">
+        <label for="nam">Năm <span class="required">*</span></label>
+        <input
+          id="nam"
+          type="number"
+          pInputText
+          formControlName="nam"
+          placeholder="Nhập năm"
+          [style]="{ width: '100%' }"
+        />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="nam"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Lương theo ngày công -->
+      <div class="field col-12 md:col-6">
+        <label for="luongTheoNgayCong">Lương theo ngày công</label>
+        <input
+          id="luongTheoNgayCong"
+          type="number"
+          pInputText
+          formControlName="luongTheoNgayCong"
+          placeholder="0"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Phụ cấp -->
+      <div class="field col-12 md:col-6">
+        <label for="phuCap">Phụ cấp</label>
+        <input
+          id="phuCap"
+          type="number"
+          pInputText
+          formControlName="phuCap"
+          placeholder="0"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Thưởng KPI -->
+      <div class="field col-12 md:col-6">
+        <label for="thuongKpi">Thưởng KPI</label>
+        <input
+          id="thuongKpi"
+          type="number"
+          pInputText
+          formControlName="thuongKpi"
+          placeholder="0"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Thưởng khác -->
+      <div class="field col-12 md:col-6">
+        <label for="thuongKhac">Thưởng khác</label>
+        <input
+          id="thuongKhac"
+          type="number"
+          pInputText
+          formControlName="thuongKhac"
+          placeholder="0"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Khấu trừ -->
+      <div class="field col-12 md:col-6">
+        <label for="khauTru">Khấu trừ</label>
+        <input
+          id="khauTru"
+          type="number"
+          pInputText
+          formControlName="khauTru"
+          placeholder="0"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Cộng/Trừ chế độ -->
+      <div class="field col-12 md:col-6">
+        <label for="congTruCheDo">Cộng/Trừ chế độ</label>
+        <input
+          id="congTruCheDo"
+          type="number"
+          pInputText
+          formControlName="congTruCheDo"
+          placeholder="0"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+      <!-- Ngày tính lương -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayTinhLuong">Ngày tính lương</label>
+        <p-datepicker
+          formControlName="ngayTinhLuong"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          [style]="{ width: '100%' }"
+          [disabled]="true"
+        ></p-datepicker>
+      </div>
+
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="fa fa-calculator"
+        iconPos="left"
+        label="Tính lương"
+        class="ml-2 p-button-success"
+        (click)="tinhLuong()"
+        [disabled]="btnDisabled"
+      ></button>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

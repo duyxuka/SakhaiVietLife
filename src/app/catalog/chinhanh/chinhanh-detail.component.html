@@ -1,0 +1,65 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết chi nhánh">
+    <!-- Form Content -->
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <!-- Tên chi nhánh -->
+        <div>
+          <label for="tenChiNhanh" class="block font-bold mb-2">
+            Tên chi nhánh <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="tenChiNhanh"
+            pInputText
+            type="text"
+            formControlName="tenChiNhanh"
+            placeholder="Nhập tên chi nhánh"
+            fluid />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="tenChiNhanh"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- Mô tả -->
+        <div>
+          <label for="moTa" class="block font-bold mb-2">Mô tả</label>
+          <textarea
+            id="moTa"
+            pTextarea
+            formControlName="moTa"
+            rows="4"
+            placeholder="Nhập mô tả chi nhánh (không bắt buộc)"
+            fluid></textarea>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Footer với Toolbar -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2" />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled" />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner />
+    </p-blockui>
+  </p-panel>
+</form>

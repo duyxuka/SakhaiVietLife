@@ -1,9 +1,9 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://localhost:4200';
+const baseUrl = 'http://42.96.61.186:8099';
 
 const oAuthConfig = {
-  issuer: 'https://localhost:44372/',
+  issuer: 'http://42.96.61.186:8099/',
   redirectUri: baseUrl,
   clientId: 'VietLife_Admin',
   dummyClientSecret:'1q2w3e*',
@@ -22,7 +22,7 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://localhost:44372',
+      url: 'http://42.96.61.186:8099',
       rootNamespace: 'VietLife.Admin',
     },
     AbpAccountPublic: {

@@ -7,22 +7,30 @@ import { Notfound } from './app/pages/notfound/notfound';
 import { AuthGuard } from '@/pages/auth/auth.guard';
 
 export const appRoutes: Routes = [
-    // Redirect root '/' sang login nếu chưa đăng nhập
-    { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
 
-    {
-        path: '',
-        component: AppLayout,
-        canActivate: [AuthGuard],
-        children: [
-            { path: 'dashboard', component: Dashboard },
-            { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-            { path: 'documentation', component: Documentation },
-            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
-        ]
-    },
-    { path: 'landing', component: Landing },
-    { path: 'notfound', component: Notfound },
-    { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
-    { path: '**', redirectTo: '/auth/login' } // Mọi path lạ redirect login
+  {
+    path: '',
+    component: AppLayout,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'dashboard', component: Dashboard },
+      {
+        path: 'system',
+        loadChildren: () => import('./app/system/system-routing.module').then(m => m.SystemRoutingModule),
+      },
+      {
+        path: 'catalog',
+        loadChildren: () => import('./app/catalog/catalog-routing.module').then(m => m.CatalogRoutingModule),
+      },
+      { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
+      { path: 'documentation', component: Documentation },
+      { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },
+    ],
+  },
+
+  { path: 'landing', component: Landing },
+  { path: 'notfound', component: Notfound },
+  { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
+  { path: '**', redirectTo: '/auth/login' },
 ];

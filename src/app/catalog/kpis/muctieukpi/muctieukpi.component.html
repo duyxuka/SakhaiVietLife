@@ -1,0 +1,97 @@
+<p-panel header="Danh sách Mục tiêu KPI">
+  <!-- Filter và nút thao tác -->
+  <div class="grid">
+    <div class="col-4">
+      <button
+        pButton
+        type="button"
+        (click)="showAddModal()"
+        icon="fa fa-plus"
+        iconPos="left"
+        label="Thêm"
+      ></button>
+      <button
+        pButton
+        type="button"
+        (click)="showEditModal()"
+        *ngIf="selectedItems.length == 1"
+        class="ml-1 p-button-help"
+        icon="fa fa-pencil"
+        iconPos="left"
+        label="Sửa"
+      ></button>
+      <button
+        pButton
+        type="button"
+        (click)="deleteItems()"
+        *ngIf="selectedItems.length > 0"
+        class="ml-1 p-button-danger"
+        icon="fa fa-trash"
+        iconPos="left"
+        label="Xóa"
+      ></button>
+    </div>
+    <div class="col-8">
+      <div class="formgroup-inline">
+        <div class="field">
+          <label for="txt-keyword" class="p-sr-only">Từ khóa</label>
+          <input id="txt-keyword" [(ngModel)]="keyword" pInputText type="text" placeholder="Gõ từ khóa theo kế hoạch, tên kpi" />
+        </div>
+        <button
+          type="button"
+          pButton
+          (click)="loadData()"
+          icon="fa fa-search"
+          iconPos="left"
+          label="Tìm"
+        ></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bảng dữ liệu -->
+  <p-table #tbl [value]="items" [(selection)]="selectedItems" selectionMode="multiple">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 10px">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Tên mục tiêu</th>
+        <th>Giá trị mục tiêu</th>
+        <th>Giá trị thực hiện</th>
+        <th>Đơn vị</th>
+        <th>Trọng số</th>
+        <th>Kế hoạch công việc</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row"></p-tableCheckbox></td>
+        <td>{{ row.tenMucTieu }}</td>
+        <td>{{ row.giaTriMucTieu | number: '1.2-2' }}</td>
+        <td>{{ row.giaTriThucHien | number: '1.2-2' }}</td>
+        <td>{{ row.donVi }}</td>
+        <td>{{ row.trongSo }}%</td>
+        <td>{{ row.tenKeHoach }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      <div style="text-align: left">Tổng số bản ghi: {{ totalCount | number }}</div>
+    </ng-template>
+  </p-table>
+
+  <!-- Phân trang -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+  ></p-paginator>
+
+  <!-- Block UI -->
+  <p-blockUI [blocked]="blockedPanel" [target]="tbl">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+</p-panel>

@@ -1,0 +1,52 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết phòng ban">
+    <!--form grid-->
+    <div class="formgrid grid">
+      <div class="field col-12">
+        <label for="tenPhongBan" class="block">Tên phòng ban <span class="required">*</span></label>
+        <input id="tenPhongBan" pInputText type="text" formControlName="tenPhongBan" />
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="tenPhongBan"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+      <div class="field col-12">
+        <label for="truongPhongId" class="block"
+          >Trưởng phòng</label
+        >
+        <p-select
+          [options]="userslist"
+          formControlName="truongPhongId"
+          placeholder="Chọn trưởng phòng"
+          [showClear]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+        ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="truongPhongId"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+      <div class="field col-12">
+        <label for="note" class="block">Mô tả</label>
+        <textarea id="note" pInputTextarea class="w-full" formControlName="moTa"></textarea>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+    </ng-template>
+    <!--Block UI-->
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

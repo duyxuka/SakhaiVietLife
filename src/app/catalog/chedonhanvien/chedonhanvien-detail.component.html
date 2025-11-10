@@ -1,0 +1,131 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết chế độ nhân viên">
+    <div class="formgrid grid">
+      <!-- Loại chế độ -->
+      <div class="field col-12 md:col-6">
+        <label for="loaiCheDoId">Loại chế độ <span class="required">*</span></label>
+        <p-select
+          [options]="loaiCheDoList"
+          formControlName="loaiCheDoId"
+          placeholder="Chọn loại chế độ"
+          [showClear]="true"
+          [style]="{ width: '100%' }"
+        ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="loaiCheDoId"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Số ngày -->
+      <div class="field col-12 md:col-6">
+        <label for="soNgay">Số ngày</label>
+        <input
+          id="soNgay"
+          type="number"
+          pInputText
+          formControlName="soNgay"
+          placeholder="Nhập số ngày"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Số công -->
+      <div class="field col-12 md:col-6">
+        <label for="soCong">Số công</label>
+        <input
+          id="soCong"
+          type="number"
+          pInputText
+          formControlName="soCong"
+          placeholder="Nhập số công"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Thành tiền -->
+      <div *ngIf="isManager" class="field col-12 md:col-6">
+        <label for="nguoiDuyetId">Người duyệt</label>
+          <p-select
+          [options]="userslist"
+          formControlName="nguoiDuyetId"
+          placeholder="Chọn người duyệt"
+          [showClear]="true"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+
+      <!-- Lý do -->
+      <div class="field col-12 md:col-6">
+        <label for="lyDo">Lý do</label>
+        <input
+          id="lyDo"
+          type="text"
+          pInputText
+          formControlName="lyDo"
+          placeholder="Nhập lý do"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Ngày bắt đầu -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayBatDau">Ngày bắt đầu</label>
+        <p-datepicker
+          formControlName="ngayBatDau"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          placeholder="Chọn ngày bắt đầu"
+          [style]="{ width: '100%' }"
+        ></p-datepicker>
+      </div>
+
+      <!-- Ngày kết thúc -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayKetThuc">Ngày kết thúc</label>
+        <p-datepicker
+          formControlName="ngayKetThuc"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          placeholder="Chọn ngày kết thúc"
+          [style]="{ width: '100%' }"
+        ></p-datepicker>
+      </div>
+
+      <!-- Ghi chú -->
+      <div class="field col-12 md:col-6">
+        <label for="ghiChu">Ghi chú</label>
+        <textarea
+          id="ghiChu"
+          pInputTextarea
+          rows="3"
+          formControlName="ghiChu"
+          placeholder="Nhập ghi chú"
+          class="w-full"
+        ></textarea>
+      </div>
+
+      <!-- Trạng thái -->
+      <div class="field col-12 md:col-6 flex align-items-center">
+        <label for="trangThai" class="mr-2">Trạng thái</label>
+        <p-inputSwitch formControlName="trangThai"></p-inputSwitch>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

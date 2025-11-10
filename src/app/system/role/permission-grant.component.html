@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()">
+  <p-panel #pnlDetail header="Phân quyền cho Role" [toggleable]="true" [collapsed]="false">
+    <p-tree
+      [value]="treeData"
+      selectionMode="checkbox"
+      [(selection)]="selectedNodes"
+      [propagateSelectionUp]="true"
+      [propagateSelectionDown]="true"
+    ></p-tree>
+
+    <ng-template pTemplate="footer">
+      <button type="submit" class="btn btn-primary" [disabled]="btnDisabled">
+        {{ saveBtnName }}
+      </button>
+    </ng-template>
+
+    <p-blockUI [target]="pnlDetail" [blocked]="blockedPanelDetail">
+      <p-progressSpinner
+        [style]="{ width: '80px', height: '80px', position: 'absolute', top: '25%', left: '50%' }"
+        strokeWidth="2"
+        animationDuration=".5s"
+      ></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

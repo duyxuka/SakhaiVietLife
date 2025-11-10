@@ -1,0 +1,81 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết tiến độ làm việc">
+    <div class="formgrid grid">
+      <!-- KPI Nhân viên -->
+      <div class="field col-12 md:col-6">
+        <label for="kpiNhanVienId">KPI Nhân viên <span class="required">*</span></label>
+        <p-select
+          [options]="kpiNhanVienList"
+          formControlName="kpiNhanVienId"
+          placeholder="Chọn KPI nhân viên"
+          [showClear]="true"
+          [style]="{ width: '100%' }"
+        ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="kpiNhanVienId"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Ngày cập nhật -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayCapNhat">Ngày cập nhật <span class="required">*</span></label>
+        <p-datepicker
+          formControlName="ngayCapNhat"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          hourFormat="24"
+          placeholder="Chọn ngày cập nhật"
+          [style]="{ width: '100%' }"
+        ></p-datepicker>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="ngayCapNhat"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Phần trăm tiến độ -->
+      <div class="field col-12 md:col-6">
+        <label for="phanTramTienDo">Phần trăm tiến độ (%)</label>
+        <p-inputNumber
+          formControlName="phanTramTienDo"
+          mode="decimal"
+          [min]="0"
+          [max]="100"
+          placeholder="Nhập tiến độ (%)"
+          [style]="{ width: '100%' }"
+        ></p-inputNumber>
+      </div>
+
+      <!-- Ghi chú -->
+      <div class="field col-12">
+        <label for="ghiChu">Ghi chú</label>
+        <textarea
+          id="ghiChu"
+          pInputTextarea
+          formControlName="ghiChu"
+          rows="4"
+          placeholder="Nhập ghi chú"
+          class="w-full"
+        ></textarea>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

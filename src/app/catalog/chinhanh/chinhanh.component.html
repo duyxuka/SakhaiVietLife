@@ -1,0 +1,123 @@
+<p-panel header="Danh sách chi nhánh">
+  <!-- Toolbar: Thay thế các button rời rạc -->
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Thêm"
+        icon="pi pi-plus"
+        severity="secondary"
+        class="mr-2"
+        (onClick)="showAddModal()"
+      />
+      <p-button
+        label="Sửa"
+        icon="pi pi-pencil"
+        severity="help"
+        class="mr-2"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()"
+      />
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          #searchInput
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm kiếm..."
+          class="w-full"
+        />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Table: Dùng p-table hiện đại -->
+  <p-table
+    #dt
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [paginator]="false"
+    [rows]="maxResultCount"
+    [globalFilterFields]="['tenChiNhanh', 'moTa', 'trangThai']"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    [loading]="blockedPanel"
+    currentPageReportTemplate="Hiển thị {first} đến {last} trong tổng {totalRecords} chi nhánh"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template #caption>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h5 class="m-0">Quản lý chi nhánh</h5>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
+        </th>
+        <th pSortableColumn="tenChiNhanh" style="min-width: 14rem">
+          Tên chi nhánh
+          <p-sortIcon field="tenChiNhanh" />
+        </th>
+        <th style="min-width: 16rem">Mô tả</th>
+        <th pSortableColumn="trangThai" style="min-width: 10rem">
+          Trạng thái
+          <p-sortIcon field="trangThai" />
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td style="width: 3rem">
+          <p-tableCheckbox [value]="row" />
+        </td>
+        <td>{{ row.tenChiNhanh }}</td>
+        <td>{{ row.moTa }}</td>
+        <td>
+          <p-tag
+            [value]="row.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động'"
+            [severity]="row.trangThai === 1 ? 'success' : 'danger'"
+            [rounded]="true"
+          />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div class="flex items-center justify-between">
+        <span>Tổng số bản ghi: {{ totalCount | number }}</span>
+      </div>
+    </ng-template>
+  </p-table>
+
+  <!-- Paginator riêng biệt -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="false"
+  />
+</p-panel>

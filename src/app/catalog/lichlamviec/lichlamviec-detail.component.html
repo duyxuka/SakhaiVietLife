@@ -1,0 +1,62 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết lịch làm việc">
+    <div class="formgrid grid">
+      <div class="field col-6">
+        <label for="thang" class="block">Tháng <span class="required">*</span></label>
+        <input id="thang" pInputText type="number" formControlName="thang" class="w-full"/>
+        <app-validation-message [entityForm]="form" fieldName="thang" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <div class="field col-6">
+        <label for="nam" class="block">Năm <span class="required">*</span></label>
+        <input id="nam" pInputText type="number" formControlName="nam" class="w-full"/>
+        <app-validation-message [entityForm]="form" fieldName="nam" [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <div class="field col-12">
+        <label for="ngayLam" class="block">Ngày làm <span class="required">*</span></label>
+        <p-datepicker formControlName="ngayLam" selectionMode="multiple" [readonlyInput]="true" [showIcon]="true" class="w-full"></p-datepicker>
+      </div>
+
+      <div class="field col-12">
+        <label for="ngayNghi" class="block">Ngày nghỉ <span class="required">*</span></label>
+        <p-datepicker formControlName="ngayNghi" selectionMode="multiple" [readonlyInput]="true" [showIcon]="true" class="w-full"></p-datepicker>
+      </div>
+
+      <div class="field col-12">
+        <label>Ca làm mặc định <span class="required">*</span></label>
+        <p-select
+          formControlName="caLamMacDinh"
+          [options]="caLamOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Chọn ca làm"
+          class="w-full"
+        ></p-select>
+      </div>
+
+      <div class="field col-6">
+        <label>Giờ bắt đầu làm <span class="required">*</span></label>
+        <p-datepicker formControlName="gioBatDauMacDinh" [showIcon]="true" [timeOnly]="true" class="w-full"></p-datepicker>
+      </div>
+
+      <div class="field col-6">
+        <label>Giờ kết thúc làm <span class="required">*</span></label>
+        <p-datepicker formControlName="gioKetThucMacDinh" [showIcon]="true" [timeOnly]="true" class="w-full"></p-datepicker>
+      </div>
+
+      <div class="field col-12">
+        <label>Ghi chú</label>
+        <textarea pInputTextarea rows="3" formControlName="ghiChu" class="w-full" ></textarea>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button type="submit" [disabled]="!form.valid || btnDisabled" pButton icon="fa fa-save" iconPos="left" label="Lưu lại"></button>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

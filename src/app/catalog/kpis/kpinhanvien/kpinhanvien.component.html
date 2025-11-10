@@ -1,0 +1,89 @@
+<p-panel header="Danh sách KPI nhân viên">
+  <!-- Nút thao tác -->
+  <div class="grid mb-3">
+    <div class="col-4">
+      <button
+        pButton
+        type="button"
+        (click)="showAddModal()"
+        icon="fa fa-plus"
+        iconPos="left"
+        label="Thêm"
+      ></button>
+      <button
+        pButton
+        type="button"
+        (click)="showEditModal()"
+        *ngIf="selectedItems.length == 1"
+        class="ml-1 p-button-help"
+        icon="fa fa-pencil"
+        iconPos="left"
+        label="Sửa"
+      ></button>
+      <button
+        pButton
+        type="button"
+        (click)="deleteItems()"
+        *ngIf="selectedItems.length > 0"
+        class="ml-1 p-button-danger"
+        icon="fa fa-trash"
+        iconPos="left"
+        label="Xóa"
+      ></button>
+    </div>
+  </div>
+
+  <!-- Bảng dữ liệu -->
+  <p-table #pnl [value]="items" [(selection)]="selectedItems" selectionMode="multiple">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 10px">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Tên nhân viên</th>
+        <th>Tháng</th>
+        <th>Năm</th>
+        <th>Mức lương KPI</th>
+        <th>Phần trăm hoàn thành</th>
+        <th>Điểm KPI</th>
+        <th>Xếp loại</th>
+        <th>Thưởng KPI</th>
+        <th>Người đánh giá</th>
+        <th>Ghi chú</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row"></p-tableCheckbox></td>
+        <td>{{ row.tenNhanVien }}</td>
+        <td>{{ row.thang }}</td>
+        <td>{{ row.nam }}</td>
+        <td>{{ row.mucLuongKpi | number: '1.0-0' }}</td>
+        <td>{{ row.phanTramHoanThanh | number: '1.0-2' }}%</td>
+        <td>{{ row.diemKpi | number: '1.0-2' }}</td>
+        <td>{{ row.mucXepLoai }}</td>
+        <td>{{ row.thuongKpi | number: '1.0-0' }}</td>
+        <td>{{ row.tenNguoiDanhGia }}</td>
+        <td>{{ row.ghiChu }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      <div style="text-align: left">Tổng số bản ghi: {{ totalCount | number }}</div>
+    </ng-template>
+  </p-table>
+
+  <!-- Phân trang -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+  ></p-paginator>
+
+  <!-- BlockUI -->
+  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+</p-panel>

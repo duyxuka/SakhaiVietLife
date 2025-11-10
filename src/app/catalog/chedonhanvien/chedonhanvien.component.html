@@ -1,0 +1,91 @@
+<p-panel header="Danh sách chế độ nhân viên">
+  <!-- Filter (search panel) -->
+  <div class="grid">
+    <div class="col-4">
+      <button
+        pButton
+        type="button"
+        (click)="showAddModal()"
+        icon="fa fa-plus"
+        iconPos="left"
+        label="Thêm"></button>
+      <button
+        pButton
+        type="button"
+        (click)="showEditModal()"
+        *ngIf="selectedItems.length == 1"
+        class="ml-1 p-button-help"
+        icon="fa fa-pencil"
+        iconPos="left"
+        label="Sửa"></button>
+      <button
+        pButton
+        type="button"
+        (click)="deleteItems()"
+        *ngIf="selectedItems.length > 0"
+        class="ml-1 p-button-danger"
+        icon="fa fa-trash"
+        iconPos="left"
+        label="Xóa"></button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <p-table #pnl [value]="items" [(selection)]="selectedItems"
+    selectionMode="multiple">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 10px"><p-tableHeaderCheckbox /></th>
+        <th>Tên nhân viên</th>
+        <th>Loại chế độ</th>
+        <th>Ngày bắt đầu</th>
+        <th>Ngày kết thúc</th>
+        <th>Số công</th>
+        <th>Số ngày</th>
+        <th>Thành tiền</th>
+        <th>Lý do</th>
+        <th>Trạng thái</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td>
+          <p-tableCheckbox [value]="row"></p-tableCheckbox>
+        </td>
+        <td>{{ row.tenNhanVien }}</td>
+        <td>{{ row.tenLoaiCheDo }}</td>
+        <td>{{ row.ngayBatDau | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ row.ngayKetThuc | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ row.soCong }}</td>
+        <td>{{ row.soNgay }}</td>
+        <td>{{ row.thanhTien | number:'1.0-0' }}</td>
+        <td>{{ row.lyDo }}</td>
+        <td>
+          <p-badge
+            [severity]="row.trangThai ? 'success' : 'secondary'"
+            [value]="row.trangThai ? 'Chính thức' : 'Nháp'">
+          </p-badge>
+
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      <div style="text-align: left">Tổng số bản ghi: {{ totalCount | number
+        }}</div>
+    </ng-template>
+  </p-table>
+
+  <!-- Paginator -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"></p-paginator>
+
+  <!-- Block UI -->
+  <p-blockui [blocked]="blockedPanel" [target]="pnl">
+    <p-progressspinner></p-progressspinner>
+  </p-blockui>
+</p-panel>

@@ -1,0 +1,111 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết KPI nhân viên">
+    <div class="formgrid grid">
+      <!-- Nhân viên -->
+      <div class="field col-12 md:col-6">
+        <label for="nhanVienId">Nhân viên <span class="required">*</span></label>
+        <p-select
+          [options]="userslist"
+          formControlName="nhanVienId"
+          placeholder="Chọn nhân viên"
+          [showClear]="true"
+          [style]="{ width: '100%' }"
+        ></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="nhanVienId"
+          [validationMessages]="validationMessages"
+        ></app-validation-message>
+      </div>
+
+      <!-- Tháng -->
+      <div class="field col-12 md:col-3">
+        <label for="thang">Tháng <span class="required">*</span></label>
+        <input
+          id="thang"
+          type="number"
+          pInputText
+          formControlName="thang"
+          placeholder="Nhập tháng"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Năm -->
+      <div class="field col-12 md:col-3">
+        <label for="nam">Năm <span class="required">*</span></label>
+        <input
+          id="nam"
+          type="number"
+          pInputText
+          formControlName="nam"
+          placeholder="Nhập năm"
+          [style]="{ width: '100%' }"
+        />
+      </div>
+
+      <!-- Mức lương KPI -->
+      <div class="field col-12 md:col-6">
+        <label for="mucLuongKpi">Mức lương KPI</label>
+        <p-inputNumber
+          id="mucLuongKpi"
+          formControlName="mucLuongKpi"
+          mode="currency"
+          currency="VND"
+          locale="vi-VN"
+          class="p-inputNumber"
+          [style]="{ width: '100%' }"
+        ></p-inputNumber>
+      </div>
+      <!-- Mức xếp loại -->
+      <div class="field col-12 md:col-6">
+        <label for="mucXepLoai">Mức xếp loại</label>
+        <p-select
+          [options]="mucXepLoaiList"
+          formControlName="mucXepLoai"
+          placeholder="Chọn mức xếp loại"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+      <!-- Người đánh giá -->
+      <div class="field col-12 md:col-6">
+        <label for="nguoiDanhGiaId">Người đánh giá</label>
+        <p-select
+          [options]="userslist"
+          formControlName="nguoiDanhGiaId"
+          placeholder="Chọn người đánh giá"
+          [showClear]="true"
+          [style]="{ width: '100%' }"
+        ></p-select>
+      </div>
+
+      <!-- Ghi chú -->
+      <div class="field col-12">
+        <label for="ghiChu">Ghi chú</label>
+        <textarea
+          id="ghiChu"
+          pInputTextarea
+          formControlName="ghiChu"
+          rows="3"
+          placeholder="Nhập ghi chú"
+          style="width: 100%"
+        ></textarea>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"
+      ></button>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

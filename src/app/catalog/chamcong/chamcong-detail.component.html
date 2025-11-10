@@ -1,0 +1,156 @@
+<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết chấm công">
+    <div class="formgrid grid">
+      <!-- Nhân viên -->
+      <div class="field col-12 md:col-6">
+        <label for="nhanVienId">Nhân viên <span
+            class="required">*</span></label>
+        <p-select
+          [options]="userslist"
+          formControlName="nhanVienId"
+          placeholder="Chọn nhân viên"
+          [showClear]="true"
+          [style]="{ width: '100%' }"></p-select>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="nhanVienId"
+          [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Ngày làm -->
+      <div class="field col-12 md:col-6">
+        <label for="ngayLam">Ngày làm <span class="required">*</span></label>
+        <p-datepicker
+          formControlName="ngayLam"
+          dateFormat="dd/mm/yy"
+          showIcon="true"
+          placeholder="Chọn ngày làm việc"
+          [style]="{ width: '100%' }"></p-datepicker>
+        <app-validation-message
+          [entityForm]="form"
+          fieldName="ngayLam"
+          [validationMessages]="validationMessages"></app-validation-message>
+      </div>
+
+      <!-- Giờ vào -->
+      <div class="field col-12 md:col-6">
+        <label for="gioVao">Giờ vào</label>
+        <p-datepicker
+          formControlName="gioVao"
+          dateFormat="dd/mm/yy"
+          [showTime]="true"
+          hourFormat="24"
+          showIcon="true"
+          placeholder="Chọn giờ vào"
+          [style]="{ width: '100%' }"></p-datepicker>
+      </div>
+
+      <!-- Giờ ra -->
+      <div class="field col-12 md:col-6">
+        <label for="gioRa">Giờ ra</label>
+        <p-datepicker
+          formControlName="gioRa"
+          dateFormat="dd/mm/yy"
+          [showTime]="true"
+          hourFormat="24"
+          [showIcon]="true"
+          placeholder="Chọn giờ ra"
+          [style]="{ width: '100%' }"></p-datepicker>
+
+      </div>
+
+      <!-- Số giờ làm -->
+      <div class="field col-12 md:col-6">
+        <label for="soGioLam">Số giờ làm</label>
+        <input
+          id="soGioLam"
+          type="number"
+          pInputText
+          formControlName="soGioLam"
+          placeholder="Nhập số giờ làm"
+          [style]="{ width: '100%' }" />
+      </div>
+
+      <!-- Số phút đi muộn -->
+      <div class="field col-12 md:col-6">
+        <label for="soPhutDiMuon">Số phút đi muộn</label>
+        <input
+          id="soPhutDiMuon"
+          type="number"
+          pInputText
+          formControlName="soPhutDiMuon"
+          placeholder="Nhập số phút đi muộn"
+          [style]="{ width: '100%' }" />
+      </div>
+
+      <!-- Số phút về sớm -->
+      <div class="field col-12 md:col-6">
+        <label for="soPhutVeSom">Số phút về sớm</label>
+        <input
+          id="soPhutVeSom"
+          type="number"
+          pInputText
+          formControlName="soPhutVeSom"
+          placeholder="Nhập số phút về sớm"
+          [style]="{ width: '100%' }" />
+      </div>
+
+      <!-- Công ngày -->
+      <div class="field col-12 md:col-6">
+        <label for="congNgay">Công ngày</label>
+        <input
+          id="congNgay"
+          type="number"
+          pInputText
+          formControlName="congNgay"
+          placeholder="Nhập số công ngày"
+          [style]="{ width: '100%' }" />
+      </div>
+
+      <!-- Trạng thái -->
+      <div class="field col-12 md:col-6">
+        <label for="trangThai">Trạng thái</label>
+        <p-inputswitch formControlName="trangThai"></p-inputswitch>
+      </div>
+    </div>
+
+    <!-- Hiển thị thông tin chế độ từ CheDoNhanVien -->
+    <!-- <div *ngIf="cheDoList?.length > 0" class="field col-12">
+      <label>Thông tin chế độ</label>
+      <p-table [value]="cheDoList" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Loại chế độ</th>
+            <th>Số công</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Trạng thái</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cheDo>
+          <tr>
+            <td>{{ cheDo.tenLoaiCheDo }}</td>
+            <td>{{ cheDo.soCong }}</td>
+            <td>{{ cheDo.ngayBatDau | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ cheDo.ngayKetThuc | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ cheDo.trangThai }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div> -->
+
+    <ng-template pTemplate="footer">
+      <button
+        type="submit"
+        [disabled]="!form.valid || btnDisabled"
+        pButton
+        icon="fa fa-save"
+        iconPos="left"
+        label="Lưu lại"></button>
+    </ng-template>
+
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progressspinner></p-progressspinner>
+    </p-blockui>
+  </p-panel>
+</form>

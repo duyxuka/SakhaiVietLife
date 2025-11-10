@@ -8,7 +8,7 @@ export class UtilityService {
     this._router = router;
   }
 
-  isEmpty(input){
+  isEmpty(input: any){
     if(input == undefined || input == null || input == ''){
       return true;
     }

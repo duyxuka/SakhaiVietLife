@@ -1,0 +1,159 @@
+<p-panel header="Danh sách lịch làm việc">
+  <!--Filter (search panel)-->
+  <div class="grid mb-3">
+    <div class="col-6 flex align-items-center">
+      <button
+        pButton
+        type="button"
+        (click)="showAddModal()"
+        icon="fa fa-plus"
+        label="Thêm"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        (click)="showEditModal()"
+        *ngIf="selectedItems.length === 1"
+        class="ml-2 p-button-help"
+        icon="fa fa-edit"
+        label="Sửa"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        (click)="deleteItems()"
+        *ngIf="selectedItems.length > 0"
+        class="ml-2 p-button-danger"
+        icon="fa fa-trash"
+        label="Xóa"
+      ></button>
+    </div>
+
+    <div class="col-6 text-right d-flex">
+      <div class="field mr-2" style="width: 100%;">
+        <p-datepicker
+          [(ngModel)]="rangeDates"
+          selectionMode="range"
+          [showIcon]="true"
+          [readonlyInput]="true"
+          dateFormat="dd/mm/yy"
+          placeholder="Chọn khoảng ngày"
+          inputId="range"
+        ></p-datepicker>
+      </div>
+      <button
+        type="button"
+        pButton
+        (click)="loadData()"
+        icon="fa fa-search"
+        label="Tìm"
+        style="padding: 11px 24px;height: fit-content;"
+      ></button>
+  </div>
+    </div>
+  <!--Table-->
+  <p-table
+    #pnl
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [paginator]="false"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>Tháng</th>
+        <th>Năm</th>
+        <th>Ngày làm</th>
+        <th>Ngày nghỉ</th>
+        <th>Ca làm mặc định</th>
+        <th>Giờ bắt đầu</th>
+        <th>Giờ kết thúc</th>
+        <th>Ghi chú</th>
+        <th>Trạng thái</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <tr [pSelectableRow]="row">
+        <td>
+          <p-tableCheckbox [value]="row"></p-tableCheckbox>
+        </td>
+        <td>{{ row.thang }}</td>
+        <td>{{ row.nam }}</td>
+        <td>
+          <div class="flex flex-wrap gap-1">
+            <ng-container *ngIf="row.ngayLam; else noNgayLam">
+              <ng-container *ngFor="let day of row.ngayLam.split(',')">
+                <p-badge
+                  [value]="day.trim()"
+                  severity="success"
+                  class="mr-1 mb-1"
+                ></p-badge>
+              </ng-container>
+            </ng-container>
+            <ng-template #noNgayLam>
+              <span class="text-gray-500">-</span>
+            </ng-template>
+          </div>
+        </td>
+        <td>
+          <div class="flex flex-wrap gap-1">
+            <ng-container *ngIf="row.ngayNghi; else noNgayNghi">
+              <ng-container *ngFor="let day of row.ngayNghi.split(',')">
+                <p-badge
+                  [value]="day.trim()"
+                  severity="danger"
+                  class="mr-1 mb-1"
+                ></p-badge>
+              </ng-container>
+            </ng-container>
+            <ng-template #noNgayNghi>
+              <span class="text-gray-500">-</span>
+            </ng-template>
+          </div>
+        </td>
+
+        <td>{{ row.caLamMacDinh || '-' }}</td>
+        <td>{{ row.gioBatDauMacDinh || '-' }}</td>
+        <td>{{ row.gioKetThucMacDinh || '-' }}</td>
+        <td>{{ row.ghiChu || '-' }}</td>
+        <td>
+          <p-badge
+            *ngIf="row.trangThai === 1"
+            severity="success"
+            value="Hoạt động"
+          ></p-badge>
+          <p-badge
+            *ngIf="row.trangThai === 0"
+            severity="danger"
+            value="Không hoạt động"
+          ></p-badge>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      <div class="text-left">Tổng số bản ghi: {{ totalCount | number }}</div>
+    </ng-template>
+  </p-table>
+
+  <!--Paginator-->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+  ></p-paginator>
+
+  <!--Block UI-->
+  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+    <p-progressSpinner></p-progressSpinner>
+  </p-blockUI>
+</p-panel>
