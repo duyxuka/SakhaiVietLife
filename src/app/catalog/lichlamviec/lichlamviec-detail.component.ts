@@ -7,7 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ValidationMessageComponent } from 'src/app/shared/modules/validation-message/validation-message.component';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 
 @Component({
   selector: 'app-lichlamviec-detail',
@@ -204,5 +204,7 @@ export class LichLamViecDetailComponent implements OnInit, OnDestroy {
       }, 1000);
     }
   }
-
+  cancel() {
+    this.ref?.close();
+  }
 }

@@ -6,7 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, take, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ChucVuDetailComponent } from './chucvu-detail.component';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 
 @Component({
   selector: 'app-chucvu',
@@ -77,7 +77,10 @@ export class ChucVuComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(ChucVuDetailComponent, {
       header: 'Thêm mới chức vụ',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: ChucVuDto) => {
@@ -100,7 +103,10 @@ export class ChucVuComponent implements OnInit, OnDestroy {
         id: id,
       },
       header: 'Cập nhật chức vụ',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: ChucVuDto) => {

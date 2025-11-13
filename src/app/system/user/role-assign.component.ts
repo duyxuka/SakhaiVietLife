@@ -9,6 +9,7 @@ import { DynamicDialogConfig, DynamicDialogRef, DynamicDialogModule } from 'prim
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { UserDto, UsersService } from '@/proxy/viet-life/system/users';
 import { RoleDto, RolesService } from '@/proxy/viet-life/system/roles';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @Component({
   selector: 'app-role-assign',
@@ -22,6 +23,7 @@ import { RoleDto, RolesService } from '@/proxy/viet-life/system/roles';
     ProgressSpinnerModule,
     BlockUIModule,
     DynamicDialogModule,
+    ToolbarModule
   ],
 })
 export class RoleAssignComponent implements OnInit, OnDestroy {
@@ -134,5 +136,8 @@ export class RoleAssignComponent implements OnInit, OnDestroy {
         this.blockedPanelDetail = false;
       }, 1000);
     }
+  }
+  cancel() {
+    this.ref?.close();
   }
 }

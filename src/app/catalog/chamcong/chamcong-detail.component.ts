@@ -7,7 +7,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 import { ValidationMessageComponent } from 'src/app/shared/modules/validation-message/validation-message.component';
 
 @Component({
@@ -169,5 +169,7 @@ export class ChamCongDetailComponent implements OnInit, OnDestroy {
       }, 1000);
     }
   }
-
+  cancel() {
+    this.ref?.close();
+  }
 }

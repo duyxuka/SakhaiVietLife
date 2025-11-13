@@ -6,8 +6,6 @@ export interface CheDoNhanVienDto {
   loaiCheDoId?: string;
   trangThai: boolean;
   nguoiDuyetId?: string;
-  phongBanId?: string;
-  chiNhanhId?: string;
   soNgay?: number;
   soCong?: number;
   thanhTien?: number;
@@ -23,8 +21,6 @@ export interface CheDoNhanVienInListDto extends EntityDto<string> {
   loaiCheDoId?: string;
   trangThai: boolean;
   nguoiDuyetId?: string;
-  phongBanId?: string;
-  chiNhanhId?: string;
   soNgay?: number;
   soCong?: number;
   thanhTien?: number;
@@ -34,6 +30,7 @@ export interface CheDoNhanVienInListDto extends EntityDto<string> {
   ghiChu?: string;
   tenNhanVien?: string;
   tenLoaiCheDo?: string;
+  donGiaCong: number;
 }
 
 export interface CheDoNhanVienListFilterDto extends BaseListFilterDto {
@@ -45,8 +42,6 @@ export interface CreateUpdateCheDoNhanVienDto {
   loaiCheDoId?: string;
   trangThai: boolean;
   nguoiDuyetId?: string;
-  phongBanId?: string;
-  chiNhanhId?: string;
   soNgay?: number;
   soCong?: number;
   thanhTien?: number;
@@ -54,4 +49,5 @@ export interface CreateUpdateCheDoNhanVienDto {
   ngayBatDau?: string;
   ngayKetThuc?: string;
   ghiChu?: string;
+  donGiaCong: number;
 }

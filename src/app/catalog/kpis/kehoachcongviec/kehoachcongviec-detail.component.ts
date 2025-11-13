@@ -8,7 +8,7 @@ import { KeHoachCongViecDto } from '@proxy/viet-life/catalog/kpis/ke-hoach-cong-
 import { KeHoachCongViecsService } from '@proxy/viet-life/catalog/kpis';
 import { KpiNhanVienDto } from '@proxy/viet-life/catalog/kpis/kpi-nhan-viens';
 import { KpiNhanViensService } from '@proxy/viet-life/catalog/kpis';
-import { StandaloneSharedModule } from '../../standaloneshare.module';
+import { StandaloneSharedModule } from '../../../standaloneshare.module';
 import { ValidationMessageComponent } from 'src/app/shared/modules/validation-message/validation-message.component';
 
 @Component({
@@ -155,5 +155,8 @@ export class KeHoachCongViecDetailComponent implements OnInit, OnDestroy {
         this.btnDisabled = false;
       }, 800);
     }
+  }
+  cancel() {
+    this.ref?.close();
   }
 }

@@ -9,7 +9,7 @@ import { DanhGiaKpiDto } from '@proxy/viet-life/catalog/kpis/danh-gia-kpis';
 import { KpiNhanViensService } from '@proxy/viet-life/catalog/kpis';
 import { KpiNhanVienInListDto } from '@proxy/viet-life/catalog/kpis/kpi-nhan-viens';
 import { UsersService, UserInListDto } from '@proxy/viet-life/system/users';
-import { StandaloneSharedModule } from '../../standaloneshare.module';
+import { StandaloneSharedModule } from '../../../standaloneshare.module';
 import { ValidationMessageComponent } from 'src/app/shared/modules/validation-message/validation-message.component';
 
 @Component({
@@ -166,5 +166,8 @@ export class DanhGiaKpiDetailComponent implements OnInit, OnDestroy {
         this.btnDisabled = false;
       }, 800);
     }
+  }
+  cancel() {
+    this.ref?.close();
   }
 }

@@ -1,81 +1,62 @@
-<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+<!-- Form Tiến độ làm việc -->
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
   <p-panel #pnl header="Chi tiết tiến độ làm việc">
-    <div class="formgrid grid">
-      <!-- KPI Nhân viên -->
-      <div class="field col-12 md:col-6">
-        <label for="kpiNhanVienId">KPI Nhân viên <span class="required">*</span></label>
-        <p-select
-          [options]="kpiNhanVienList"
-          formControlName="kpiNhanVienId"
-          placeholder="Chọn KPI nhân viên"
-          [showClear]="true"
-          [style]="{ width: '100%' }"
-        ></p-select>
-        <app-validation-message
-          [entityForm]="form"
-          fieldName="kpiNhanVienId"
-          [validationMessages]="validationMessages"
-        ></app-validation-message>
-      </div>
+    <ng-template pTemplate="body">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <!-- KPI Nhân viên -->
+        <div>
+          <label for="kpiNhanVienId" class="block font-bold mb-2">KPI Nhân viên <span class="text-red-500">*</span></label>
+          <p-select
+            [options]="kpiNhanVienList"
+            formControlName="kpiNhanVienId"
+            placeholder="Chọn KPI nhân viên"
+            [showClear]="true"
+            style="width: 100%"
+          ></p-select>
+          <app-validation-message [entityForm]="form" fieldName="kpiNhanVienId" [validationMessages]="validationMessages"></app-validation-message>
+        </div>
 
-      <!-- Ngày cập nhật -->
-      <div class="field col-12 md:col-6">
-        <label for="ngayCapNhat">Ngày cập nhật <span class="required">*</span></label>
-        <p-datepicker
-          formControlName="ngayCapNhat"
-          dateFormat="dd/mm/yy"
-          showIcon="true"
-          hourFormat="24"
-          placeholder="Chọn ngày cập nhật"
-          [style]="{ width: '100%' }"
-        ></p-datepicker>
-        <app-validation-message
-          [entityForm]="form"
-          fieldName="ngayCapNhat"
-          [validationMessages]="validationMessages"
-        ></app-validation-message>
-      </div>
+        <!-- Ngày cập nhật -->
+        <div>
+          <label for="ngayCapNhat" class="block font-bold mb-2">Ngày cập nhật <span class="text-red-500">*</span></label>
+          <p-datepicker formControlName="ngayCapNhat" dateFormat="dd/mm/yy" showIcon="true" placeholder="Chọn ngày cập nhật" style="width:100%"></p-datepicker>
+          <app-validation-message [entityForm]="form" fieldName="ngayCapNhat" [validationMessages]="validationMessages"></app-validation-message>
+        </div>
 
-      <!-- Phần trăm tiến độ -->
-      <div class="field col-12 md:col-6">
-        <label for="phanTramTienDo">Phần trăm tiến độ (%)</label>
-        <p-inputNumber
-          formControlName="phanTramTienDo"
-          mode="decimal"
-          [min]="0"
-          [max]="100"
-          placeholder="Nhập tiến độ (%)"
-          [style]="{ width: '100%' }"
-        ></p-inputNumber>
-      </div>
+        <!-- Phần trăm tiến độ -->
+        <div>
+          <label for="phanTramTienDo" class="block font-bold mb-2">Phần trăm tiến độ (%)</label>
+          <p-inputNumber formControlName="phanTramTienDo" mode="decimal" [min]="0" [max]="100" placeholder="Nhập tiến độ (%)" style="width:100%"></p-inputNumber>
+        </div>
 
-      <!-- Ghi chú -->
-      <div class="field col-12">
-        <label for="ghiChu">Ghi chú</label>
-        <textarea
-          id="ghiChu"
-          pInputTextarea
-          formControlName="ghiChu"
-          rows="4"
-          placeholder="Nhập ghi chú"
-          class="w-full"
-        ></textarea>
+        <!-- Ghi chú -->
+        <div class="md:col-span-2">
+          <label for="ghiChu" class="block font-bold mb-2">Ghi chú</label>
+          <textarea id="ghiChu" pTextarea formControlName="ghiChu" rows="4" placeholder="Nhập ghi chú" style="width:100%"></textarea>
+        </div>
       </div>
-    </div>
+    </ng-template>
 
+    <!-- Footer -->
     <ng-template pTemplate="footer">
-      <button
-        type="submit"
-        [disabled]="!form.valid || btnDisabled"
-        pButton
-        icon="fa fa-save"
-        iconPos="left"
-        label="Lưu lại"
-      ></button>
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button type="submit" label="Lưu lại" icon="pi pi-check" [disabled]="!form.valid || btnDisabled" [loading]="btnDisabled" />
+        </ng-template>
+      </p-toolbar>
     </ng-template>
 
     <p-blockUI [blocked]="blockedPanel" [target]="pnl">
-      <p-progressSpinner></p-progressSpinner>
+      <p-progress-spinner style="top:37%;"></p-progress-spinner>
     </p-blockUI>
   </p-panel>
 </form>

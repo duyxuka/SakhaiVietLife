@@ -6,7 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, take, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ChiNhanhDetailComponent } from './chinhanh-detail.component';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 
 @Component({
   selector: 'app-chinhanh',
@@ -77,7 +77,10 @@ export class ChiNhanhComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(ChiNhanhDetailComponent, {
       header: 'Thêm mới chi nhánh',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: ChiNhanhDto) => {
@@ -100,7 +103,10 @@ export class ChiNhanhComponent implements OnInit, OnDestroy {
         id: id,
       },
       header: 'Cập nhật chi nhánh',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: ChiNhanhDto) => {

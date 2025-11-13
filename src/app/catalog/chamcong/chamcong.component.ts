@@ -7,16 +7,16 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ChamCongDetailComponent } from './chamcong-detail.component';
 import { UsersService } from '@proxy/viet-life/system/users';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 
 @Component({
   selector: 'app-chamcong',
   templateUrl: './chamcong.component.html',
   styleUrls: ['./chamcong.component.scss'],
   standalone: true,
-    imports: [
-      StandaloneSharedModule
-    ]
+  imports: [
+    StandaloneSharedModule
+  ]
 })
 export class ChamCongComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
@@ -99,7 +99,10 @@ export class ChamCongComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(ChamCongDetailComponent, {
       header: 'Thêm mới phòng ban',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: ChamCongDto) => {
@@ -122,7 +125,10 @@ export class ChamCongComponent implements OnInit, OnDestroy {
         id: id,
       },
       header: 'Cập nhật phòng ban',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: ChamCongDto) => {

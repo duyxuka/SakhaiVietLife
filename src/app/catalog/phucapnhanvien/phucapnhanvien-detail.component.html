@@ -1,61 +1,100 @@
-<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
   <p-panel #pnl header="Chi tiết phụ cấp nhân viên">
-    <div class="formgrid grid">
-      <!-- Tên phụ cấp -->
-      <div class="field col-12 md:col-6">
-        <label for="tenPhuCap" class="block">Tên phụ cấp <span class="required">*</span></label>
-        <input
-          id="tenPhuCap"
-          pInputText
-          type="text"
-          formControlName="tenPhuCap"
-          placeholder="Nhập tên phụ cấp"
-          [style]="{ width: '100%' }"
-        />
-        <app-validation-message
-          [entityForm]="form"
-          fieldName="tenPhuCap"
-          [validationMessages]="validationMessages"
-        ></app-validation-message>
-      </div>
+    <!-- Form Body -->
+    <ng-template pTemplate="body">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <!-- Tên phụ cấp -->
+        <div>
+          <label for="tenPhuCap" class="block font-bold mb-2">
+            Tên phụ cấp <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="tenPhuCap"
+            pInputText
+            type="text"
+            formControlName="tenPhuCap"
+            placeholder="Nhập tên phụ cấp"
+            fluid
+          />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="tenPhuCap"
+            [validationMessages]="validationMessages"
+          />
+        </div>
 
-      <!-- Số tiền -->
-      <div class="field col-12 md:col-6">
-        <label for="soTien" class="block">Số tiền <span class="required">*</span></label>
-        <p-inputNumber id="soTien"  formControlName="soTien" placeholder="Nhập số tiền" inputStyleClass="w-full"></p-inputNumber>
-        <app-validation-message
-          [entityForm]="form"
-          fieldName="soTien"
-          [validationMessages]="validationMessages"
-        ></app-validation-message>
-      </div>
+        <!-- Số tiền -->
+        <div>
+          <label for="soTien" class="block font-bold mb-2">
+            Số tiền <span class="text-red-500">*</span>
+          </label>
+          <p-inputNumber
+            id="soTien"
+            formControlName="soTien"
+            placeholder="Nhập số tiền"
+            style="width: 100%"  
+          ></p-inputNumber>
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="soTien"
+            [validationMessages]="validationMessages"
+          />
+        </div>
 
-      <!-- Chức vụ -->
-      <div class="field col-12 md:col-6">
-        <label for="chucVuId" class="block">Chức vụ</label>
-        <p-select
-          [options]="chucVuList"
-          formControlName="chucVuId"
-          placeholder="Chọn chức vụ"
-          [showClear]="true"
-          [style]="{ width: '100%' }"
-        ></p-select>
-      </div>
-    </div>
+        <!-- Chức vụ -->
+        <div>
+          <label for="chucVuId" class="block font-bold mb-2">Chức vụ</label>
+          <p-select
+            [options]="chucVuList"
+            formControlName="chucVuId"
+            placeholder="Chọn chức vụ"
+            [showClear]="true"
+            styleClass="w-full"
+          ></p-select>
+        </div>
 
-    <ng-template pTemplate="footer">
-      <button
-        type="submit"
-        [disabled]="!form.valid || btnDisabled"
-        pButton
-        icon="fa fa-save"
-        iconPos="left"
-        label="Lưu lại"
-      ></button>
+        <!-- Ghi chú / Mô tả -->
+        <div>
+          <label for="moTa" class="block font-bold mb-2">Mô tả</label>
+          <textarea
+            id="moTa"
+            pTextarea
+            rows="4"
+            formControlName="moTa"
+            placeholder="Nhập mô tả (không bắt buộc)"
+            fluid
+          ></textarea>
+        </div>
+      </div>
     </ng-template>
 
+    <!-- Footer với Toolbar -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
     <p-blockUI [blocked]="blockedPanel" [target]="pnl">
-      <p-progressSpinner></p-progressSpinner>
+      <p-progress-spinner style="top: 37%;" />
     </p-blockUI>
   </p-panel>
 </form>

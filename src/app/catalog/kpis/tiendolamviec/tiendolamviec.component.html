@@ -1,84 +1,44 @@
-<p-panel header="Danh sách tiến độ làm việc">
-  <!-- Filter & Buttons -->
-  <div class="grid">
-    <div class="col-4">
-      <button
-        pButton
-        type="button"
-        (click)="showAddModal()"
-        icon="fa fa-plus"
-        iconPos="left"
-        label="Thêm"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="showEditModal()"
-        *ngIf="selectedItems.length == 1"
-        class="ml-1 p-button-help"
-        icon="fa fa-pencil"
-        iconPos="left"
-        label="Sửa"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="deleteItems()"
-        *ngIf="selectedItems.length > 0"
-        class="ml-1 p-button-danger"
-        icon="fa fa-trash"
-        iconPos="left"
-        label="Xóa"
-      ></button>
-    </div>
-  </div>
+<!-- DANH SÁCH TIẾN ĐỘ LÀM VIỆC -->
+<p-panel header="Danh sách tiến độ làm việc" #tblTienDo>
+  <!-- Toolbar -->
+  <p-toolbar class="mb-4">
+    <ng-template #start>
+      <p-button label="Thêm" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="showAddModal()"></p-button>
+      <p-button label="Sửa" icon="pi pi-pencil" severity="help" class="mr-2" [disabled]="selectedItems.length !== 1" (onClick)="showEditModal()"></p-button>
+      <p-button label="Xóa" icon="pi pi-trash" severity="danger" [disabled]="selectedItems.length === 0" (onClick)="deleteItems()"></p-button>
+    </ng-template>
+  </p-toolbar>
 
   <!-- Table -->
-  <p-table
-    #pnl
-    [value]="items"
-    [(selection)]="selectedItems"
-    selectionMode="multiple"
-  >
+  <p-table [value]="items" [(selection)]="selectedItems" selectionMode="multiple" [rowHover]="true" dataKey="id" [tableStyle]="{'min-width':'60rem'}">
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 10px">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
+        <th style="width:3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
         <th>Tên nhân viên</th>
         <th>Ngày cập nhật</th>
         <th>Phần trăm tiến độ</th>
         <th>Ghi chú</th>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="body" let-row>
       <tr [pSelectableRow]="row">
         <td><p-tableCheckbox [value]="row"></p-tableCheckbox></td>
         <td>{{ row.tenNhanVien }}</td>
-        <td>{{ row.ngayCapNhat | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ row.ngayCapNhat | date:'dd/MM/yyyy' }}</td>
         <td>{{ row.phanTramTienDo }}%</td>
         <td>{{ row.ghiChu }}</td>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="summary">
-      <div style="text-align: left">
-        Tổng số bản ghi: {{ totalCount | number }}
-      </div>
+      <div class="flex items-center justify-between" style="padding:1rem 0;">Tổng số bản ghi: {{ totalCount | number }}</div>
     </ng-template>
   </p-table>
 
   <!-- Paginator -->
-  <p-paginator
-    [rows]="maxResultCount"
-    [totalRecords]="totalCount"
-    (onPageChange)="pageChanged($event)"
-    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
-  ></p-paginator>
+  <p-paginator [rows]="maxResultCount" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)" [rowsPerPageOptions]="[10,20,30,50,100]" [showPageLinks]="true" [showCurrentPageReport]="true"></p-paginator>
 
   <!-- Block UI -->
-  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
-    <p-progressSpinner></p-progressSpinner>
+  <p-blockUI [blocked]="blockedPanel" [target]="tblTienDo">
+    <p-progress-spinner style="top:37%;"></p-progress-spinner>
   </p-blockUI>
 </p-panel>

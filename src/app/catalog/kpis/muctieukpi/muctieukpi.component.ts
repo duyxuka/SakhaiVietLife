@@ -7,7 +7,7 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { MucTieuKpiDto, MucTieuKpiInListDto } from '@proxy/viet-life/catalog/kpis/muc-tieu-kpis';
 import { MucTieuKpisService } from '@proxy/viet-life/catalog/kpis';
 import { MucTieuKpiDetailComponent } from './muctieukpi-detail.component';
-import { StandaloneSharedModule } from '../../standaloneshare.module';
+import { StandaloneSharedModule } from '../../../standaloneshare.module';
 
 @Component({
   selector: 'app-muctieukpi',
@@ -74,7 +74,10 @@ export class MucTieuKpiComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(MucTieuKpiDetailComponent, {
       header: 'Thêm mới mục tiêu KPI',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: MucTieuKpiDto) => {
@@ -96,7 +99,10 @@ export class MucTieuKpiComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(MucTieuKpiDetailComponent, {
       data: { id },
       header: 'Cập nhật mục tiêu KPI',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: MucTieuKpiDto) => {

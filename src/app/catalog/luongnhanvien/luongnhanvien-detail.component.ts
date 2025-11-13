@@ -6,7 +6,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 import { ValidationMessageComponent } from 'src/app/shared/modules/validation-message/validation-message.component';
 
 @Component({
@@ -138,5 +138,8 @@ export class LuongNhanVienDetailComponent implements OnInit, OnDestroy {
         this.btnDisabled = false;
       }, 300);
     }
+  }
+  cancel() {
+    this.ref?.close();
   }
 }

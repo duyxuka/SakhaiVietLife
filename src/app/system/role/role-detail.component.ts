@@ -12,6 +12,9 @@ import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ValidationMessageComponent } from 'src/app/shared/modules/validation-message/validation-message.component';
 import { RoleDto, RolesService } from '@/proxy/viet-life/system/roles';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonModule } from 'primeng/button';
+import { TextareaModule } from 'primeng/textarea';
 
 @Component({
   standalone: true,
@@ -25,7 +28,10 @@ import { RoleDto, RolesService } from '@/proxy/viet-life/system/roles';
     InputTextModule,
     BlockUIModule,
     ProgressSpinnerModule,
-    ValidationMessageComponent
+    ValidationMessageComponent,
+    ToolbarModule,
+    ButtonModule,
+    TextareaModule
   ]
 })
 export class RoleDetailComponent implements OnInit, OnDestroy {
@@ -151,5 +157,8 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
         this.blockedPanelDetail = false;
       }, 1000);
     }
+  }
+  cancel() {
+    this.ref?.close();
   }
 }

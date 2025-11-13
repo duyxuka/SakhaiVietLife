@@ -18,6 +18,8 @@ import { UserDto, UsersService } from '@/proxy/viet-life/system/users';
 import { RoleDto, RolesService } from '@/proxy/viet-life/system/roles';
 import { ChucVuInListDto, ChucVusService } from '@/proxy/viet-life/catalog/chuc-vus';
 import { PhongBanInListDto, PhongBansService } from '@/proxy/viet-life/catalog/phong-bans';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-user-detail',
@@ -33,7 +35,9 @@ import { PhongBanInListDto, PhongBansService } from '@/proxy/viet-life/catalog/p
     InputNumberModule,
     BlockUIModule,
     ProgressSpinnerModule,
-    ValidationMessageComponent
+    ValidationMessageComponent,
+    ToolbarModule,
+    ButtonModule
   ],
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
@@ -272,8 +276,6 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       maNv: new FormControl(this.selectedEntity.maNv || null, Validators.required),
       hoTen: new FormControl(this.selectedEntity.hoTen || null, Validators.required),
       ngaySinh: new FormControl(this.selectedEntity.ngaySinh ? new Date(this.selectedEntity.ngaySinh) : null),
-      luongCoBan: new FormControl(this.selectedEntity.luongCoBan || null),
-      donGiaCong: new FormControl(this.selectedEntity.donGiaCong || null),
       gioiTinh: new FormControl(this.selectedEntity.gioiTinh ?? true), // true = Nam
       soCmnd: new FormControl(this.selectedEntity.soCmnd || null, Validators.pattern('^[0-9]{9,12}$')),
       ngayCapCmnd: new FormControl(this.selectedEntity.ngayCapCmnd ? new Date(this.selectedEntity.ngayCapCmnd) : null),
@@ -284,5 +286,8 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       ngayVaoLam: new FormControl(this.selectedEntity.ngayVaoLam ? new Date(this.selectedEntity.ngayVaoLam) : null),
       trangThai: new FormControl(this.selectedEntity.trangThai || 'Đang làm việc'),
     });
+  }
+   cancel() {
+    this.ref?.close();
   }
 }

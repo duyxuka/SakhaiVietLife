@@ -1,81 +1,82 @@
-<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+<!-- Form Đánh giá KPI -->
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
   <p-panel #pnl header="Chi tiết đánh giá KPI">
-    <div class="formgrid grid">
-      <!-- KPI Nhân viên -->
-      <div class="field col-12 md:col-6">
-        <label for="kpiNhanVienId">KPI Nhân viên <span class="required">*</span></label>
-        <p-select
-          [options]="kpiNhanVienList"
-          formControlName="kpiNhanVienId"
-          placeholder="Chọn KPI nhân viên"
-          [showClear]="true"
-          [style]="{ width: '100%' }"
-        ></p-select>
-        <app-validation-message
-          [entityForm]="form"
-          fieldName="kpiNhanVienId"
-          [validationMessages]="validationMessages"
-        ></app-validation-message>
-      </div>
+    <ng-template pTemplate="body">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <!-- KPI Nhân viên -->
+        <div>
+          <label for="kpiNhanVienId" class="block font-bold mb-2">KPI Nhân viên <span class="text-red-500">*</span></label>
+          <p-select
+            [options]="kpiNhanVienList"
+            formControlName="kpiNhanVienId"
+            placeholder="Chọn KPI nhân viên"
+            [showClear]="true"
+            style="width: 100%"
+          ></p-select>
+          <app-validation-message [entityForm]="form" fieldName="kpiNhanVienId" [validationMessages]="validationMessages"></app-validation-message>
+        </div>
 
-      <!-- Điểm đánh giá -->
-      <div class="field col-12 md:col-6">
-        <label for="diemDanhGia">Điểm đánh giá <span class="required">*</span></label>
-        <p-inputNumber
-          id="diemDanhGia"
-          formControlName="diemDanhGia"
-          mode="decimal"
-          [min]="0"
-          [max]="100"
-          placeholder="Nhập điểm đánh giá (0 - 100)"
-          [style]="{ width: '100%' }"
-        ></p-inputNumber>
-        <app-validation-message
-          [entityForm]="form"
-          fieldName="diemDanhGia"
-          [validationMessages]="validationMessages"
-        ></app-validation-message>
-      </div>
+        <!-- Điểm đánh giá -->
+        <div>
+          <label for="diemDanhGia" class="block font-bold mb-2">Điểm đánh giá <span class="text-red-500">*</span></label>
+          <p-inputNumber
+            formControlName="diemDanhGia"
+            mode="decimal"
+            [min]="0"
+            [max]="100"
+            placeholder="Nhập điểm đánh giá (0 - 100)"
+            style="width: 100%"
+          ></p-inputNumber>
+          <app-validation-message [entityForm]="form" fieldName="diemDanhGia" [validationMessages]="validationMessages"></app-validation-message>
+        </div>
 
-      <!-- Người đánh giá -->
-      <div class="field col-12 md:col-6">
-        <label for="nguoiDanhGiaId">Người đánh giá</label>
-        <p-select
-          [options]="nguoiDanhGiaList"
-          formControlName="nguoiDanhGiaId"
-          placeholder="Chọn người đánh giá"
-          [showClear]="true"
-          [style]="{ width: '100%' }"
-        ></p-select>
-      </div>
+        <!-- Người đánh giá -->
+        <div>
+          <label for="nguoiDanhGiaId" class="block font-bold mb-2">Người đánh giá</label>
+          <p-select
+            [options]="nguoiDanhGiaList"
+            formControlName="nguoiDanhGiaId"
+            placeholder="Chọn người đánh giá"
+            [showClear]="true"
+            style="width: 100%"
+          ></p-select>
+        </div>
 
-      <!-- Nhận xét -->
-      <div class="field col-12">
-        <label for="nhanXet">Nhận xét</label>
-        <textarea
-          id="nhanXet"
-          pInputTextarea
-          formControlName="nhanXet"
-          placeholder="Nhập nhận xét"
-          rows="4"
-          class="w-full"
-        ></textarea>
+        <!-- Nhận xét -->
+        <div class="md:col-span-2">
+          <label for="nhanXet" class="block font-bold mb-2">Nhận xét</label>
+          <textarea
+            id="nhanXet"
+            pTextarea
+            formControlName="nhanXet"
+            rows="4"
+            placeholder="Nhập nhận xét"
+            style="width: 100%"
+          ></textarea>
+        </div>
       </div>
-    </div>
+    </ng-template>
 
+    <!-- Footer -->
     <ng-template pTemplate="footer">
-      <button
-        type="submit"
-        [disabled]="!form.valid || btnDisabled"
-        pButton
-        icon="fa fa-save"
-        iconPos="left"
-        label="Lưu lại"
-      ></button>
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button type="submit" label="Lưu lại" icon="pi pi-check" [disabled]="!form.valid || btnDisabled" [loading]="btnDisabled" />
+        </ng-template>
+      </p-toolbar>
     </ng-template>
 
     <p-blockUI [blocked]="blockedPanel" [target]="pnl">
-      <p-progressSpinner></p-progressSpinner>
+      <p-progress-spinner style="top:37%;"></p-progress-spinner>
     </p-blockUI>
   </p-panel>
 </form>

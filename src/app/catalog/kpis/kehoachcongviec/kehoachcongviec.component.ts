@@ -8,7 +8,7 @@ import { PagedResultDto } from '@abp/ng.core';
 import { KeHoachCongViecDto, KeHoachCongViecInListDto } from '@proxy/viet-life/catalog/kpis/ke-hoach-cong-viecs';
 import { KeHoachCongViecsService } from '@proxy/viet-life/catalog/kpis';
 import { KeHoachCongViecDetailComponent } from './kehoachcongviec-detail.component';
-import { StandaloneSharedModule } from '../../standaloneshare.module';
+import { StandaloneSharedModule } from '../../../standaloneshare.module';
 
 @Component({
   selector: 'app-kehoachcongviec',
@@ -74,7 +74,10 @@ export class KeHoachCongViecComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(KeHoachCongViecDetailComponent, {
       header: 'Thêm mới kế hoạch công việc',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: KeHoachCongViecDto) => {
@@ -96,7 +99,10 @@ export class KeHoachCongViecComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(KeHoachCongViecDetailComponent, {
       data: { id },
       header: 'Cập nhật kế hoạch công việc',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: KeHoachCongViecDto) => {

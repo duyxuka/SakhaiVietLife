@@ -12,6 +12,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
 import { GetPermissionListResultDto, PermissionGrantInfoDto, PermissionGroupDto, UpdatePermissionDto, UpdatePermissionsDto } from '@/proxy/volo/abp/permission-management';
 import { RolesService } from '@/proxy/viet-life/system/roles';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   standalone: true,
@@ -24,7 +26,9 @@ import { RolesService } from '@/proxy/viet-life/system/roles';
     PanelModule,
     TreeModule,
     BlockUIModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    ToolbarModule,
+    ButtonModule,
   ]
 })
 export class PermissionGrantComponent implements OnInit, OnDestroy {
@@ -151,5 +155,8 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
         this.blockedPanelDetail = false;
       }, 500);
     }
+  }
+  cancel() {
+    this.ref?.close();
   }
 }

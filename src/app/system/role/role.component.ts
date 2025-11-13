@@ -17,6 +17,10 @@ import { RoleDetailComponent } from './role-detail.component';
 import { PermissionGrantComponent } from './permission-grant.component';
 import { ConfirmationService } from 'primeng/api';
 import { RoleDto, RoleInListDto, RolesService } from '@/proxy/viet-life/system/roles';
+import { ToolbarModule } from 'primeng/toolbar';
+import { InputIconModule } from 'primeng/inputicon';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-role',
@@ -32,7 +36,11 @@ import { RoleDto, RoleInListDto, RolesService } from '@/proxy/viet-life/system/r
     PaginatorModule,
     BlockUIModule,
     ProgressSpinnerModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    ToolbarModule,
+    InputIconModule,
+    IconFieldModule,
+    InputTextModule,
   ],
   providers: [RolesService], 
 })
@@ -96,7 +104,10 @@ export class RoleComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(RoleDetailComponent, {
       header: 'Thêm mới quyền',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: RoleDto) => {
@@ -125,7 +136,10 @@ export class RoleComponent implements OnInit, OnDestroy {
         id: id,
       },
       header: 'Cập nhật quyền',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: RoleDto) => {
@@ -143,7 +157,10 @@ export class RoleComponent implements OnInit, OnDestroy {
         name: name,
       },
       header: name,
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: RoleDto) => {

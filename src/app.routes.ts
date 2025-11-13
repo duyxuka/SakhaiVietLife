@@ -23,6 +23,10 @@ export const appRoutes: Routes = [
         path: 'catalog',
         loadChildren: () => import('./app/catalog/catalog-routing.module').then(m => m.CatalogRoutingModule),
       },
+      {
+        path: 'business',
+        loadChildren: () => import('./app/business/business-routing.module').then(m => m.BusinessRoutingModule),
+      },
       { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
       { path: 'documentation', component: Documentation },
       { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },

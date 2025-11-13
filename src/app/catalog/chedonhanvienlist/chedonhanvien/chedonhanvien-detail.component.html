@@ -1,0 +1,156 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết chế độ nhân viên">
+    <!-- Form Body -->
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Loại chế độ -->
+          <div>
+            <label for="loaiCheDoId" class="block font-bold mb-2">
+              Loại chế độ <span class="text-red-500">*</span>
+            </label>
+            <p-select
+              id="loaiCheDoId"
+              [options]="loaiCheDoList"
+              formControlName="loaiCheDoId"
+              placeholder="Chọn loại chế độ"
+              [showClear]="true"
+              fluid
+            ></p-select>
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="loaiCheDoId"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Số ngày -->
+          <div>
+            <label for="soNgay" class="block font-bold mb-2">Số ngày</label>
+            <input
+              id="soNgay"
+              type="number"
+              pInputText
+              formControlName="soNgay"
+              placeholder="Nhập số ngày"
+              fluid
+            />
+          </div>
+
+          <!-- Số công -->
+          <div>
+            <label for="soCong" class="block font-bold mb-2">Số công</label>
+            <input
+              id="soCong"
+              type="number"
+              pInputText
+              formControlName="soCong"
+              placeholder="Nhập số công"
+              fluid
+            />
+          </div>
+
+          <!-- Người duyệt (chỉ hiển thị nếu là quản lý) -->
+          <div *ngIf="isManager">
+            <label for="nguoiDuyetId" class="block font-bold mb-2">Người duyệt</label>
+            <p-select
+              id="nguoiDuyetId"
+              [options]="userslist"
+              formControlName="nguoiDuyetId"
+              placeholder="Chọn người duyệt"
+              [showClear]="true"
+              fluid
+            ></p-select>
+          </div>
+
+          <!-- Lý do -->
+          <div>
+            <label for="lyDo" class="block font-bold mb-2">Lý do</label>
+            <input
+              id="lyDo"
+              pInputText
+              type="text"
+              formControlName="lyDo"
+              placeholder="Nhập lý do"
+              fluid
+            />
+          </div>
+
+          <!-- Ngày bắt đầu -->
+          <div>
+            <label for="ngayBatDau" class="block font-bold mb-2">Ngày bắt đầu</label>
+            <p-datepicker
+              id="ngayBatDau"
+              formControlName="ngayBatDau"
+              dateFormat="dd/mm/yy"
+              showIcon="true"
+              placeholder="Chọn ngày bắt đầu"
+              fluid
+            ></p-datepicker>
+          </div>
+
+          <!-- Ngày kết thúc -->
+          <div>
+            <label for="ngayKetThuc" class="block font-bold mb-2">Ngày kết thúc</label>
+            <p-datepicker
+              id="ngayKetThuc"
+              formControlName="ngayKetThuc"
+              dateFormat="dd/mm/yy"
+              showIcon="true"
+              placeholder="Chọn ngày kết thúc"
+              fluid
+            ></p-datepicker>
+          </div>
+
+          <!-- Ghi chú -->
+          <div>
+            <label for="ghiChu" class="block font-bold mb-2">Ghi chú</label>
+            <textarea
+              id="ghiChu"
+              pTextarea
+              rows="3"
+              formControlName="ghiChu"
+              placeholder="Nhập ghi chú"
+              fluid
+            ></textarea>
+          </div>
+
+          <!-- Trạng thái -->
+          <div class="flex items-center gap-3">
+            <label for="trangThai" class="font-bold">Trạng thái</label>
+            <p-inputSwitch formControlName="trangThai"></p-inputSwitch>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockui>
+  </p-panel>
+</form>

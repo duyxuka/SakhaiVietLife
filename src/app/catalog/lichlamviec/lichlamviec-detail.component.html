@@ -1,62 +1,172 @@
-<form [formGroup]="form" skipValidation (ngSubmit)="saveChange()">
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
   <p-panel #pnl header="Chi tiết lịch làm việc">
-    <div class="formgrid grid">
-      <div class="field col-6">
-        <label for="thang" class="block">Tháng <span class="required">*</span></label>
-        <input id="thang" pInputText type="number" formControlName="thang" class="w-full"/>
-        <app-validation-message [entityForm]="form" fieldName="thang" [validationMessages]="validationMessages"></app-validation-message>
-      </div>
+    <!-- Form Body -->
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Tháng -->
+          <div>
+            <label for="thang" class="block font-bold mb-2">
+              Tháng <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="thang"
+              pInputText
+              type="number"
+              formControlName="thang"
+              placeholder="Nhập tháng"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="thang"
+              [validationMessages]="validationMessages"
+            />
+          </div>
 
-      <div class="field col-6">
-        <label for="nam" class="block">Năm <span class="required">*</span></label>
-        <input id="nam" pInputText type="number" formControlName="nam" class="w-full"/>
-        <app-validation-message [entityForm]="form" fieldName="nam" [validationMessages]="validationMessages"></app-validation-message>
-      </div>
+          <!-- Năm -->
+          <div>
+            <label for="nam" class="block font-bold mb-2">
+              Năm <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="nam"
+              pInputText
+              type="number"
+              formControlName="nam"
+              placeholder="Nhập năm"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="nam"
+              [validationMessages]="validationMessages"
+            />
+          </div>
 
-      <div class="field col-12">
-        <label for="ngayLam" class="block">Ngày làm <span class="required">*</span></label>
-        <p-datepicker formControlName="ngayLam" selectionMode="multiple" [readonlyInput]="true" [showIcon]="true" class="w-full"></p-datepicker>
-      </div>
+          <!-- Ngày làm -->
+          <div class="col-span-2">
+            <label for="ngayLam" class="block font-bold mb-2">
+              Ngày làm <span class="text-red-500">*</span>
+            </label>
+            <p-datepicker
+              id="ngayLam"
+              formControlName="ngayLam"
+              selectionMode="multiple"
+              [readonlyInput]="true"
+              [showIcon]="true"
+              placeholder="Chọn ngày làm việc"
+              fluid
+            ></p-datepicker>
+          </div>
 
-      <div class="field col-12">
-        <label for="ngayNghi" class="block">Ngày nghỉ <span class="required">*</span></label>
-        <p-datepicker formControlName="ngayNghi" selectionMode="multiple" [readonlyInput]="true" [showIcon]="true" class="w-full"></p-datepicker>
-      </div>
+          <!-- Ngày nghỉ -->
+          <div class="col-span-2">
+            <label for="ngayNghi" class="block font-bold mb-2">
+              Ngày nghỉ <span class="text-red-500">*</span>
+            </label>
+            <p-datepicker
+              id="ngayNghi"
+              formControlName="ngayNghi"
+              selectionMode="multiple"
+              [readonlyInput]="true"
+              [showIcon]="true"
+              placeholder="Chọn ngày nghỉ"
+              fluid
+            ></p-datepicker>
+          </div>
 
-      <div class="field col-12">
-        <label>Ca làm mặc định <span class="required">*</span></label>
-        <p-select
-          formControlName="caLamMacDinh"
-          [options]="caLamOptions"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Chọn ca làm"
-          class="w-full"
-        ></p-select>
-      </div>
+          <!-- Ca làm mặc định -->
+          <div class="col-span-2">
+            <label class="block font-bold mb-2">
+              Ca làm mặc định <span class="text-red-500">*</span>
+            </label>
+            <p-select
+              formControlName="caLamMacDinh"
+              [options]="caLamOptions"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Chọn ca làm"
+              fluid
+            ></p-select>
+          </div>
 
-      <div class="field col-6">
-        <label>Giờ bắt đầu làm <span class="required">*</span></label>
-        <p-datepicker formControlName="gioBatDauMacDinh" [showIcon]="true" [timeOnly]="true" class="w-full"></p-datepicker>
-      </div>
+          <!-- Giờ bắt đầu -->
+          <div>
+            <label class="block font-bold mb-2">
+              Giờ bắt đầu làm <span class="text-red-500">*</span>
+            </label>
+            <p-datepicker
+              formControlName="gioBatDauMacDinh"
+              [showIcon]="true"
+              [timeOnly]="true"
+              placeholder="Chọn giờ bắt đầu"
+              fluid
+            ></p-datepicker>
+          </div>
 
-      <div class="field col-6">
-        <label>Giờ kết thúc làm <span class="required">*</span></label>
-        <p-datepicker formControlName="gioKetThucMacDinh" [showIcon]="true" [timeOnly]="true" class="w-full"></p-datepicker>
-      </div>
+          <!-- Giờ kết thúc -->
+          <div>
+            <label class="block font-bold mb-2">
+              Giờ kết thúc làm <span class="text-red-500">*</span>
+            </label>
+            <p-datepicker
+              formControlName="gioKetThucMacDinh"
+              [showIcon]="true"
+              [timeOnly]="true"
+              placeholder="Chọn giờ kết thúc"
+              fluid
+            ></p-datepicker>
+          </div>
 
-      <div class="field col-12">
-        <label>Ghi chú</label>
-        <textarea pInputTextarea rows="3" formControlName="ghiChu" class="w-full" ></textarea>
-      </div>
-    </div>
+          <!-- Ghi chú -->
+          <div class="col-span-2">
+            <label class="block font-bold mb-2">Ghi chú</label>
+            <textarea
+              pInputTextarea
+              rows="3"
+              formControlName="ghiChu"
+              placeholder="Nhập ghi chú"
+              fluid
+            ></textarea>
+          </div>
 
-    <ng-template pTemplate="footer">
-      <button type="submit" [disabled]="!form.valid || btnDisabled" pButton icon="fa fa-save" iconPos="left" label="Lưu lại"></button>
+          <!-- Trạng thái -->
+          <div class="col-span-2 flex items-center gap-3">
+            <label class="font-bold">Trạng thái</label>
+            <p-inputSwitch formControlName="trangThai"></p-inputSwitch>
+          </div>
+        </div>
+      </div>
     </ng-template>
 
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
     <p-blockUI [blocked]="blockedPanel" [target]="pnl">
-      <p-progressSpinner></p-progressSpinner>
+      <p-progress-spinner style="top: 37%;" />
     </p-blockUI>
   </p-panel>
 </form>

@@ -6,7 +6,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 import { ValidationMessageComponent } from 'src/app/shared/modules/validation-message/validation-message.component';
 
 @Component({
@@ -61,7 +61,7 @@ export class ChiNhanhDetailComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
     //Load edit data to form
     if (this.utilService.isEmpty(this.config.data?.id) == true) {
-      // this.toggleBlockUI(false);
+      this.toggleBlockUI(false);
     } else {
       this.loadFormDetails(this.config.data?.id);
     }

@@ -1,61 +1,25 @@
-<p-panel header="Danh sách Mục tiêu KPI">
-  <!-- Filter và nút thao tác -->
-  <div class="grid">
-    <div class="col-4">
-      <button
-        pButton
-        type="button"
-        (click)="showAddModal()"
-        icon="fa fa-plus"
-        iconPos="left"
-        label="Thêm"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="showEditModal()"
-        *ngIf="selectedItems.length == 1"
-        class="ml-1 p-button-help"
-        icon="fa fa-pencil"
-        iconPos="left"
-        label="Sửa"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="deleteItems()"
-        *ngIf="selectedItems.length > 0"
-        class="ml-1 p-button-danger"
-        icon="fa fa-trash"
-        iconPos="left"
-        label="Xóa"
-      ></button>
-    </div>
-    <div class="col-8">
+<!-- DANH SÁCH MỤC TIÊU KPI -->
+<p-panel header="Danh sách Mục tiêu KPI" #tblMucTieu>
+  <!-- Toolbar + Filter -->
+  <p-toolbar class="mb-4">
+    <ng-template #start>
+      <p-button label="Thêm" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="showAddModal()"></p-button>
+      <p-button label="Sửa" icon="pi pi-pencil" severity="help" class="mr-2" [disabled]="selectedItems.length !== 1" (onClick)="showEditModal()"></p-button>
+      <p-button label="Xóa" icon="pi pi-trash" severity="danger" [disabled]="selectedItems.length === 0" (onClick)="deleteItems()"></p-button>
+    </ng-template>
+    <ng-template #end>
       <div class="formgroup-inline">
-        <div class="field">
-          <label for="txt-keyword" class="p-sr-only">Từ khóa</label>
-          <input id="txt-keyword" [(ngModel)]="keyword" pInputText type="text" placeholder="Gõ từ khóa theo kế hoạch, tên kpi" />
-        </div>
-        <button
-          type="button"
-          pButton
-          (click)="loadData()"
-          icon="fa fa-search"
-          iconPos="left"
-          label="Tìm"
-        ></button>
+        <input pInputText [(ngModel)]="keyword" placeholder="Gõ từ khóa theo kế hoạch, tên kpi" style="width:200px; margin-right: 10px;"/>
+        <p-button label="Tìm" icon="pi pi-search" (onClick)="loadData()"></p-button>
       </div>
-    </div>
-  </div>
+    </ng-template>
+  </p-toolbar>
 
-  <!-- Bảng dữ liệu -->
-  <p-table #tbl [value]="items" [(selection)]="selectedItems" selectionMode="multiple">
+  <!-- Table -->
+  <p-table [value]="items" [(selection)]="selectedItems" selectionMode="multiple" [rowHover]="true" dataKey="id" [tableStyle]="{'min-width':'60rem'}">
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 10px">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
+        <th style="width:3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
         <th>Tên mục tiêu</th>
         <th>Giá trị mục tiêu</th>
         <th>Giá trị thực hiện</th>
@@ -64,34 +28,27 @@
         <th>Kế hoạch công việc</th>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="body" let-row>
       <tr [pSelectableRow]="row">
         <td><p-tableCheckbox [value]="row"></p-tableCheckbox></td>
         <td>{{ row.tenMucTieu }}</td>
-        <td>{{ row.giaTriMucTieu | number: '1.2-2' }}</td>
-        <td>{{ row.giaTriThucHien | number: '1.2-2' }}</td>
+        <td>{{ row.giaTriMucTieu | number:'1.2-2' }}</td>
+        <td>{{ row.giaTriThucHien | number:'1.2-2' }}</td>
         <td>{{ row.donVi }}</td>
         <td>{{ row.trongSo }}%</td>
         <td>{{ row.tenKeHoach }}</td>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="summary">
-      <div style="text-align: left">Tổng số bản ghi: {{ totalCount | number }}</div>
+      <div class="flex items-center justify-between" style="padding:1rem 0;">Tổng số bản ghi: {{ totalCount | number }}</div>
     </ng-template>
   </p-table>
 
-  <!-- Phân trang -->
-  <p-paginator
-    [rows]="maxResultCount"
-    [totalRecords]="totalCount"
-    (onPageChange)="pageChanged($event)"
-    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
-  ></p-paginator>
+  <!-- Paginator -->
+  <p-paginator [rows]="maxResultCount" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)" [rowsPerPageOptions]="[10,20,30,50,100]" [showPageLinks]="true" [showCurrentPageReport]="true"></p-paginator>
 
   <!-- Block UI -->
-  <p-blockUI [blocked]="blockedPanel" [target]="tbl">
-    <p-progressSpinner></p-progressSpinner>
+  <p-blockUI [blocked]="blockedPanel" [target]="tblMucTieu">
+    <p-progress-spinner style="top:37%;"></p-progress-spinner>
   </p-blockUI>
 </p-panel>

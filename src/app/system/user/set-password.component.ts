@@ -12,6 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ValidationMessageComponent } from '@/shared/modules/validation-message/validation-message.component';
 import { RoleDto } from '@/proxy/viet-life/system/roles';
 import { UsersService } from '@/proxy/viet-life/system/users';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @Component({
   selector: 'app-set-password',
@@ -26,7 +27,8 @@ import { UsersService } from '@/proxy/viet-life/system/users';
     BlockUIModule,
     ProgressSpinnerModule,
     DynamicDialogModule,
-    ValidationMessageComponent
+    ValidationMessageComponent,
+    ToolbarModule
   ],
 })
 export class SetPasswordComponent implements OnInit, OnDestroy {
@@ -121,6 +123,9 @@ export class SetPasswordComponent implements OnInit, OnDestroy {
         this.blockedPanelDetail = false;
       }, 1000);
     }
+  }
+  cancel() {
+    this.ref?.close();
   }
 }
 export const passwordMatchingValidatior: ValidatorFn = (

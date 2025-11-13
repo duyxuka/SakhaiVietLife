@@ -1,15 +1,20 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { ButtonModule } from 'primeng/button';
+import { AuthService } from '@/shared/services/auth.service';
+import { ChamCongsService } from '@/proxy/viet-life/catalog/cham-congs';
+import { LOGIN_URL } from '@/shared/constants/urls.const';
 
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator],
+    imports: [RouterModule, CommonModule, StyleClassModule, AppConfigurator,TieredMenuModule],
     template: ` <div class="layout-topbar">
         <div class="layout-topbar-logo-container">
             <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
@@ -33,7 +38,7 @@ import { LayoutService } from '../service/layout.service';
                         />
                     </g>
                 </svg>
-                <span>SAKAI</span>
+                <span>VietLife</span>
             </a>
         </div>
 
@@ -72,21 +77,55 @@ import { LayoutService } from '../service/layout.service';
                         <i class="pi pi-inbox"></i>
                         <span>Messages</span>
                     </button>
-                    <button type="button" class="layout-topbar-action">
+                    <button type="button" class="layout-topbar-action" (click)="userMenu.toggle($event)">
                         <i class="pi pi-user"></i>
                         <span>Profile</span>
                     </button>
                 </div>
             </div>
         </div>
-    </div>`
+    </div>
+    <p-tieredMenu #userMenu [model]="userMenuItems" [popup]="true"></p-tieredMenu>`
 })
 export class AppTopbar {
-    items!: MenuItem[];
+    userMenuItems: MenuItem[];
 
-    constructor(public layoutService: LayoutService) {}
+    constructor(
+        public layoutService: LayoutService,
+        private authService: AuthService,
+        private chamcongService: ChamCongsService,
+        private router: Router
+    ) {
+        this.userMenuItems = [
+            {
+                label: 'Xem thông tin cá nhân',
+                icon: 'pi pi-id-card',
+                routerLink: ['/profile']
+            },
+            {
+                label: 'Đổi mật khẩu',
+                icon: 'pi pi-key',
+                routerLink: ['/change-password']
+            },
+            {
+                label: 'Đăng xuất',
+                icon: 'pi pi-sign-out',
+                command: () => this.logout()
+            }
+        ];
+    }
+    items!: MenuItem[];
 
     toggleDarkMode() {
         this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
+    }
+    logout() {
+        this.chamcongService.checkOut().subscribe({
+            next: () => console.log('Check-out thành công'),
+            complete: () => {
+                this.authService.logout();
+                this.router.navigate([LOGIN_URL]);
+            }
+        });
     }
 }

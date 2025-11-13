@@ -1,0 +1,175 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Danh sách sản phẩm">
+    <!-- Form Body -->
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Tên -->
+          <div>
+            <label for="ten" class="block font-bold mb-2">
+              Tên <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="ten"
+              type="text"
+              pInputText
+              formControlName="ten"
+              placeholder="Nhập tên sản phẩm"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="ten"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Mã -->
+          <div>
+            <label for="ma" class="block font-bold mb-2">
+              Mã <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="ma"
+              type="text"
+              pInputText
+              formControlName="ma"
+              placeholder="Nhập mã sản phẩm"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="ma"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Model -->
+          <div>
+            <label for="model" class="block font-bold mb-2">
+              Model <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="model"
+              type="text"
+              pInputText
+              formControlName="model"
+              placeholder="Nhập model"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="model"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Nhóm sản phẩm -->
+          <div>
+            <label for="nhomSanPhamId" class="block font-bold mb-2">
+              Nhóm sản phẩm <span class="text-red-500">*</span>
+            </label>
+            <p-select
+              id="nhomSanPhamId"
+              [options]="productCategories"
+              formControlName="nhomSanPhamId"
+              placeholder="Chọn nhóm sản phẩm"
+              [showClear]="true"
+              fluid
+            ></p-select>
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="nhomSanPhamId"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Đơn vị tính -->
+          <div>
+            <label for="donViTinhId" class="block font-bold mb-2">
+              Đơn vị tính <span class="text-red-500">*</span>
+            </label>
+            <p-select
+              id="donViTinhId"
+              [options]="donViTinhs"
+              formControlName="donViTinhId"
+              placeholder="Chọn đơn vị tính"
+              [showClear]="true"
+              fluid
+            ></p-select>
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="donViTinhId"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Giá bán -->
+          <div>
+            <label for="giaBan" class="block font-bold mb-2">
+              Giá bán <span class="text-red-500">*</span>
+            </label>
+            <p-inputNumber
+              id="giaBan"
+              formControlName="giaBan"
+              [style]="{ width: '100%' }"
+            ></p-inputNumber>
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="giaBan"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Hình ảnh -->
+          <div>
+            <label for="thumbnailImage" class="block font-bold mb-2">Hình ảnh</label>
+            <input id="thumbnailImage" type="file" (change)="onFileChange($event)" class="w-full" />
+          </div>
+          <div>
+            <p-image
+              [src]="thumbnailImage"
+              [alt]="selectedEntity.ten"
+              width="250"
+              [preview]="true"
+            ></p-image>
+          </div>
+
+          <!-- Hiển thị -->
+          <div class="flex items-center gap-3">
+            <label for="hoatDong" class="font-bold">Hiển thị</label>
+            <p-toggleswitch formControlName="hoatDong"></p-toggleswitch >
+          </div>
+
+          <!-- Mô tả -->
+          <div class="col-span-2">
+            <label for="moTa" class="block font-bold mb-2">Mô tả</label>
+            <p-editor formControlName="moTa" [style]="{ height: '320px' }"></p-editor>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner style="top: 37%;" />
+    </p-blockUI>
+  </p-panel>
+</form>

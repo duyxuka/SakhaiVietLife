@@ -8,7 +8,7 @@ import { MucTieuKpisService,KpiNhanViensService,KeHoachCongViecsService } from '
 import { KpiNhanVienInListDto } from '@proxy/viet-life/catalog/kpis/kpi-nhan-viens';
 import { MucTieuKpiDto } from '@proxy/viet-life/catalog/kpis/muc-tieu-kpis';
 import { KeHoachCongViecInListDto } from '@proxy/viet-life/catalog/kpis/ke-hoach-cong-viecs';
-import { StandaloneSharedModule } from '../../standaloneshare.module';
+import { StandaloneSharedModule } from '../../../standaloneshare.module';
 import { ValidationMessageComponent } from 'src/app/shared/modules/validation-message/validation-message.component';
 
 @Component({
@@ -167,5 +167,8 @@ export class MucTieuKpiDetailComponent implements OnInit, OnDestroy {
         this.btnDisabled = false;
       }, 800);
     }
+  }
+  cancel() {
+    this.ref?.close();
   }
 }

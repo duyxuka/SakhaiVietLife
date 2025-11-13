@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -17,6 +17,8 @@ import { TokenStorageService } from '@/shared/services/token.service';
 import { NotificationService } from '@/shared/services/notification.service';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '@/shared/services/auth.service';
+import { ChamCongsService } from '@/proxy/viet-life/catalog/cham-congs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -47,8 +49,8 @@ import { AuthService } from '@/shared/services/auth.service';
                 <!-- SVG Logo -->
                 <path fill="var(--primary-color)"/>
               </svg>
-              <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">Welcome to PrimeLand!</div>
-              <span class="text-muted-color font-medium">Sign in to continue</span>
+              <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">Chào mừng bạn tới với VietLife Manager</div>
+              <span class="text-muted-color font-medium">Đăng nhập để tiếp tục</span>
             </div>
 
             <form [formGroup]="loginForm" (ngSubmit)="login()">
@@ -57,34 +59,27 @@ import { AuthService } from '@/shared/services/auth.service';
                 pInputText
                 id="email1"
                 type="text"
-                placeholder="Email address"
+                placeholder="Địa chỉ Email"
                 class="w-full md:w-120 mb-8"
                 formControlName="username"
+                [fluid]="true"
               />
 
-              <label for="password1" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Password</label>
+              <label for="password1" class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Mật khẩu</label>
               <p-password
                 id="password1"
                 formControlName="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 [toggleMask]="true"
                 styleClass="mb-4"
                 [fluid]="true"
                 [feedback]="false"
               ></p-password>
 
-              <div class="flex items-center justify-between mt-2 mb-8 gap-8">
-                <div class="flex items-center">
-                  <p-checkbox id="rememberme1" binary class="mr-2"></p-checkbox>
-                  <label for="rememberme1">Remember me</label>
-                </div>
-                <span class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">Forgot password?</span>
-              </div>
-
               <button
                 pButton
                 pRipple
-                label="Sign In"
+                label="Đăng nhập"
                 class="w-full"
                 [disabled]="loginForm.invalid || blockedPanel"
                 type="submit"
@@ -92,7 +87,7 @@ import { AuthService } from '@/shared/services/auth.service';
             </form>
 
             <p-blockUI [blocked]="blockedPanel">
-              <p-progressSpinner></p-progressSpinner>
+              <p-progressSpinner style="top: 37%;"></p-progressSpinner>
             </p-blockUI>
           </div>
         </div>
@@ -100,7 +95,8 @@ import { AuthService } from '@/shared/services/auth.service';
     </div>
   `
 })
-export class Login {
+export class Login  implements OnDestroy {
+  private ngUnsubscribe = new Subject<void>();
   loginForm: FormGroup;
   blockedPanel: boolean = false;
   rememberMe: boolean = false;
@@ -111,6 +107,7 @@ export class Login {
     private tokenService: TokenStorageService,
     private notificationService: NotificationService,
     private router: Router,
+    private chamCongsService: ChamCongsService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -131,13 +128,27 @@ export class Login {
       password: this.loginForm.value.password
     };
 
-   this.authService.login(request).subscribe({
+    this.authService.login(request).subscribe({
       next: (res: LoginResponseDto) => {
         this.tokenService.saveToken(res.access_token);
         this.tokenService.saveRefreshToken(res.refresh_token);
 
-        this.notificationService.showSuccess('Đăng nhập thành công!');
-        this.router.navigate(['/dashboard']);
+        // Chấm công check-in
+        this.chamCongsService.checkIn().subscribe({
+          next: (msg) => {
+            this.notificationService.showSuccess('Đăng nhập thành công và check-in thành công!');
+            setTimeout(() => {
+              this.blockedPanel = false;
+              this.router.navigate(['/dashboard']);
+            }, 800);
+          },
+          error: (err) => {
+            console.error(err);
+            this.notificationService.showError('Đăng nhập thành công nhưng lỗi chấm công!');
+            this.blockedPanel = false;
+            this.router.navigate(['/dashboard']);
+          }
+        });
       },
       error: (err) => {
         console.error(err);
@@ -145,5 +156,10 @@ export class Login {
         this.blockedPanel = false;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

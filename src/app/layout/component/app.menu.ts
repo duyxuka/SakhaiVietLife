@@ -141,6 +141,17 @@ export class AppMenu implements OnInit {
           },
         ],
       },
+      {
+        label: 'Kinh doanh',
+        items: [
+          {
+            label: 'Danh sách sản phẩm',
+            icon: 'pi pi-fw pi-circle',
+            routerLink: ['/business/sanpham'],
+            permission: 'VietLifeAdminBusiness.SanPham.View',
+          }
+        ]
+      }
     ];
   }
 }

@@ -1,93 +1,108 @@
-<p-panel header="Danh sách chức vụ">
-  <!--Filter (search panel)-->
-  <div class="grid">
-    <div class="col-4">
-      <button
-        pButton
-        type="button"
-        (click)="showAddModal()"
-        icon="fa fa-plus"
-        iconPos="left"
+<p-panel header="Danh sách chức vụ" #dt>
+  <!-- Toolbar: Button và Search -->
+  <p-toolbar class="mb-4">
+    <ng-template #start>
+      <p-button
         label="Thêm"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="showEditModal()"
-        *ngIf="selectedItems.length == 1"
-        class="ml-1 p-button-help"
-        icon="fa fa-minus"
-        iconPos="left"
+        icon="pi pi-plus"
+        severity="secondary"
+        class="mr-2"
+        (onClick)="showAddModal()"
+      ></p-button>
+      <p-button
         label="Sửa"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="deleteItems()"
-        *ngIf="selectedItems.length > 0"
-        class="ml-1 p-button-danger"
-        icon="fa fa-minus"
-        iconPos="left"
-        label="xóa"
-      ></button>
-    </div>
-    <div class="col-8">
-      <div class="formgroup-inline">
-        <div class="field">
-          <label for="txt-keyword" class="p-sr-only">Từ khóa</label>
-          <input id="txt-keyword" [(ngModel)]="keyword" pInputText type="text" placeholder="Gõ từ khóa" />
-        </div>
-        <button
-          type="button"
-          pButton
-          (click)="loadData()"
-          icon="fa fa-search"
-          iconPos="left"
-          label="Tìm"
-        ></button>
-      </div>
-    </div>
-  </div>
+        icon="pi pi-pencil"
+        severity="help"
+        class="mr-2"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()"
+      ></p-button>
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      ></p-button>
+    </ng-template>
 
-  <!--Table-->
-  <p-table #pnl [value]="items" [(selection)]="selectedItems" selectionMode="multiple">
-    <ng-template pTemplate="header">
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          #searchInput
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm kiếm..."
+          class="w-full"
+        />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Table -->
+  <p-table
+    #pnl
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+  >
+    <ng-template #header>
       <tr>
-        <th style="width: 10px">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
         </th>
-        <th>Tên chức vụ</th>
-        <th>Mô tả</th>
-        <th>Trạng thái</th>
+        <th style="min-width: 14rem">Tên chức vụ</th>
+        <th style="min-width: 16rem">Mô tả</th>
+        <th style="min-width: 10rem">Trạng thái</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-row>
+
+    <ng-template #body let-row>
       <tr [pSelectableRow]="row">
-        <td style="width: 10px">
-          <span class="ui-column-title"></span>
-          <p-tableCheckbox [value]="row"></p-tableCheckbox>
+        <td style="width: 3rem">
+          <p-tableCheckbox [value]="row" />
         </td>
         <td>{{ row.tenChucVu }}</td>
         <td>{{ row.moTa }}</td>
         <td>
-          <p-badge *ngIf="row.trangThai == 1" severity="success" value="Hoạt động"></p-badge>
-          <p-badge *ngIf="row.trangThai == 0" severity="danger" value="Không hoạt động"></p-badge>
+          <p-tag
+            [value]="row.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động'"
+            [severity]="row.trangThai === 1 ? 'success' : 'danger'"
+            [rounded]="true"
+          ></p-tag>
         </td>
       </tr>
     </ng-template>
-    <ng-template pTemplate="summary">
-      <div style="text-align: left">Tổng số bản ghi: {{ totalCount | number }}</div>
+
+    <ng-template #summary>
+      <div style="padding: 20px 0px;">Tổng số bản ghi: {{ totalCount | number }}</div>
     </ng-template>
   </p-table>
-  <!--Paginator-->
+
+  <!-- Paginator -->
   <p-paginator
     [rows]="maxResultCount"
     [totalRecords]="totalCount"
     (onPageChange)="pageChanged($event)"
     [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
   ></p-paginator>
-  <!--Block UI-->
-  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
-    <p-progressSpinner></p-progressSpinner>
+
+  <!-- Block UI -->
+  <p-blockUI [blocked]="blockedPanel" [target]="dt">
+    <p-progressSpinner style="top: 37%;" />
   </p-blockUI>
 </p-panel>

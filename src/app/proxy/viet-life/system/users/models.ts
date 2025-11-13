@@ -19,8 +19,6 @@ export interface CreateUserDto {
   chucVuId?: string;
   ngayVaoLam?: string;
   trangThai?: string;
-  luongCoBan: number;
-  donGiaCong: number;
 }
 
 export interface SetPasswordDto {
@@ -45,8 +43,6 @@ export interface UpdateUserDto {
   chucVuId?: string;
   ngayVaoLam?: string;
   trangThai?: string;
-  luongCoBan: number;
-  donGiaCong: number;
 }
 
 export interface UserDto extends AuditedEntityDto<string> {
@@ -69,8 +65,6 @@ export interface UserDto extends AuditedEntityDto<string> {
   chucVuId?: string;
   ngayVaoLam?: string;
   trangThai?: string;
-  luongCoBan: number;
-  donGiaCong: number;
 }
 
 export interface UserInListDto extends AuditedEntityDto<string> {
@@ -91,6 +85,4 @@ export interface UserInListDto extends AuditedEntityDto<string> {
   chucVuId?: string;
   ngayVaoLam?: string;
   trangThai?: string;
-  luongCoBan: number;
-  donGiaCong: number;
 }

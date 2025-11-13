@@ -6,7 +6,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, take, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { LichLamViecDetailComponent } from './lichlamviec-detail.component';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 
 @Component({
   selector: 'app-lichlamviec',
@@ -89,7 +89,10 @@ export class LichLamViecComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(LichLamViecDetailComponent, {
       header: 'Thêm mới lịch làm việc',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: LichLamViecDto) => {
@@ -112,7 +115,10 @@ export class LichLamViecComponent implements OnInit, OnDestroy {
         id: id,
       },
       header: 'Cập nhật lịch làm việc',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: LichLamViecDto) => {

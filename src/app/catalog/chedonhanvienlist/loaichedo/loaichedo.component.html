@@ -1,0 +1,108 @@
+<p-panel header="Danh sách loại chế độ" #dt>
+  <!-- Toolbar: Button và Search -->
+  <p-toolbar class="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Thêm"
+        icon="pi pi-plus"
+        severity="secondary"
+        class="mr-2"
+        (onClick)="showAddModal()"
+      ></p-button>
+      <p-button
+        label="Sửa"
+        icon="pi pi-pencil"
+        severity="help"
+        class="mr-2"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()"
+      ></p-button>
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      ></p-button>
+    </ng-template>
+
+    <ng-template #end>
+      <div class="flex gap-2 align-items-center">
+        <input
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          placeholder="Gõ từ khóa"
+          class="w-full"
+        />
+        <p-button
+          icon="pi pi-search"
+          severity="secondary"
+          (onClick)="loadData()"
+        ></p-button>
+      </div>
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Table -->
+  <p-table
+    #pnl
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+    [paginator]="false"
+  >
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
+        </th>
+        <th>Tên loại chế độ</th>
+        <th>Hệ số công</th>
+        <th>Mô tả</th>
+        <th>Trạng thái</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td style="width: 3rem">
+          <p-tableCheckbox [value]="row" />
+        </td>
+        <td>{{ row.tenLoaiCheDo }}</td>
+        <td>{{ row.heSoCong }}</td>
+        <td>{{ row.moTa || '-' }}</td>
+        <td>
+          <p-tag
+            [value]="row.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động'"
+            [severity]="row.trangThai === 1 ? 'success' : 'danger'"
+            [rounded]="true"
+          ></p-tag>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div style="padding: 20px 0px;">Tổng số bản ghi: {{ totalCount | number }}</div>
+    </ng-template>
+  </p-table>
+
+  <!-- Paginator -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  ></p-paginator>
+
+  <!-- Block UI -->
+  <p-blockUI [blocked]="blockedPanel" [target]="dt">
+    <p-progressSpinner style="top: 37%;" />
+  </p-blockUI>
+</p-panel>

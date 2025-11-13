@@ -24,6 +24,9 @@ import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserDto, UserInListDto, UsersService } from '@/proxy/viet-life/system/users';
+import { ToolbarModule } from 'primeng/toolbar';
+import { InputIconModule } from 'primeng/inputicon';
+import { IconFieldModule } from 'primeng/iconfield';
 
 @Component({
   selector: 'app-user',
@@ -45,7 +48,10 @@ import { UserDto, UserInListDto, UsersService } from '@/proxy/viet-life/system/u
     RippleModule,
     DynamicDialogModule,
     ConfirmDialogModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    ToolbarModule,
+    InputIconModule,
+    IconFieldModule
   ],
   providers: [DialogService, ConfirmationService]
 })
@@ -108,7 +114,10 @@ export class UserComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(UserDetailComponent, {
       header: 'Thêm mới người dùng',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: UserDto) => {
@@ -137,7 +146,10 @@ export class UserComponent implements OnInit, OnDestroy {
         id: id,
       },
       header: 'Cập nhật người dùng',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: UserDto) => {
@@ -187,7 +199,10 @@ export class UserComponent implements OnInit, OnDestroy {
         id: id,
       },
       header: 'Đặt lại mật khẩu',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((result: boolean) => {
@@ -205,7 +220,10 @@ export class UserComponent implements OnInit, OnDestroy {
         id: id,
       },
       header: 'Gán quyền',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((result: boolean) => {

@@ -8,7 +8,7 @@ import { PagedResultDto } from '@abp/ng.core';
 import { KpiNhanVienDto, KpiNhanVienInListDto } from '@proxy/viet-life/catalog/kpis/kpi-nhan-viens';
 import { KpiNhanViensService } from '@proxy/viet-life/catalog/kpis';
 import { KpiNhanVienDetailComponent } from './kpinhanvien-detail.component';
-import { StandaloneSharedModule } from '../../standaloneshare.module';
+import { StandaloneSharedModule } from '../../../standaloneshare.module';
 
 @Component({
   selector: 'app-kpinhanvien',
@@ -73,7 +73,10 @@ export class KpiNhanVienComponent implements OnInit, OnDestroy {
   showAddModal() {
     const ref = this.dialogService.open(KpiNhanVienDetailComponent, {
       header: 'Thêm mới KPI nhân viên',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: KpiNhanVienDto) => {
@@ -95,7 +98,10 @@ export class KpiNhanVienComponent implements OnInit, OnDestroy {
     const ref = this.dialogService.open(KpiNhanVienDetailComponent, {
       data: { id },
       header: 'Cập nhật KPI nhân viên',
+      modal: true,
       width: '70%',
+      dismissableMask: true,
+      closable: true,
     });
 
     ref.onClose.subscribe((data: KpiNhanVienDto) => {

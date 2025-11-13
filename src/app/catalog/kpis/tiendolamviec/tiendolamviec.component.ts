@@ -10,7 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TienDoLamViecDetailComponent } from './tiendolamviec-detail.component';
 import { TienDoLamViecsService } from '@proxy/viet-life/catalog/kpis';
-import { StandaloneSharedModule } from '../../standaloneshare.module';
+import { StandaloneSharedModule } from '../../../standaloneshare.module';
 
 @Component({
   selector: 'app-tiendolamviec',

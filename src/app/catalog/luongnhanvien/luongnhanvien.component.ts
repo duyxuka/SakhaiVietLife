@@ -7,7 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { LuongNhanVienDetailComponent } from './luongnhanvien-detail.component';
 import { UsersService } from '@proxy/viet-life/system/users';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 
 @Component({
   selector: 'app-luongnhanvien',

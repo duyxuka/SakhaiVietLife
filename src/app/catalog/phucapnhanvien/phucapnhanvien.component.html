@@ -1,77 +1,83 @@
-<p-panel header="Danh sách phụ cấp nhân viên">
-  <!--Filter-->
-  <div class="grid mb-3">
-    <div class="col-4">
-      <button
-        pButton
-        type="button"
-        (click)="showAddModal()"
-        icon="fa fa-plus"
-        iconPos="left"
+<p-panel header="Danh sách phụ cấp nhân viên" #dt>
+  <!-- Toolbar hiện đại -->
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
         label="Thêm"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="showEditModal()"
-        *ngIf="selectedItems.length == 1"
-        class="ml-1 p-button-help"
-        icon="fa fa-edit"
-        iconPos="left"
+        icon="pi pi-plus"
+        severity="secondary"
+        class="mr-2"
+        (onClick)="showAddModal()"
+      />
+      <p-button
         label="Sửa"
-      ></button>
-      <button
-        pButton
-        type="button"
-        (click)="deleteItems()"
-        *ngIf="selectedItems.length > 0"
-        class="ml-1 p-button-danger"
-        icon="fa fa-trash"
-        iconPos="left"
+        icon="pi pi-pencil"
+        severity="help"
+        class="mr-2"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()"
+      />
+      <p-button
         label="Xóa"
-      ></button>
-    </div>
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      />
+    </ng-template>
 
-    <div class="col-8">
-      <div class="formgroup-inline justify-content-end">
-        <!-- Lọc theo chức vụ -->
-        <div class="field mr-2">
-          <p-select
-            [options]="chucVuList"
-            [(ngModel)]="chucVuId"
-            placeholder="Chọn chức vụ"
-            [showClear]="true"
-            [style]="{ width: '200px' }"
-          ></p-select>
-        </div>
-        <!-- Từ khóa -->
-        <div class="field mr-2">
-          <input
-            id="txt-keyword"
-            [(ngModel)]="keyword"
-            pInputText
-            type="text"
-            placeholder="Gõ từ khóa (tên phụ cấp)"
-          />
-        </div>
-        <button
-          type="button"
-          pButton
-          (click)="loadData()"
-          icon="fa fa-search"
-          iconPos="left"
-          label="Tìm"
-        ></button>
+    <ng-template #end>
+      <!-- Bộ lọc chức vụ -->
+      <p-select
+        [options]="chucVuList"
+        [(ngModel)]="chucVuId"
+        placeholder="Chọn chức vụ"
+        [showClear]="true"
+        styleClass="mr-3 w-48"
+        (onChange)="loadData()"
+      ></p-select>
+
+      <!-- Ô tìm kiếm -->
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          #searchInput
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Gõ từ khóa (tên phụ cấp)"
+          class="w-full"
+        />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Bảng dữ liệu -->
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+  >
+    <ng-template #caption>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h5 class="m-0">Quản lý phụ cấp nhân viên</h5>
       </div>
-    </div>
-  </div>
+    </ng-template>
 
-  <!--Table-->
-  <p-table #pnl [value]="items" [(selection)]="selectedItems" selectionMode="multiple">
-    <ng-template pTemplate="header">
+    <ng-template #header>
       <tr>
-        <th style="width: 10px">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
         </th>
         <th>Tên phụ cấp</th>
         <th>Số tiền</th>
@@ -79,10 +85,10 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-row>
+    <ng-template #body let-row>
       <tr [pSelectableRow]="row">
-        <td style="width: 10px">
-          <p-tableCheckbox [value]="row"></p-tableCheckbox>
+        <td style="width: 3rem">
+          <p-tableCheckbox [value]="row" />
         </td>
         <td>{{ row.tenPhuCap }}</td>
         <td>{{ row.soTien | number }}</td>
@@ -90,21 +96,25 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="summary">
-      <div style="text-align: left">Tổng số bản ghi: {{ totalCount | number }}</div>
+    <ng-template #summary>
+      <div class="flex items-center justify-between" style="padding: 20px 0;">
+        <span>Tổng số bản ghi: {{ totalCount | number }}</span>
+      </div>
     </ng-template>
   </p-table>
 
-  <!--Paginator-->
+  <!-- Phân trang -->
   <p-paginator
     [rows]="maxResultCount"
     [totalRecords]="totalCount"
     (onPageChange)="pageChanged($event)"
     [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
-  ></p-paginator>
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
 
-  <!--Block UI-->
-  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
-    <p-progressSpinner></p-progressSpinner>
+  <!-- Block UI -->
+  <p-blockUI [blocked]="blockedPanel" [target]="dt">
+    <p-progress-spinner style="top: 37%;" />
   </p-blockUI>
 </p-panel>

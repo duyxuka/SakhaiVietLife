@@ -11,7 +11,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { PhuCapNhanVienDetailComponent } from './phucapnhanvien-detail.component';
-import { StandaloneSharedModule } from '../standaloneshare.module';
+import { StandaloneSharedModule } from '../../standaloneshare.module';
 
 @Component({
   selector: 'app-phucapnhanvien',
