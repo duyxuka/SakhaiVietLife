@@ -16,10 +16,10 @@ import { DonViTinhInListDto } from '@/proxy/viet-life/business/san-phams-list/do
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   standalone: true,
-      imports: [
-        StandaloneSharedModule,
-        ValidationMessageComponent
-      ]
+  imports: [
+    StandaloneSharedModule,
+    ValidationMessageComponent
+  ]
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
@@ -44,7 +44,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     private notificationSerivce: NotificationService,
     private cd: ChangeDetectorRef,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   validationMessages = {
     ma: [{ type: 'required', message: 'Bạn phải nhập mã duy nhất' }],
@@ -52,8 +52,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       { type: 'required', message: 'Bạn phải nhập tên' },
       { type: 'maxlength', message: 'Bạn không được nhập quá 255 kí tự' },
     ],
-    module: [{ type: 'required', message: 'Bạn phải điền module' }],
-    donViTinhId: [{ type: 'required', message: 'Bạn phải chọn nhà cung cấp' }],
+    model: [{ type: 'required', message: 'Bạn phải điền model' }],
+    donViTinhId: [{ type: 'required', message: 'Bạn phải chọn đơn vị tính' }],
     nhomSanPhamId: [{ type: 'required', message: 'Bạn phải chọn danh mục' }],
   };
 
@@ -82,22 +82,15 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: any) => {
-          //Push data to select
-          var productCategories = response.productCategories as NhomSanPhamInListDto[];
-          var donViTinhs = response.donViTinhs as DonViTinhInListDto[];
-          productCategories.forEach(element => {
-            this.productCategories.push({
-              value: element.id,
-              label: element.tenNhom,
-            });
-          });
+          this.productCategories = (response.productCategories as NhomSanPhamInListDto[]).map(pc => ({
+            value: pc.id,
+            label: pc.tenNhom
+          }));
 
-          donViTinhs.forEach(element => {
-            this.donViTinhs.push({
-              value: element.id,
-              label: element.tenDonVi,
-            });
-          });
+          this.donViTinhs = (response.donViTinhs as DonViTinhInListDto[]).map(dv => ({
+            value: dv.id,
+            label: dv.tenDonVi
+          }));
           //Load edit data to form
           if (this.utilService.isEmpty(this.config.data?.id) == true) {
             this.getNewSuggestionCode();
@@ -118,9 +111,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: string) => {
-          this.form.patchValue({
-            code: response,
-          });
+          this.form.patchValue({ ma: response }); // patch vào "ma"
         }
       });
   }
@@ -134,7 +125,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
         next: (response: SanPhamDto) => {
           this.selectedEntity = response;
           this.loadThumbnail(this.selectedEntity.anh);
-          this.buildForm();
+          this.form.patchValue({
+            ma: this.selectedEntity.ma,
+            ten: this.selectedEntity.ten,
+            model: this.selectedEntity.model,
+            moTa: this.selectedEntity.moTa,
+            donViTinhId: this.selectedEntity.donViTinhId,
+            nhomSanPhamId: this.selectedEntity.nhomSanPhamId,
+            hoatDong: this.selectedEntity.hoatDong,
+            giaBan: this.selectedEntity.giaBan,
+            anhName: this.selectedEntity.anh
+          });
           this.toggleBlockUI(false);
         },
         error: () => {
@@ -181,16 +182,16 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   private buildForm() {
     this.form = this.fb.group({
-      ma: new FormControl( this.selectedEntity.ma || null, Validators.compose([Validators.required, Validators.maxLength(250)])),
-      ten: new FormControl(this.selectedEntity.ten || null, Validators.required),
-      model: new FormControl(this.selectedEntity.model || null, Validators.required),
-      moTa: new FormControl(this.selectedEntity.moTa || null),
-      donViTinhId: new FormControl( this.selectedEntity.donViTinhId || null, Validators.required),
-      nhomSanPhamId: new FormControl(this.selectedEntity.nhomSanPhamId || null, Validators.required),
-      hoatDong: new FormControl(this.selectedEntity.hoatDong || false),
-      giaBan: new FormControl(this.selectedEntity.giaBan || null, Validators.required),
-      anhName: new FormControl(this.selectedEntity.moTa || null),
-      anhContent: new FormControl(null),
+      ma: [this.selectedEntity.ma || null, [Validators.required, Validators.maxLength(250)]],
+      ten: [this.selectedEntity.ten || null, Validators.required],
+      model: [this.selectedEntity.model || null, Validators.required],
+      moTa: [this.selectedEntity.moTa || null],
+      donViTinhId: [this.selectedEntity.donViTinhId || null, Validators.required],
+      nhomSanPhamId: [this.selectedEntity.nhomSanPhamId || null, Validators.required],
+      hoatDong: [this.selectedEntity.hoatDong || false],
+      giaBan: [this.selectedEntity.giaBan || null, Validators.required],
+      anhName: [this.selectedEntity.anh || null],
+      anhContent: [null],
     });
   }
 
@@ -228,13 +229,20 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.form.patchValue({
-          thumbnailPictureName: file.name,
-          thumbnailPictureContent: reader.result,
+          anhName: file.name,
+          anhContent: (reader.result as string).split(',')[1] // lấy đúng phần base64
         });
 
-        // need to run CD since file load runs outside of zone
+        this.thumbnailImage = this.sanitizer.bypassSecurityTrustResourceUrl(
+          reader.result as string
+        );
+
         this.cd.markForCheck();
       };
     }
+  }
+
+  cancel() {
+    this.ref?.close();
   }
 }

@@ -1,0 +1,44 @@
+<p-panel header="Danh sách hợp đồng nhân viên" #dt>
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button label="Thêm" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="showAddModal()" />
+      <p-button label="Sửa" icon="pi pi-pencil" severity="help" class="mr-2" [disabled]="selectedItems.length !== 1" (onClick)="showEditModal()" />
+      <p-button label="Xóa" icon="pi pi-trash" severity="danger" [disabled]="selectedItems.length === 0" (onClick)="deleteItems()" />
+    </ng-template>
+    <ng-template #end>
+      <p-iconfield iconPosition="left"><p-inputicon styleClass="pi pi-search" /><input #searchInput pInputText type="text" [(ngModel)]="keyword" (keyup.enter)="loadData()" placeholder="Tìm kiếm..." class="w-full"/></p-iconfield>
+      <p-button icon="pi pi-search" severity="secondary" class="ml-2" (onClick)="loadData()" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [value]="items" [(selection)]="selectedItems" selectionMode="multiple" dataKey="id" [rowHover]="true">
+    <ng-template #header>
+      <tr>
+        <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+        <th pSortableColumn="maHopDong">Mã hợp đồng<p-sortIcon field="maHopDong"/></th>
+        <th pSortableColumn="nhanVien.ten">Nhân viên<p-sortIcon field="nhanVien.ten"/></th>
+        <th pSortableColumn="loaiHopDong.tenLoai">Loại hợp đồng<p-sortIcon field="loaiHopDong.tenLoai"/></th>
+        <th pSortableColumn="trangThai">Trạng thái<p-sortIcon field="trangThai"/></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row" /></td>
+        <td>{{ row.maHopDong }}</td>
+        <td>{{ row.nhanVien?.tenNhanVien }}</td>
+        <td>{{ row.loaiHopDong?.tenLoai }}</td>
+        <td>
+          <p-tag [value]="row.trangThai" [severity]="row.trangThai === 'Đã duyệt' ? 'success' : 'warning'" [rounded]="true"/>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div class="flex items-center justify-between" style="padding:20px 0;">Tổng số bản ghi: {{ totalCount | number }}</div>
+    </ng-template>
+  </p-table>
+
+  <p-paginator [rows]="maxResultCount" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)" [rowsPerPageOptions]="[10,20,30,50,100]" [showPageLinks]="true" [showCurrentPageReport]="true" />
+  <p-blockui [blocked]="blockedPanel" [target]="dt"><p-progress-spinner style="top: 37%;" /></p-blockui>
+</p-panel>

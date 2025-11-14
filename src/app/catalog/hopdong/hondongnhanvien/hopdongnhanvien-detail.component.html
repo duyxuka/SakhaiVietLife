@@ -1,0 +1,216 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết hợp đồng nhân viên">
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Nhân viên -->
+          <div>
+            <label for="nhanVienId" class="block font-bold mb-2">
+              Nhân viên <span class="text-red-500">*</span>
+            </label>
+            <p-select
+              id="nhanVienId"
+              [options]="nhanVienOptions"
+              placeholder="Chọn nhân viên"
+              formControlName="nhanVienId"
+              [showClear]="true"
+              class="w-full">
+            </p-select>
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="nhanVienId"
+              [validationMessages]="validationMessages">
+            </app-validation-message>
+          </div>
+
+          <!-- Loại hợp đồng -->
+          <div>
+            <label for="loaiHopDongId" class="block font-bold mb-2">
+              Loại hợp đồng <span class="text-red-500">*</span>
+            </label>
+            <p-select
+              id="loaiHopDongId"
+              [options]="loaiHopDongOptions"
+              placeholder="Chọn loại hợp đồng"
+              formControlName="loaiHopDongId"
+              [showClear]="true"
+              class="w-full">
+            </p-select>
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="loaiHopDongId"
+              [validationMessages]="validationMessages">
+            </app-validation-message>
+          </div>
+
+          <!-- Mã hợp đồng -->
+          <div>
+            <label for="maHopDong" class="block font-bold mb-2">
+              Mã hợp đồng <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="maHopDong"
+              type="text"
+              pInputText
+              formControlName="maHopDong"
+              placeholder="Nhập mã hợp đồng"
+              fluid />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="maHopDong"
+              [validationMessages]="validationMessages">
+            </app-validation-message>
+          </div>
+
+          <!-- Ngày ký -->
+          <div>
+            <label for="ngayKy" class="block font-bold mb-2">
+              Ngày ký <span class="text-red-500">*</span>
+            </label>
+            <p-datepicker 
+              id="ngayKy"
+              formControlName="ngayKy"
+              dateFormat="dd/mm/yy"
+              showIcon="true"
+              class="w-full">
+            </p-datepicker >
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="ngayKy"
+              [validationMessages]="validationMessages">
+            </app-validation-message>
+          </div>
+
+          <!-- Ngày hiệu lực -->
+          <div>
+            <label for="ngayHieuLuc" class="block font-bold mb-2">
+              Ngày hiệu lực <span class="text-red-500">*</span>
+            </label>
+            <p-datepicker 
+              id="ngayHieuLuc"
+              formControlName="ngayHieuLuc"
+              dateFormat="dd/mm/yy"
+              showIcon="true"
+              class="w-full">
+            </p-datepicker >
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="ngayHieuLuc"
+              [validationMessages]="validationMessages">
+            </app-validation-message>
+          </div>
+
+          <!-- Ngày hết hạn -->
+          <div>
+            <label for="ngayHetHan" class="block font-bold mb-2">
+              Ngày hết hạn
+            </label>
+            <p-datepicker 
+              id="ngayHetHan"
+              formControlName="ngayHetHan"
+              dateFormat="dd/mm/yy"
+              showIcon="true"
+              class="w-full">
+            </p-datepicker >
+          </div>
+
+          <!-- Số tháng -->
+          <div>
+            <label for="soThang" class="block font-bold mb-2">Số tháng</label>
+            <input id="soThang" type="number" pInputText formControlName="soThang" class="w-full"/>
+          </div>
+
+          <!-- Lương cơ bản -->
+          <div>
+            <label for="luongCoBan" class="block font-bold mb-2">Lương cơ bản</label>
+            <input id="luongCoBan" type="number" pInputText formControlName="luongCoBan" class="w-full"/>
+          </div>
+
+          <!-- Đơn giá công -->
+          <div>
+            <label for="donGiaCong" class="block font-bold mb-2">Đơn giá công</label>
+            <input id="donGiaCong" type="number" pInputText formControlName="donGiaCong" class="w-full"/>
+          </div>
+
+          <!-- Trạng thái -->
+          <div>
+            <label for="trangThai" class="block font-bold mb-2">Trạng thái</label>
+            <p-select
+              id="trangThai"
+              [options]="trangThaiOptions"
+              placeholder="Chọn trạng thái"
+              formControlName="trangThai"
+              class="w-full">
+            </p-select>
+          </div>
+
+          <!-- Người duyệt -->
+          <div>
+            <label for="nguoiDuyetId" class="block font-bold mb-2">Người duyệt</label>
+            <p-select
+              id="nguoiDuyetId"
+              [options]="nhanVienOptions"
+              placeholder="Chọn người duyệt"
+              formControlName="nguoiDuyetId"
+              [showClear]="true"
+              class="w-full">
+            </p-select>
+          </div>
+
+          <!-- Ngày duyệt -->
+          <div>
+            <label for="ngayDuyet" class="block font-bold mb-2">Ngày duyệt</label>
+            <p-datepicker 
+              id="ngayDuyet"
+              formControlName="ngayDuyet"
+              dateFormat="dd/mm/yy"
+              showIcon="true"
+              class="w-full">
+            </p-datepicker >
+          </div>
+
+          <!-- Ghi chú -->
+          <div class="col-span-2">
+            <label for="ghiChu" class="block font-bold mb-2">Ghi chú</label>
+            <textarea id="ghiChu" pTextarea formControlName="ghiChu" rows="4" class="w-full"></textarea>
+          </div>
+
+          <!-- Hợp đồng hiện hành -->
+          <div class="flex items-center gap-2">
+            <p-checkbox formControlName="laHienHanh" binary="true"></p-checkbox>
+            <label>Hợp đồng hiện hành</label>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2" />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled" />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockUI>
+  </p-panel>
+</form>

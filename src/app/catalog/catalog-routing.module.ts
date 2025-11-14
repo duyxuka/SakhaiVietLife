@@ -16,6 +16,8 @@ import { MucTieuKpiComponent } from './kpis/muctieukpi/muctieukpi.component';
 import { TienDoLamViecComponent } from './kpis/tiendolamviec/tiendolamviec.component';
 import { DanhGiaKpiComponent } from './kpis/danhgiakpi/danhgiakpi.component';
 import { LuongNhanvienComponent } from './luongnhanvien/luongnhanvien.component';
+import { LoaiHopDongComponent } from './hopdong/loaihopdong/loaihopdong.component';
+import { HopDongNhanVienComponent } from './hopdong/hondongnhanvien/hopdongnhanvien.component';
 
 const routes: Routes = [
   {
@@ -89,6 +91,23 @@ const routes: Routes = [
     data: {
       requiredPolicy: 'VietLifeAdminCatalog.PhuCapNhanVien.View',
     },
+  },
+  {
+    path: 'hopdong',
+    children: [
+      {
+        path: 'loaihopdong',
+        component: LoaiHopDongComponent,
+        canActivate: [permissionGuard],
+        data: { requiredPolicy: 'VietLifeAdminCatalog.LoaiHopDong.View' },
+      },
+      {
+        path: 'hopdongnhanvien',
+        component: HopDongNhanVienComponent,
+        canActivate: [permissionGuard],
+        data: { requiredPolicy: 'VietLifeAdminCatalog.HopDongNhanVien.View' },
+      },
+    ],
   },
   {
     path: 'kpis',

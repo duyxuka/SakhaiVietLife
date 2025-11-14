@@ -136,10 +136,10 @@ export class Login  implements OnDestroy {
         // Chấm công check-in
         this.chamCongsService.checkIn().subscribe({
           next: (msg) => {
-            this.notificationService.showSuccess('Đăng nhập thành công và check-in thành công!');
+            this.notificationService.showSuccess(msg);
             setTimeout(() => {
               this.blockedPanel = false;
-              this.router.navigate(['/dashboard']);
+              window.location.href = '/dashboard';
             }, 800);
           },
           error: (err) => {

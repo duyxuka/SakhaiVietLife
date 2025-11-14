@@ -38,6 +38,8 @@ export interface SanPhamInListDto extends EntityDto<string> {
   hoatDong: boolean;
   nhomSanPhamId?: string;
   donViTinhId?: string;
+  nhomSanPhamTen?: string;
+  donViTinhTen?: string;
 }
 
 export interface SanPhamListFilterDto extends BaseListFilterDto {

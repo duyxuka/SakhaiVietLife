@@ -1,11 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
-  <p-panel #pnl header="Danh sách sản phẩm">
-    <!-- Form Body -->
+  <p-panel #pnl header="Chi tiết sản phẩm">
     <ng-template pTemplate="body">
       <div class="flex flex-col gap-6 mt-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-          <!-- Tên -->
+          <!-- Tên sản phẩm -->
           <div>
             <label for="ten" class="block font-bold mb-2">
               Tên <span class="text-red-500">*</span>
@@ -25,7 +24,7 @@
             />
           </div>
 
-          <!-- Mã -->
+          <!-- Mã sản phẩm -->
           <div>
             <label for="ma" class="block font-bold mb-2">
               Mã <span class="text-red-500">*</span>
@@ -125,7 +124,12 @@
           <!-- Hình ảnh -->
           <div>
             <label for="thumbnailImage" class="block font-bold mb-2">Hình ảnh</label>
-            <input id="thumbnailImage" type="file" (change)="onFileChange($event)" class="w-full" />
+            <input
+              id="thumbnailImage"
+              type="file"
+              (change)="onFileChange($event)"
+              class="w-full"
+            />
           </div>
           <div>
             <p-image
@@ -139,7 +143,7 @@
           <!-- Hiển thị -->
           <div class="flex items-center gap-3">
             <label for="hoatDong" class="font-bold">Hiển thị</label>
-            <p-toggleswitch formControlName="hoatDong"></p-toggleswitch >
+            <p-toggleswitch formControlName="hoatDong"></p-toggleswitch>
           </div>
 
           <!-- Mô tả -->
@@ -157,6 +161,15 @@
       <p-toolbar>
         <ng-template pTemplate="end">
           <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button
             type="submit"
             label="Lưu lại"
             icon="pi pi-check"
@@ -169,7 +182,7 @@
 
     <!-- Block UI -->
     <p-blockUI [blocked]="blockedPanel" [target]="pnl">
-      <p-progressSpinner style="top: 37%;" />
+      <p-progress-spinner style="top: 37%;" />
     </p-blockUI>
   </p-panel>
 </form>

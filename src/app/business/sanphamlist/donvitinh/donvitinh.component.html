@@ -1,0 +1,69 @@
+<p-panel header="Danh sách đơn vị tính" #dt>
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button label="Thêm" icon="pi pi-plus" class="mr-2"
+        (onClick)="showAddModal()" severity="secondary" />
+      <p-button label="Sửa" icon="pi pi-pencil" class="mr-2"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()" severity="help" />
+      <p-button label="Xóa" icon="pi pi-trash"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()" severity="danger" />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" [(ngModel)]="keyword"
+          (keyup.enter)="loadData()" placeholder="Tìm kiếm..." />
+      </p-iconfield>
+      <p-button icon="pi pi-search" class="ml-2"
+        (onClick)="loadData()" severity="secondary" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [rowHover]="true"
+  >
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
+        <th pSortableColumn="tenDonVi">Tên đơn vị<p-sortIcon field="tenDonVi" /></th>
+        <th pSortableColumn="macDinh">Mặc định<p-sortIcon field="macDinh" /></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row" /></td>
+        <td>{{ row.tenDonVi }}</td>
+        <td>
+          <p-tag 
+            [value]="row.macDinh ? 'Mặc định' : '—'"
+            [severity]="row.macDinh ? 'success' : 'secondary'"
+            [rounded]="true"
+          />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div style="padding: 20px 0">Tổng số bản ghi: {{ totalCount }}</div>
+    </ng-template>
+  </p-table>
+
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10,20,30,50,100]"
+  />
+
+  <p-blockui [blocked]="blockedPanel" [target]="dt">
+    <p-progress-spinner style="top: 37%;" />
+  </p-blockui>
+</p-panel>

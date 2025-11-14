@@ -1,0 +1,71 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết loại hợp đồng">
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <!-- Tên loại hợp đồng -->
+        <div>
+          <label for="tenLoai" class="block font-bold mb-2">
+            Tên loại hợp đồng <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="tenLoai"
+            pInputText
+            type="text"
+            formControlName="tenLoai"
+            placeholder="Nhập tên loại hợp đồng"
+            fluid />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="tenLoai"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- Số tháng mặc định -->
+        <div>
+          <label for="soThangMacDinh" class="block font-bold mb-2">Số tháng mặc định</label>
+          <input
+            id="soThangMacDinh"
+            type="number"
+            pInputText
+            formControlName="soThangMacDinh"
+            placeholder="Nhập số tháng (nếu có)"
+            fluid />
+        </div>
+
+        <!-- Mặc định -->
+        <div class="flex items-center gap-2 mt-2">
+          <p-checkbox
+            formControlName="macDinh"
+            binary="true">
+          </p-checkbox>
+          <label>Mặc định</label>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2" />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled" />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockui>
+  </p-panel>
+</form>

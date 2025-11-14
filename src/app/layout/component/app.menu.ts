@@ -86,6 +86,22 @@ export class AppMenu implements OnInit {
             permission: 'VietLifeAdminCatalog.PhuCapNhanVien.View',
           },
           {
+            label: 'Hợp đồng',
+            icon: 'pi pi-fw pi-chart-line',
+            items: [
+              {
+                label: 'Loại hợp đồng',
+                routerLink: ['/catalog/hopdong/loaihopdong'],
+                permission: 'VietLifeAdminCatalog.LoaiHopDong.View',
+              },
+              {
+                label: 'Hợp đồng nhân viên',
+                routerLink: ['/catalog/hopdong/hopdongnhanvien'],
+                permission: 'VietLifeAdminCatalog.HopDongNhanVien.View',
+              },
+              ],
+          },
+          {
             label: 'KPI nhân viên',
             icon: 'pi pi-fw pi-chart-line',
             items: [
@@ -149,6 +165,18 @@ export class AppMenu implements OnInit {
             icon: 'pi pi-fw pi-circle',
             routerLink: ['/business/sanpham'],
             permission: 'VietLifeAdminBusiness.SanPham.View',
+          },
+          {
+            label: 'Nhóm sản phẩm',
+            icon: 'pi pi-fw pi-circle',
+            routerLink: ['/business/nhomsanpham'],
+            permission: 'VietLifeAdminBusiness.NhomSanPham.View',
+          },
+          {
+            label: 'Đơn vị tính',
+            icon: 'pi pi-fw pi-circle',
+            routerLink: ['/business/donvitinh'],
+            permission: 'VietLifeAdminBusiness.DonViTinh.View',
           }
         ]
       }

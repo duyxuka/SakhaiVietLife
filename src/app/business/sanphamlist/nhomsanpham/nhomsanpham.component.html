@@ -1,4 +1,4 @@
-<p-panel header="Danh sách sản phẩm" #dt>
+<p-panel header="Danh sách nhóm sản phẩm" #dt>
   <!-- Toolbar -->
   <p-toolbar styleClass="mb-4">
     <ng-template #start>
@@ -27,13 +27,6 @@
     </ng-template>
 
     <ng-template #end>
-      <p-select
-        [options]="productCategories"
-        [(ngModel)]="nhomSanPhamId"
-        placeholder="Chọn danh mục"
-        styleClass="w-15rem mr-3"
-        (onChange)="loadData()"
-      ></p-select>
       <p-iconfield iconPosition="left">
         <p-inputicon styleClass="pi pi-search" />
         <input
@@ -62,38 +55,26 @@
     selectionMode="multiple"
     dataKey="id"
     [rowHover]="true"
-    [tableStyle]="{ 'min-width': '60rem' }"
+    [tableStyle]="{ 'min-width': '50rem' }"
   >
-    <ng-template #caption>
-      <div class="flex flex-wrap items-center justify-between gap-4">
-        <h5 class="m-0">Quản lý sản phẩm</h5>
-      </div>
-    </ng-template>
-
     <ng-template #header>
       <tr>
         <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
-        <th pSortableColumn="ma">Mã<p-sortIcon field="ma" /></th>
-        <th pSortableColumn="model">Model<p-sortIcon field="model" /></th>
-        <th pSortableColumn="ten">Tên<p-sortIcon field="ten" /></th>
-        <th pSortableColumn="nhomSanPhamTen">Danh mục<p-sortIcon field="nhomSanPhamTen" /></th>
-        <th pSortableColumn="donViTinhTen">Đơn vị<p-sortIcon field="donViTinhTen" /></th>
-        <th pSortableColumn="hoatDong">Hiển thị<p-sortIcon field="hoatDong" /></th>
+        <th pSortableColumn="maNhom">Mã nhóm<p-sortIcon field="maNhom" /></th>
+        <th pSortableColumn="tenNhom">Tên nhóm<p-sortIcon field="tenNhom" /></th>
+        <th pSortableColumn="hieuLuc">Trạng thái<p-sortIcon field="hieuLuc" /></th>
       </tr>
     </ng-template>
 
     <ng-template #body let-row>
       <tr [pSelectableRow]="row">
         <td><p-tableCheckbox [value]="row" /></td>
-        <td>{{ row.ma }}</td>
-        <td>{{ row.model }}</td>
-        <td>{{ row.ten }}</td>
-        <td>{{ row.nhomSanPhamTen }}</td>
-        <td>{{ row.donViTinhTen }}</td>
+        <td>{{ row.maNhom }}</td>
+        <td>{{ row.tenNhom }}</td>
         <td>
           <p-tag
-            [value]="row.hoatDong ? 'Kích hoạt' : 'Khoá'"
-            [severity]="row.hoatDong ? 'success' : 'danger'"
+            [value]="row.hieuLuc ? 'Hoạt động' : 'Không hoạt động'"
+            [severity]="row.hieuLuc ? 'success' : 'danger'"
             [rounded]="true"
           />
         </td>
@@ -117,8 +98,7 @@
     [showCurrentPageReport]="true"
   />
 
-  <!-- BlockUI -->
-  <p-blockUI [blocked]="blockedPanel" [target]="dt">
+  <p-blockui [blocked]="blockedPanel" [target]="dt">
     <p-progress-spinner style="top: 37%;" />
-  </p-blockUI>
+  </p-blockui>
 </p-panel>
