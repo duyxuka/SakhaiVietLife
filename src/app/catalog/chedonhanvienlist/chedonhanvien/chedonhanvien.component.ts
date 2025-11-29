@@ -148,9 +148,12 @@ export class CheDoNhanVienComponent implements OnInit, OnDestroy {
   }
 
   private toggleBlockUI(enabled: boolean) {
-    this.blockedPanel = enabled;
-    if (!enabled) {
-      setTimeout(() => (this.blockedPanel = false), 500);
+    if (enabled == true) {
+      this.blockedPanel = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+      }, 1000);
     }
   }
 }

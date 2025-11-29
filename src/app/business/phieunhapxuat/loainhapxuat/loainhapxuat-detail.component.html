@@ -1,0 +1,104 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết loại phiếu nhập xuất">
+    <!-- Body -->
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Tên loại -->
+          <div>
+            <label class="block font-bold mb-2">
+              Tên loại <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              pInputText
+              formControlName="tenLoai"
+              placeholder="Ví dụ: Nhập mua, Xuất bán..."
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="tenLoai"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Kiểu nhập xuất -->
+          <div>
+            <label class="block font-bold mb-2">
+              Kiểu nhập xuất <span class="text-red-500">*</span>
+            </label>
+            <p-select 
+              [options]="kieuOptions"
+              optionLabel="label"
+              optionValue="value"
+              formControlName="kieuNhapXuat"
+              placeholder="Chọn kiểu"
+              fluid>
+            </p-select>
+
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="kieuNhapXuat"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Tăng giảm tồn -->
+          <div>
+            <label class="block font-bold mb-2">
+              Tăng/Giảm tồn kho <span class="text-red-500">*</span>
+            </label>
+
+            <p-select
+              [options]="tangGiamOptions"
+              optionLabel="label"
+              optionValue="value"
+              formControlName="tangGiamTon"
+              placeholder="Chọn trạng thái"
+              fluid>
+            </p-select>
+
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="tangGiamTon"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            class="mr-2"
+            (onClick)="cancel()"
+          />
+
+          <p-button
+            type="submit"
+            label="Lưu"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockui>
+  </p-panel>
+</form>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
@@ -77,34 +77,40 @@ export class LoaiHopDongDetailComponent implements OnInit, OnDestroy {
         next: (res: LoaiHopDongDto) => {
           this.selectedEntity = res;
           this.buildForm();
-          this.toggleBlockUI(false);
         },
-        error: () => this.toggleBlockUI(false)
+        error: () => {},
+        complete: () => this.toggleBlockUI(false)
       });
   }
 
   saveChange() {
     this.toggleBlockUI(true);
+
     const obs = !this.config.data?.id
       ? this.loaiHopDongService.create(this.form.value)
       : this.loaiHopDongService.update(this.config.data.id, this.form.value);
 
     obs.pipe(takeUntil(this.ngUnsubscribe)).subscribe({
       next: () => this.ref.close(this.form.value),
-      error: err => {
-        this.notificationService.showError(err.error.error.message);
-        this.toggleBlockUI(false);
-      },
+      error: err => this.notificationService.showError(err.error?.error?.message || 'Có lỗi xảy ra'),
       complete: () => this.toggleBlockUI(false)
     });
-  }
-
-  private toggleBlockUI(enabled: boolean) {
-    this.blockedPanel = enabled;
-    this.btnDisabled = enabled;
   }
 
   cancel() {
     this.ref?.close();
   }
+
+  private toggleBlockUI(enabled: boolean) {
+    if (enabled == true) {
+      this.blockedPanel = true;
+      this.btnDisabled = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+        this.btnDisabled = false;
+      }, 1000);
+    }
+  }
+
 }

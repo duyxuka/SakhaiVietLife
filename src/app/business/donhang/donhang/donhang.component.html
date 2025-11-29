@@ -1,0 +1,54 @@
+<p-panel header="Danh sách đơn hàng" #dt>
+  <p-toolbar class="mb-4">
+    <ng-template #start>
+      <p-button label="Thêm" icon="pi pi-plus" class="mr-2" severity="secondary" (onClick)="showAddModal()"/>
+      <p-button label="Sửa" icon="pi pi-pencil" class="mr-2" severity="help" [disabled]="selectedItems.length !== 1" (onClick)="showEditModal()"/>
+      <p-button label="Xóa" icon="pi pi-trash" severity="danger" [disabled]="selectedItems.length === 0" (onClick)="deleteItems()"/>
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" [(ngModel)]="keyword" (keyup.enter)="loadData()" placeholder="Tìm kiếm theo mã đơn hàng" class="w-full"/>
+      </p-iconfield>
+      <p-button icon="pi pi-search" severity="secondary" class="ml-2" (onClick)="loadData()"/>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [value]="items" [(selection)]="selectedItems" selectionMode="multiple" dataKey="id" [rowHover]="true" [tableStyle]="{'min-width':'60rem'}">
+    <ng-template #header>
+      <tr>
+        <th><p-tableHeaderCheckbox/></th>
+        <th>Mã đơn hàng</th>
+        <th>Khách hàng</th>
+        <th>Ngày đặt hàng</th>
+        <th>Nhân viên bán hàng</th>
+        <th>Tổng tiền</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row"/></td>
+        <td>{{ row.maDonHang }}</td>
+        <td>{{ row.tenKhachHang }}</td>
+        <td>{{ row.ngayDatHang | date:'dd/MM/yyyy' }}</td>
+        <td>{{ row.nhanVienBanHang }}</td>
+        <td>{{ row.tongTien | number:'1.0-2' }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+   <!-- Paginator -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10,20,30,50,100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
+  <p-blockUI [blocked]="blockedPanel" [target]="dt">
+    <p-progressSpinner style="top: 37%;" />
+  </p-blockUI>
+</p-panel>

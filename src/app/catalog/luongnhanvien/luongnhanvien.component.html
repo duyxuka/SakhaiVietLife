@@ -24,13 +24,6 @@
         [disabled]="selectedItems.length === 0"
         (onClick)="deleteItems()"
       />
-      <p-button
-        label="Tính lương"
-        icon="pi pi-calculator"
-        severity="success"
-        class="ml-2"
-        (onClick)="tinhLuong()"
-      />
     </ng-template>
 
     <ng-template #end>
@@ -92,7 +85,6 @@
         <th>Thưởng KPI</th>
         <th>Khấu trừ</th>
         <th>Tổng lương</th>
-        <th>Ngày tính</th>
       </tr>
     </ng-template>
 
@@ -106,7 +98,6 @@
         <td>{{ row.thuongKpi | currency:'VND':'symbol':'1.0-0' }}</td>
         <td>{{ row.khauTru | currency:'VND':'symbol':'1.0-0' }}</td>
         <td><strong>{{ row.tongLuong | currency:'VND':'symbol':'1.0-0' }}</strong></td>
-        <td>{{ row.ngayTinhLuong | date:'dd/MM/yyyy' }}</td>
       </tr>
     </ng-template>
 

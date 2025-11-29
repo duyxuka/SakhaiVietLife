@@ -146,14 +146,14 @@ export class KeHoachCongViecDetailComponent implements OnInit, OnDestroy {
   }
 
   private toggleBlockUI(enabled: boolean) {
-    if (enabled) {
+    if (enabled == true) {
       this.blockedPanel = true;
       this.btnDisabled = true;
     } else {
       setTimeout(() => {
         this.blockedPanel = false;
         this.btnDisabled = false;
-      }, 800);
+      }, 1000);
     }
   }
   cancel() {

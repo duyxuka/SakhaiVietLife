@@ -1,0 +1,75 @@
+<p-panel header="Danh sách loại phiếu nhập xuất" #dt>
+
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Thêm"
+        icon="pi pi-plus"
+        class="mr-2"
+        severity="secondary"
+        (onClick)="showAddModal()"
+      />
+      <p-button label="Sửa" icon="pi pi-pencil" severity="help" class="mr-2"
+                [disabled]="selectedItems.length !== 1" (onClick)="showEditModal()" />
+      <p-button label="Xóa" icon="pi pi-trash" severity="danger"
+                [disabled]="selectedItems.length === 0" (onClick)="deleteItems()" />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" [(ngModel)]="keyword" (keyup.enter)="loadData()" placeholder="Tìm theo tên..." />
+      </p-iconfield>
+      <p-button icon="pi pi-search" class="ml-2" (onClick)="loadData()" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [rowHover]="true"
+  >
+    <ng-template #header>
+      <tr>
+        <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+        <th pSortableColumn="tenLoai">Tên loại <p-sortIcon field="tenLoai" /></th>
+        <th pSortableColumn="kieuNhapXuat">Kiểu <p-sortIcon field="kieuNhapXuat" /></th>
+        <th>Tăng/Giảm tồn</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row" /></td>
+        <td>{{ row.tenLoai }}</td>
+        <td>{{ getKieuText(row.kieuNhapXuat) }}</td>
+        <td>
+          <p-tag [value]="row.tangGiamTon ? 'Tăng tồn' : 'Giảm tồn'"
+                 [severity]="row.tangGiamTon ? 'success' : 'danger'"
+                 rounded="true" />
+        </td>
+      </tr>
+    </ng-template>
+
+   <ng-template #summary>
+      <div class="flex items-center justify-between" style="padding: 20px 0;">
+        <span>Tổng số bản ghi: {{ totalCount | number }}</span>
+      </div>
+    </ng-template>
+  </p-table>
+
+   <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
+
+  <p-blockUI [blocked]="blockedPanel" [target]="dt">
+    <p-progressSpinner style="top: 37%;" />
+  </p-blockUI>
+</p-panel>

@@ -1,0 +1,97 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết tiền tệ">
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Tên tiền tệ -->
+          <div>
+            <label class="block font-bold mb-2">
+              Tên tiền tệ <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              pInputText
+              formControlName="tenTienTe"
+              placeholder="VD: Việt Nam Đồng"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="tenTienTe"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Mã tiền tệ -->
+          <div>
+            <label class="block font-bold mb-2">
+              Mã ISO <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              pInputText
+              formControlName="maTienTe"
+              placeholder="VD: VND"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="maTienTe"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Tỷ giá -->
+          <div>
+            <label class="block font-bold mb-2">
+              Tỷ giá so với VND <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              pInputText
+              formControlName="tyGia"
+              placeholder="VD: 1, 23300..."
+              fluid
+            />
+          </div>
+
+          <!-- Mặc định -->
+          <div class="flex items-center gap-3">
+            <label class="font-bold">Mặc định</label>
+            <p-toggleswitch formControlName="macDinh"></p-toggleswitch>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockUI>
+  </p-panel>
+</form>

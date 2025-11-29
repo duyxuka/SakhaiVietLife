@@ -155,23 +155,6 @@
               fluid
             />
           </div>
-
-          <!-- Ngày tính lương -->
-          <div class="col-span-2">
-            <label for="ngayTinhLuong" class="block font-bold mb-2">
-              Ngày tính lương
-            </label>
-            <p-datepicker
-              id="ngayTinhLuong"
-              formControlName="ngayTinhLuong"
-              dateFormat="dd/mm/yy"
-              showIcon="true"
-              placeholder="Chọn ngày"
-              [disabled]="true"
-              fluid
-            ></p-datepicker>
-          </div>
-
         </div>
       </div>
     </ng-template>
@@ -196,14 +179,6 @@
             [disabled]="!form.valid || btnDisabled"
             [loading]="btnDisabled"
             class="mr-2"
-          />
-          <p-button
-            type="button"
-            label="Tính lương"
-            icon="pi pi-calculator"
-            severity="success"
-            (onClick)="tinhLuong()"
-            [disabled]="btnDisabled"
           />
         </ng-template>
       </p-toolbar>

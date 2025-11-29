@@ -56,11 +56,14 @@
     </ng-template>
   </p-table>
 
+   <!-- Paginator -->
   <p-paginator
     [rows]="maxResultCount"
     [totalRecords]="totalCount"
     (onPageChange)="pageChanged($event)"
     [rowsPerPageOptions]="[10,20,30,50,100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
   />
 
   <p-blockui [blocked]="blockedPanel" [target]="dt">

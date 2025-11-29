@@ -1,0 +1,139 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết báo giá">
+
+    <div class="flex flex-col gap-6 mt-3">
+
+      <!-- ==================== THÔNG TIN CHUNG ==================== -->
+      <h3 class="font-bold">Thông tin báo giá</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div>
+          <label class="block font-bold mb-2">Mã báo giá <span class="text-red-500">*</span></label>
+          <input pInputText formControlName="maBaoGia" placeholder="Nhập mã báo giá" fluid />
+          <app-validation-message [entityForm]="form" fieldName="maBaoGia"
+            [validationMessages]="validationMessages"></app-validation-message>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Tiêu đề</label>
+          <input pInputText formControlName="tieuDe" placeholder="Nhập tiêu đề" fluid />
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Khách hàng</label>
+          <p-select formControlName="khachHangId" [options]="khachHangOptions" placeholder="Chọn khách hàng" fluid></p-select>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Nhân viên lập</label>
+          <p-select formControlName="nhanVienId" [options]="nhanVienOptions" placeholder="Chọn nhân viên" fluid></p-select>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Ngày báo giá</label>
+          <p-datePicker formControlName="ngayBaoGia" dateFormat="dd/mm/yy" fluid></p-datePicker>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Ngày hết hạn</label>
+          <p-datePicker formControlName="ngayHetHan" dateFormat="dd/mm/yy" fluid></p-datePicker>
+        </div>
+
+      </div>
+
+      <!-- ==================== THÔNG TIN TÀI CHÍNH ==================== -->
+      <h3 class="font-bold mt-4">Thông tin tài chính</h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div>
+          <label class="block font-bold mb-2">Chiết khấu tổng (%)</label>
+          <input pInputText type="number" formControlName="chietKhau" placeholder="Nhập % chiết khấu" fluid />
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">VAT (%)</label>
+          <input pInputText type="number" formControlName="vat" placeholder="Nhập % VAT" fluid />
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Tiền tệ</label>
+          <p-select formControlName="tienTeId" [options]="tienTeOptions" placeholder="Chọn tiền tệ" fluid></p-select>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Đã chuyển đơn hàng</label>
+          <p-toggle-switch formControlName="daChuyenDonHang"></p-toggle-switch>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Tổng tiền</label>
+          <input pInputText formControlName="tongTien" [value]="getTongTien() | number:'1.0-2'" readonly fluid />
+        </div>
+
+      </div>
+
+      <!-- ==================== CHI TIẾT BÁO GIÁ ==================== -->
+      <h3 class="font-bold mt-4">Chi tiết sản phẩm</h3>
+
+      <div formArrayName="chiTietBaoGias">
+        <p-table [value]="chiTietBaoGias.controls" [tableStyle]="{'min-width':'70rem'}">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Sản phẩm</th>
+              <th>Số lượng</th>
+              <th>Đơn giá</th>
+              <th>CK (%)</th>
+              <th>Thành tiền</th>
+              <th class="text-center">Xóa</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-row let-i="rowIndex">
+            <tr [formGroupName]="i">
+              <td>
+                <p-select formControlName="sanPhamId"
+                  [options]="sanPhamOptions"
+                  placeholder="Chọn sản phẩm" fluid>
+                </p-select>
+              </td>
+
+              <td><input type="number" pInputText formControlName="soLuong" class="w-20" fluid /></td>
+              <td><input type="number" pInputText formControlName="donGia" class="w-24" fluid /></td>
+              <td><input type="number" pInputText formControlName="chietKhau" class="w-20" fluid /></td>
+
+              <td>{{ calculateThanhTien(row) | number:'1.2-2' }}</td>
+
+              <td class="text-center">
+                <p-button icon="pi pi-trash" severity="danger" (onClick)="removeRow(i)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="footer">
+            <p-button label="Thêm dòng" icon="pi pi-plus" class="mt-3" (onClick)="addRow()"></p-button>
+          </ng-template>
+        </p-table>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button label="Hủy" icon="pi pi-times" severity="secondary" (onClick)="cancel()" class="mr-2"></p-button>
+          <p-button type="submit" label="Lưu" icon="pi pi-check" [disabled]="form.invalid || btnDisabled"
+            [loading]="btnDisabled"></p-button>
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;"></p-progress-spinner>
+    </p-blockui>
+
+  </p-panel>
+</form>

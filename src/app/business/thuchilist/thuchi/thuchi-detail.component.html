@@ -1,0 +1,177 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết phiếu thu/chi">
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Mã phiếu -->
+          <div>
+            <label class="block font-bold mb-2">
+              Mã phiếu <span class="text-red-500">*</span>
+            </label>
+            <input pInputText formControlName="maPhieu" placeholder="VD: PT0001" class="w-full" />
+            <app-validation-message [entityForm]="form" fieldName="maPhieu" [validationMessages]="validationMessages" />
+          </div>
+
+          <!-- Ngày giao dịch -->
+          <div>
+            <label class="block font-bold mb-2">
+              Ngày giao dịch <span class="text-red-500">*</span>
+            </label>
+            <p-datepicker class="w-full" formControlName="ngayGiaoDich" dateFormat="dd/mm/yy" showIcon="true"></p-datepicker>
+          </div>
+
+          <!-- Ngày hạch toán -->
+          <div>
+            <label class="block font-bold mb-2">Ngày hạch toán</label>
+            <p-datepicker class="w-full" formControlName="ngayHachToan" dateFormat="dd/mm/yy" showIcon="true"></p-datepicker>
+          </div>
+
+          <!-- Diễn giải -->
+          <div class="md:col-span-2">
+            <label class="block font-bold mb-2">Diễn giải</label>
+            <textarea rows="3" pInputTextarea formControlName="dienGiai" class="w-full"></textarea>
+          </div>
+
+          <!-- Số tiền -->
+          <div>
+            <label class="block font-bold mb-2">Số tiền <span class="text-red-500">*</span></label>
+            <input type="number" pInputText formControlName="soTien" class="w-full" />
+          </div>
+
+          <!-- Loại thu chi -->
+          <div>
+            <label class="block font-bold mb-2">Loại thu/chi</label>
+            <p-select class="w-full" [options]="loaiThuChis" optionLabel="label"
+                      optionValue="value" formControlName="loaiThuChiId"
+                      placeholder="Chọn loại"></p-select>
+          </div>
+
+          <!-- TK Nợ -->
+          <div>
+            <label class="block font-bold mb-2">Tài khoản Nợ</label>
+            <p-select class="w-full" [options]="taiKhoans" optionLabel="label"
+                      optionValue="value" formControlName="taiKhoanNoId"
+                      placeholder="TK Nợ"></p-select>
+          </div>
+
+          <!-- TK Có -->
+          <div>
+            <label class="block font-bold mb-2">Tài khoản Có</label>
+            <p-select class="w-full" [options]="taiKhoans" optionLabel="label"
+                      optionValue="value" formControlName="taiKhoanCoId"
+                      placeholder="TK Có"></p-select>
+          </div>
+
+          <!-- Loại đối tượng -->
+          <div>
+            <label class="block font-bold mb-2">Loại đối tượng</label>
+            <p-select class="w-full" [options]="doiTuongTypeOptions" optionLabel="label"
+                      optionValue="value" formControlName="loaiDoiTuong"
+                      placeholder="Chọn loại"></p-select>
+          </div>
+
+          <!-- Đối tượng -->
+          <div>
+            <label class="block font-bold mb-2">Đối tượng</label>
+            <p-select class="w-full" [options]="doiTuongOptions" optionLabel="label"
+                      optionValue="value" formControlName="doiTuongId"
+                      placeholder="Chọn đối tượng"></p-select>
+          </div>
+
+          <!-- Phương thức thanh toán -->
+          <div>
+            <label class="block font-bold mb-2">Phương thức thanh toán</label>
+            <p-select class="w-full" [options]="paymentMethods" optionLabel="label"
+                      optionValue="value" formControlName="phuongThucThanhToan"
+                      placeholder="Chọn phương thức"></p-select>
+          </div>
+
+          <!-- Số TK ngân hàng -->
+          <div>
+            <label class="block font-bold mb-2">Số tài khoản ngân hàng</label>
+            <input pInputText class="w-full" formControlName="soTaiKhoanNganHang" />
+          </div>
+
+          <!-- Tên ngân hàng -->
+          <div>
+            <label class="block font-bold mb-2">Tên ngân hàng</label>
+            <input pInputText class="w-full" formControlName="tenNganHang" />
+          </div>
+
+          <!-- Hóa đơn -->
+          <div>
+            <label class="block font-bold mb-2">Số hóa đơn</label>
+            <input pInputText class="w-full" formControlName="soHoaDon" />
+          </div>
+
+          <div>
+            <label class="block font-bold mb-2">Ngày hóa đơn</label>
+            <p-datepicker class="w-full" formControlName="ngayHoaDon" dateFormat="dd/mm/yy" showIcon="true"></p-datepicker>
+          </div>
+
+          <div>
+            <label class="block font-bold mb-2">Thuế suất (%)</label>
+            <input type="number" class="w-full" pInputText formControlName="thueSuat" />
+          </div>
+
+          <div>
+            <label class="block font-bold mb-2">Tiền thuế</label>
+            <input type="number" class="w-full" pInputText formControlName="tienThue" />
+          </div>
+
+          <div>
+            <label class="block font-bold mb-2">Thành tiền sau thuế</label>
+            <input type="number" class="w-full" pInputText formControlName="thanhTienSauThue" />
+          </div>
+
+          <!-- Status -->
+          <div>
+            <label class="block font-bold mb-2">Trạng thái</label>
+            <p-select class="w-full" [options]="statusOptions" optionLabel="label"
+                      optionValue="value" formControlName="status"></p-select>
+          </div>
+
+          <!-- Người duyệt -->
+          <div>
+            <label class="block font-bold mb-2">Người duyệt</label>
+            <p-select class="w-full" [options]="nguoiDuyetOptions" optionLabel="label"
+                      optionValue="value" formControlName="nguoiDuyetId"
+                      placeholder="Chọn người duyệt"></p-select>
+          </div>
+
+          <!-- Ngày duyệt -->
+          <div>
+            <label class="block font-bold mb-2">Ngày duyệt</label>
+            <p-datepicker class="w-full" formControlName="ngayDuyet"
+                        dateFormat="dd/mm/yy" showIcon="true"></p-datepicker>
+          </div>
+
+          <!-- Lý do hủy -->
+          <div class="md:col-span-2">
+            <label class="block font-bold mb-2">Lý do hủy</label>
+            <textarea pInputTextarea rows="3" formControlName="lyDoHuy" class="w-full"></textarea>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button label="Hủy" icon="pi pi-times" severity="secondary" [outlined]="true"
+                    [rounded]="true" (onClick)="cancel()" class="mr-2"></p-button>
+
+          <p-button type="submit" label="Lưu lại" icon="pi pi-check"
+                    [disabled]="!form.valid || btnDisabled" [loading]="btnDisabled">
+          </p-button>
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockUI>
+  </p-panel>
+</form>

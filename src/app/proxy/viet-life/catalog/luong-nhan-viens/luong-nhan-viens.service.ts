@@ -70,23 +70,6 @@ export class LuongNhanViensService {
     { apiName: this.apiName,...config });
   
 
-  tinhLuongHangNgay = (config?: Partial<Rest.Config>) =>
-    this.restService.request<any, void>({
-      method: 'POST',
-      url: '/api/app/luong-nhan-viens/tinh-luong-hang-ngay',
-    },
-    { apiName: this.apiName,...config });
-  
-
-  tinhLuongThang = (thang: number, nam: number, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, void>({
-      method: 'POST',
-      url: '/api/app/luong-nhan-viens/tinh-luong-thang',
-      params: { thang, nam },
-    },
-    { apiName: this.apiName,...config });
-  
-
   update = (id: string, input: CreateUpdateLuongNhanVienDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, LuongNhanVienDto>({
       method: 'PUT',

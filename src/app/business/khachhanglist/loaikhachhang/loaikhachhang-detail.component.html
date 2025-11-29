@@ -1,0 +1,77 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết loại khách hàng">
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Tên loại khách hàng -->
+          <div>
+            <label for="ten" class="block font-bold mb-2">
+              Tên loại khách hàng <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="ten"
+              type="text"
+              pInputText
+              formControlName="ten"
+              placeholder="Nhập tên loại khách hàng"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="ten"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Mô tả -->
+          <div>
+            <label for="moTa" class="block font-bold mb-2">Mô tả</label>
+            <textarea
+              id="moTa"
+              pTextarea
+              rows="4"
+              formControlName="moTa"
+              placeholder="Nhập mô tả (không bắt buộc)"
+              fluid
+            ></textarea>
+          </div>
+
+          <!-- Hiệu lực -->
+          <div class="flex items-center gap-3">
+            <label for="hieuLuc" class="font-bold">Hiệu lực</label>
+            <p-toggleswitch id="hieuLuc" formControlName="hieuLuc"></p-toggleswitch>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockUI>
+  </p-panel>
+</form>

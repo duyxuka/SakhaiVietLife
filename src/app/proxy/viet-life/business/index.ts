@@ -1,3 +1,15 @@
+import * as BaoGias from './bao-gias';
+import * as BaoGiasList from './bao-gias-list';
+import * as DonHangs from './don-hangs';
+import * as DonHangsList from './don-hangs-list';
+import * as KhachHangs from './khach-hangs';
+import * as KhachHangsList from './khach-hangs-list';
+import * as KhoHangs from './kho-hangs';
+import * as NhapXuats from './nhap-xuats';
 import * as SanPhams from './san-phams';
 import * as SanPhamsList from './san-phams-list';
-export { SanPhams, SanPhamsList };
+import * as ThanhPhos from './thanh-phos';
+import * as ThuChis from './thu-chis';
+import * as ThuChisList from './thu-chis-list';
+import * as TienTes from './tien-tes';
+export { BaoGias, BaoGiasList, DonHangs, DonHangsList, KhachHangs, KhachHangsList, KhoHangs, NhapXuats, SanPhams, SanPhamsList, ThanhPhos, ThuChis, ThuChisList, TienTes };

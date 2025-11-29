@@ -115,14 +115,14 @@ export class DonViTinhDetailComponent implements OnInit, OnDestroy {
   }
 
   private toggleBlockUI(enabled: boolean) {
-    if (enabled) {
+    if (enabled == true) {
       this.blockedPanel = true;
       this.btnDisabled = true;
     } else {
       setTimeout(() => {
         this.blockedPanel = false;
         this.btnDisabled = false;
-      }, 300);
+      }, 1000);
     }
   }
 }

@@ -32,8 +32,14 @@ export class LoaiHopDongComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService
   ) {}
 
-  ngOnInit(): void { this.loadData(); }
-  ngOnDestroy(): void { this.ngUnsubscribe.next(); this.ngUnsubscribe.complete(); }
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 
   loadData() {
     this.toggleBlockUI(true);
@@ -43,38 +49,94 @@ export class LoaiHopDongComponent implements OnInit, OnDestroy {
         next: (res: PagedResultDto<LoaiHopDongDto>) => {
           this.items = res.items;
           this.totalCount = res.totalCount;
-          this.toggleBlockUI(false);
         },
-        error: () => this.toggleBlockUI(false)
+        error: () => {},
+        complete: () => this.toggleBlockUI(false)
       });
   }
 
-  pageChanged(event: any) { this.skipCount = event.first; this.maxResultCount = event.rows; this.loadData(); }
+  pageChanged(event: any) {
+    this.skipCount = event.first;
+    this.maxResultCount = event.rows;
+    this.loadData();
+  }
 
   showAddModal() {
-    const ref = this.dialogService.open(LoaiHopDongDetailComponent, { header: 'Thêm loại hợp đồng', modal: true, width: '50%', dismissableMask: true });
-    ref.onClose.subscribe(data => { if (data) { this.loadData(); this.notificationService.showSuccess('Thêm thành công'); this.selectedItems = []; } });
+    const ref = this.dialogService.open(LoaiHopDongDetailComponent, {
+      header: 'Thêm loại hợp đồng',
+      modal: true,
+      width: '70%',
+      dismissableMask: true,
+      closable: true
+    });
+
+    ref.onClose.subscribe(data => {
+      if (data) {
+        this.loadData();
+        this.selectedItems = [];
+        this.notificationService.showSuccess('Thêm thành công');
+      }
+    });
   }
 
   showEditModal() {
-    if (this.selectedItems.length !== 1) { this.notificationService.showError('Chọn 1 bản ghi'); return; }
-    const ref = this.dialogService.open(LoaiHopDongDetailComponent, { data: { id: this.selectedItems[0].id }, header: 'Cập nhật loại hợp đồng', modal: true, width: '50%', dismissableMask: true });
-    ref.onClose.subscribe(data => { if (data) { this.loadData(); this.notificationService.showSuccess('Cập nhật thành công'); this.selectedItems = []; } });
+    if (this.selectedItems.length !== 1) {
+      this.notificationService.showError('Chọn 1 bản ghi');
+      return;
+    }
+
+    const ref = this.dialogService.open(LoaiHopDongDetailComponent, {
+      data: { id: this.selectedItems[0].id },
+      header: 'Cập nhật loại hợp đồng',
+      modal: true,
+      width: '70%',
+      dismissableMask: true,
+      closable: true
+    });
+
+    ref.onClose.subscribe(data => {
+      if (data) {
+        this.loadData();
+        this.selectedItems = [];
+        this.notificationService.showSuccess('Cập nhật thành công');
+      }
+    });
   }
 
   deleteItems() {
-    if (!this.selectedItems.length) { this.notificationService.showError('Chọn ít nhất 1 bản ghi'); return; }
+    if (!this.selectedItems.length) {
+      this.notificationService.showError('Chọn ít nhất 1 bản ghi');
+      return;
+    }
     const ids = this.selectedItems.map(x => x.id);
-    this.confirmationService.confirm({ message: 'Bạn có chắc muốn xóa?', accept: () => this.deleteItemsConfirmed(ids) });
+    this.confirmationService.confirm({
+      message: 'Bạn có chắc muốn xóa?',
+      accept: () => this.deleteItemsConfirmed(ids)
+    });
   }
 
   private deleteItemsConfirmed(ids: string[]) {
     this.toggleBlockUI(true);
-    this.service.deleteMultiple(ids).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
-      next: () => { this.notificationService.showSuccess('Xóa thành công'); this.loadData(); this.selectedItems = []; this.toggleBlockUI(false); },
-      error: () => this.toggleBlockUI(false)
-    });
+    this.service.deleteMultiple(ids)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: () => {
+          this.notificationService.showSuccess('Xóa thành công');
+          this.selectedItems = [];
+          this.loadData();
+        },
+        error: () => {},
+        complete: () => this.toggleBlockUI(false)
+      });
   }
 
-  private toggleBlockUI(enabled: boolean) { this.blockedPanel = enabled; if (!enabled) setTimeout(() => this.blockedPanel = false, 1000); }
+  private toggleBlockUI(enabled: boolean) {
+    if (enabled == true) {
+      this.blockedPanel = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+      }, 1000);
+    }
+  }
 }

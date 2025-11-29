@@ -73,7 +73,7 @@ export class DonViTinhComponent implements OnInit, OnDestroy {
       modal: true,
       width: '70%',
       dismissableMask: true,
-      closable: true
+      closable: true,
     });
 
     ref.onClose.subscribe((data: DonViTinhDto) => {
@@ -139,7 +139,13 @@ export class DonViTinhComponent implements OnInit, OnDestroy {
       });
   }
 
-  private toggleBlockUI(state: boolean) {
-    this.blockedPanel = state;
+  private toggleBlockUI(enabled: boolean) {
+    if (enabled == true) {
+      this.blockedPanel = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+      }, 1000);
+    }
   }
 }

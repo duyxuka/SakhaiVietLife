@@ -1,0 +1,126 @@
+<p-panel header="Danh sách thành phố" #dt>
+  <!-- Toolbar: Thêm, Sửa, Xóa, Tìm kiếm -->
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Thêm"
+        icon="pi pi-plus"
+        severity="secondary"
+        class="mr-2"
+        (onClick)="showAddModal()"
+      />
+      <p-button
+        label="Sửa"
+        icon="pi pi-pencil"
+        severity="help"
+        class="mr-2"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()"
+      />
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          #searchInput
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm kiếm theo tên hoặc mã vùng..."
+          class="w-full"
+        />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Bảng dữ liệu -->
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+  >
+    <ng-template #caption>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h5 class="m-0">Quản lý thành phố</h5>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
+        </th>
+        <th pSortableColumn="ten" style="min-width: 14rem">
+          Tên thành phố <p-sortIcon field="ten" />
+        </th>
+        <th pSortableColumn="maVung" style="min-width: 10rem">
+          Mã vùng <p-sortIcon field="maVung" />
+        </th>
+        <th style="min-width: 12rem" class="text-center">Số kho hàng</th>
+        <th style="min-width: 12rem" class="text-center">Số khách hàng</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td style="width: 3rem">
+          <p-tableCheckbox [value]="row" />
+        </td>
+        <td>{{ row.ten }}</td>
+        <td>
+          <p-tag
+            [value]="row.maVung"
+            severity="info"
+            [rounded]="true"
+            styleClass="text-sm"
+          />
+        </td>
+        <td class="text-center font-medium">
+          {{ row.khoHangCount || 0 }}
+        </td>
+        <td class="text-center font-medium">
+          {{ row.khachHangCount || 0 }}
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div class="flex items-center justify-between" style="padding: 20px 0;">
+        <span>Tổng số bản ghi: {{ totalCount | number }}</span>
+      </div>
+    </ng-template>
+  </p-table>
+
+  <!-- Phân trang -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
+
+  <!-- BlockUI + Spinner -->
+  <p-blockui [blocked]="blockedPanel" [target]="dt">
+    <p-progress-spinner styleClass="spinner-center" />
+  </p-blockui>
+</p-panel>

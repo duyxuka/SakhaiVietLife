@@ -138,25 +138,13 @@ export class LuongNhanvienComponent implements OnInit, OnDestroy {
     });
   }
 
-  tinhLuong() {
-    this.confirmationService.confirm({
-      message: 'Tính lương cho tất cả nhân viên trong tháng này?',
-      accept: () => {
-        this.toggleBlockUI(true);
-        this.luongService.tinhLuongHangNgay().subscribe({
-          next: () => {
-            this.notificationService.showSuccess('Tính lương thành công!');
-            this.loadData();
-            this.toggleBlockUI(false);
-          },
-          error: () => this.toggleBlockUI(false),
-        });
-      },
-    });
-  }
-
   private toggleBlockUI(enabled: boolean) {
-    this.blockedPanel = enabled;
-    if (!enabled) setTimeout(() => this.blockedPanel = false, 300);
+    if (enabled == true) {
+      this.blockedPanel = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+      }, 1000);
+    }
   }
 }

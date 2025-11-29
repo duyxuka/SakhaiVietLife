@@ -125,9 +125,15 @@ export class PhuCapNhanVienDetailComponent implements OnInit, OnDestroy {
   }
 
   private toggleBlockUI(enabled: boolean) {
-    this.blockedPanel = enabled;
-    this.btnDisabled = enabled;
-    if (!enabled) setTimeout(() => (this.blockedPanel = false), 300);
+    if (enabled == true) {
+      this.blockedPanel = true;
+      this.btnDisabled = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+        this.btnDisabled = false;
+      }, 1000);
+    }
   }
   cancel() {
     this.ref?.close();

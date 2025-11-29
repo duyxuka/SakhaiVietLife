@@ -48,7 +48,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
     InputIconModule,
     TextareaModule,
     EditorModule,
-    ToggleSwitchModule
+    ToggleSwitchModule,
   ]
 })
 export class StandaloneSharedModule {}

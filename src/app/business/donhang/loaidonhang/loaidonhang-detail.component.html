@@ -1,0 +1,61 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()">
+  <p-panel #pnl header="Chi tiết loại đơn hàng">
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Tên loại -->
+          <div>
+            <label for="tenLoai" class="block font-bold mb-2">
+              Tên loại <span class="text-red-500">*</span>
+            </label>
+            <input id="tenLoai" type="text" pInputText formControlName="tenLoai" placeholder="Nhập tên loại đơn hàng" fluid/>
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="tenLoai"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Hiệu lực -->
+          <div class="flex items-center mt-6 gap-2">
+            <label for="hieuluc">Hiệu lực</label>
+            <p-checkbox formControlName="hieuLuc" binary="true" label="Hiệu lực" ></p-checkbox>
+          </div>
+
+          <!-- Tự động xuất kho -->
+          <div class="flex items-center mt-6 gap-2">
+            <label for="tuDongXuatKho">Tự động xuất kho</label>
+            <p-checkbox formControlName="tuDongXuatKho" binary="true" label="Tự động xuất kho khi duyệt"></p-checkbox>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockui>
+  </p-panel>
+</form>

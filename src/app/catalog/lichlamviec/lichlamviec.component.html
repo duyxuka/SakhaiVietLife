@@ -70,7 +70,6 @@
         <th>Giờ bắt đầu</th>
         <th>Giờ kết thúc</th>
         <th>Ghi chú</th>
-        <th>Trạng thái</th>
       </tr>
     </ng-template>
 
@@ -115,13 +114,6 @@
         <td>{{ row.gioBatDauMacDinh || '-' }}</td>
         <td>{{ row.gioKetThucMacDinh || '-' }}</td>
         <td>{{ row.ghiChu || '-' }}</td>
-        <td>
-          <p-tag
-            [value]="row.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động'"
-            [severity]="row.trangThai === 1 ? 'success' : 'danger'"
-            [rounded]="true"
-          ></p-tag>
-        </td>
       </tr>
     </ng-template>
 

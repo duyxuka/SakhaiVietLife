@@ -64,7 +64,6 @@
         <th>Tên loại chế độ</th>
         <th>Hệ số công</th>
         <th>Mô tả</th>
-        <th>Trạng thái</th>
       </tr>
     </ng-template>
 
@@ -76,13 +75,6 @@
         <td>{{ row.tenLoaiCheDo }}</td>
         <td>{{ row.heSoCong }}</td>
         <td>{{ row.moTa || '-' }}</td>
-        <td>
-          <p-tag
-            [value]="row.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động'"
-            [severity]="row.trangThai === 1 ? 'success' : 'danger'"
-            [rounded]="true"
-          ></p-tag>
-        </td>
       </tr>
     </ng-template>
 

@@ -87,7 +87,7 @@ export class AppMenu implements OnInit {
           },
           {
             label: 'Hợp đồng',
-            icon: 'pi pi-fw pi-chart-line',
+            icon: 'pi pi-fw pi-book',
             items: [
               {
                 label: 'Loại hợp đồng',
@@ -99,7 +99,7 @@ export class AppMenu implements OnInit {
                 routerLink: ['/catalog/hopdong/hopdongnhanvien'],
                 permission: 'VietLifeAdminCatalog.HopDongNhanVien.View',
               },
-              ],
+            ],
           },
           {
             label: 'KPI nhân viên',
@@ -141,6 +141,137 @@ export class AppMenu implements OnInit {
         ],
       },
       {
+        label: 'Kinh doanh',
+        items: [
+          {
+            label: 'Sản phẩm',
+            icon: 'pi pi-fw pi-list',
+            items: [
+              {
+                label: 'Danh sách sản phẩm',
+                icon: 'pi pi-fw pi-circle',
+                routerLink: ['/business/sanpham'],
+                permission: 'VietLifeAdminBusiness.SanPham.View',
+              },
+              {
+                label: 'Nhóm sản phẩm',
+                icon: 'pi pi-fw pi-circle',
+                routerLink: ['/business/nhomsanpham'],
+                permission: 'VietLifeAdminBusiness.NhomSanPham.View',
+              },
+              {
+                label: 'Đơn vị tính',
+                icon: 'pi pi-fw pi-circle',
+                routerLink: ['/business/donvitinh'],
+                permission: 'VietLifeAdminBusiness.DonViTinh.View',
+              }
+            ],
+          },
+          {
+            label: 'Kho hàng',
+            icon: 'pi pi-fw pi-warehouse',
+            routerLink: ['/business/khohang'],
+            permission: 'VietLifeAdminBusiness.KhoHang.View',
+          },
+          {
+            label: 'Thành phố',
+            icon: 'pi pi-fw pi-building-columns',
+            routerLink: ['/business/thanhpho'],
+            permission: 'VietLifeAdminBusiness.ThanhPho.View',
+          },
+          {
+            label: 'Tiền tệ',
+            icon: 'pi pi-fw pi-dollar',
+            routerLink: ['/business/tiente'],
+            permission: 'VietLifeAdminBusiness.TienTe.View',
+          },
+          {
+            label: 'Khách hàng',
+            icon: 'pi pi-fw pi-users',
+            items: [
+              {
+                label: 'Loại khách hàng',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/loaikhachhang'],
+                permission: 'VietLifeAdminBusiness.LoaiKhachHang.View',
+              },
+              {
+                label: 'Khách hàng',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/khachhang'],
+                permission: 'VietLifeAdminBusiness.KhachHang.View',
+              }
+            ],
+          },
+          {
+            label: 'Thu chi',
+            icon: 'pi pi-fw pi-list',
+            items: [
+              {
+                label: 'Loại thu chi',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/loaithuchi'],
+                permission: 'VietLifeAdminBusiness.LoaiThuChi.View',
+              },
+              {
+                label: 'Tài khoản kế toán',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/taikhoanketoan'],
+                permission: 'VietLifeAdminBusiness.TaiKhoanKeToan.View',
+              },
+              {
+                label: 'Thu Chi',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/thuchi'],
+                permission: 'VietLifeAdminBusiness.ThuChi.View',
+              }
+            ],
+          },
+          {
+            label: 'Nhập xuất',
+            icon: 'pi pi-fw pi-list',
+            items: [
+              {
+                label: 'Loại nhập xuất',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/loainhapxuat'],
+                permission: 'VietLifeAdminBusiness.LoaiNhapXuat.View',
+              },
+              {
+                label: 'Phiếu nhập xuất',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/phieunhapxuat'],
+                permission: 'VietLifeAdminBusiness.PhieuNhapXuat.View',
+              }
+            ],
+          },
+          {
+            label: 'Đơn hàng',
+            icon: 'pi pi-fw pi-list',
+            items: [
+              {
+                label: 'Loại đơn hàng',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/loaidonhang'],
+                permission: 'VietLifeAdminBusiness.LoaiDonHang.View',
+              },
+              {
+                label: 'Đơn hàng',
+                icon: 'pi pi-fw pi-circle-on',
+                routerLink: ['/business/donhang'],
+                permission: 'VietLifeAdminBusiness.DonHang.View',
+              }
+            ],
+          },
+          {
+            label: 'Báo giá',
+            icon: 'pi pi-fw pi-dollar',
+            routerLink: ['/business/baogia'],
+            permission: 'VietLifeAdminBusiness.BaoGia.View',
+          },
+        ]
+      },
+      {
         label: 'Hệ thống',
         items: [
           {
@@ -157,29 +288,6 @@ export class AppMenu implements OnInit {
           },
         ],
       },
-      {
-        label: 'Kinh doanh',
-        items: [
-          {
-            label: 'Danh sách sản phẩm',
-            icon: 'pi pi-fw pi-circle',
-            routerLink: ['/business/sanpham'],
-            permission: 'VietLifeAdminBusiness.SanPham.View',
-          },
-          {
-            label: 'Nhóm sản phẩm',
-            icon: 'pi pi-fw pi-circle',
-            routerLink: ['/business/nhomsanpham'],
-            permission: 'VietLifeAdminBusiness.NhomSanPham.View',
-          },
-          {
-            label: 'Đơn vị tính',
-            icon: 'pi pi-fw pi-circle',
-            routerLink: ['/business/donvitinh'],
-            permission: 'VietLifeAdminBusiness.DonViTinh.View',
-          }
-        ]
-      }
     ];
   }
 }

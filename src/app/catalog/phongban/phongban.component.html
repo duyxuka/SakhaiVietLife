@@ -74,10 +74,6 @@
         </th>
         <th style="min-width: 16rem">Mô tả</th>
         <th style="min-width: 14rem">Trưởng phòng</th>
-        <th pSortableColumn="trangThai" style="min-width: 10rem">
-          Trạng thái
-          <p-sortIcon field="trangThai" />
-        </th>
       </tr>
     </ng-template>
 
@@ -89,13 +85,6 @@
         <td>{{ row.tenPhongBan }}</td>
         <td>{{ row.moTa }}</td>
         <td>{{ row.truongPhongTen }}</td>
-        <td>
-          <p-tag
-            [value]="row.trangThai === 1 ? 'Hoạt động' : 'Không hoạt động'"
-            [severity]="row.trangThai === 1 ? 'success' : 'danger'"
-            [rounded]="true"
-          />
-        </td>
       </tr>
     </ng-template>
 

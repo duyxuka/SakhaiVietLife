@@ -1,0 +1,135 @@
+<p-panel header="Danh sách phiếu nhập / xuất" #dt>
+
+  <!-- Toolbar -->
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Thêm"
+        icon="pi pi-plus"
+        class="mr-2"
+        severity="secondary"
+        (onClick)="showAddModal()"
+      />
+
+      <p-button
+        label="Sửa"
+        icon="pi pi-pencil"
+        class="mr-2"
+        severity="help"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()"
+      />
+
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm kiếm theo mã phiếu, loại phiếu..."
+          class="w-full"
+        />
+      </p-iconfield>
+
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Table -->
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [rowHover]="true"
+    [tableStyle]="{ 'min-width': '60rem' }"
+  >
+    <ng-template #caption>
+      <div class="flex items-center justify-between">
+        <h5 class="m-0">Quản lý phiếu nhập / xuất</h5>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
+        </th>
+
+        <th pSortableColumn="maPhieu">
+          Mã phiếu <p-sortIcon field="maPhieu" />
+        </th>
+
+        <th pSortableColumn="loaiNhapXuatTen">
+          Loại phiếu <p-sortIcon field="loaiNhapXuatTen" />
+        </th>
+
+        <th pSortableColumn="ngayLap">
+          Ngày <p-sortIcon field="ngayLap" />
+        </th>
+
+        <th pSortableColumn="tenNhanVienLap">
+          Nhân viên <p-sortIcon field="tenNhanVienLap" />
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td>
+          <p-tableCheckbox [value]="row" />
+        </td>
+
+        <td class="font-medium">{{ row.maPhieu }}</td>
+
+        <td>
+          <p-tag
+            [value]="row.loaiNhapXuatTen"
+          />
+        </td>
+
+        <td>{{ row.ngayLap | date: 'dd/MM/yyyy' }}</td>
+
+        <td>{{ row.tenNhanVienLap }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div class="flex justify-between" style="padding:15px 0;">
+        <span>Tổng số phiếu: {{ totalCount | number }}</span>
+      </div>
+    </ng-template>
+  </p-table>
+
+  <!-- Pagination -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
+
+  <!-- BlockUI -->
+  <p-blockUI [blocked]="blockedPanel" [target]="dt">
+    <p-progressSpinner style="top: 37%;" />
+  </p-blockUI>
+
+</p-panel>

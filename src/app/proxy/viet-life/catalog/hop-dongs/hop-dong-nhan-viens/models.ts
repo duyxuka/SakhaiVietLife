@@ -39,8 +39,10 @@ export interface HopDongNhanVienDto {
 }
 
 export interface HopDongNhanVienInListDto extends EntityDto<string> {
-  maHopDong?: string;
+  nhanVienId?: string;
   tenNhanVien?: string;
+  maHopDong?: string;
+  loaiHopDongId?: string;
   tenLoaiHopDong?: string;
   ngayKy?: string;
   ngayHieuLuc?: string;

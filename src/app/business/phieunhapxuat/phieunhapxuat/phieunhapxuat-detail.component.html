@@ -1,0 +1,183 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+    <p-panel #pnl header="Chi tiết phiếu nhập xuất">
+        <!-- BODY -->
+        <ng-template pTemplate="body">
+            <div class="flex flex-col gap-6 mt-3">
+
+                <!-- THÔNG TIN CHUNG -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Mã phiếu -->
+                    <div>
+                        <label class="block font-bold mb-2">Mã phiếu <span
+                                class="text-red-500">*</span></label>
+                        <input pInputText formControlName="maPhieu"
+                            placeholder="Nhập mã phiếu" fluid />
+                        <app-validation-message
+                            [entityForm]="form"
+                            fieldName="maPhieu"
+                            [validationMessages]="validationMessages">
+                        </app-validation-message>
+                    </div>
+
+                    <!-- Loại nhập xuất -->
+                    <div>
+                        <label class="block font-bold mb-2">Loại nhập xuất <span
+                                class="text-red-500">*</span></label>
+                        <p-select
+                            formControlName="loaiNhapXuatId"
+                            [options]="loaiNXOptions"
+                            placeholder="Chọn loại phiếu" fluid>
+                        </p-select>
+                        <app-validation-message
+                            [entityForm]="form"
+                            fieldName="loaiNhapXuatId"
+                            [validationMessages]="validationMessages">
+                        </app-validation-message>
+                    </div>
+
+                    <!-- Kho -->
+                    <div>
+                        <label class="block font-bold mb-2">Kho xuất /
+                            nhập</label>
+                        <p-select
+                            formControlName="khoId"
+                            [options]="khoOptions"
+                            placeholder="Chọn kho" fluid>
+                        </p-select>
+                    </div>
+
+                    <!-- Kho đến -->
+                    <div>
+                        <label class="block font-bold mb-2">Kho đến (nếu chuyển
+                            kho)</label>
+                        <p-select
+                            formControlName="khoDenId"
+                            [options]="khoOptions"
+                            placeholder="Chọn kho đến" fluid>
+                        </p-select>
+                    </div>
+
+                    <!-- Đơn hàng -->
+                    <div>
+                        <label class="block font-bold mb-2">Đơn hàng</label>
+                        <p-select
+                            formControlName="donHangId"
+                            [options]="donHangOptions"
+                            placeholder="Chọn đơn hàng" fluid>
+                        </p-select>
+                    </div>
+
+                    <!-- Báo giá -->
+                    <div>
+                        <label class="block font-bold mb-2">Báo giá</label>
+                        <p-select
+                            formControlName="baoGiaId"
+                            [options]="baoGiaOptions"
+                            placeholder="Chọn báo giá" fluid>
+                        </p-select>
+                    </div>
+
+                    <!-- Nhân viên lập -->
+                    <div>
+                        <label class="block font-bold mb-2">Nhân viên
+                            lập</label>
+                        <p-select
+                            formControlName="nhanVienLapId"
+                            [options]="nhanVienOptions"
+                            placeholder="Chọn nhân viên" fluid>
+                        </p-select>
+                    </div>
+
+                    <!-- Ngày lập -->
+                    <div>
+                        <label class="block font-bold mb-2">Ngày lập</label>
+                        <p-datepicker formControlName="ngayLap"
+                            dateFormat="dd/mm/yy" fluid></p-datepicker>
+                    </div>
+
+                </div>
+
+                <!-- ====================== CHI TIẾT SẢN PHẨM ====================== -->
+                <h3 class="font-bold mt-4">Chi tiết phiếu</h3>
+
+                <div formArrayName="chiTietList">
+                    <p-table [value]="chiTietList.controls"
+                        [tableStyle]="{ 'min-width': '60rem' }">
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                                <th>Chiết khấu (%)</th>
+                                <th>VAT (%)</th>
+                                <th>Giá vốn</th>
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-row let-i="rowIndex">
+                            <tr [formGroupName]="i">
+                                <td>
+                                    <p-select
+                                        formControlName="sanPhamId"
+                                        [options]="sanPhamOptions"
+                                        placeholder="Chọn SP" fluid>
+                                    </p-select>
+                                </td>
+
+                                <td><input type="number" pInputText
+                                        formControlName="soLuong"
+                                        class="w-20" fluid/></td>
+                                <td><input type="number" pInputText
+                                        formControlName="donGia"
+                                        class="w-24" fluid/></td>
+                                <td><input type="number" pInputText
+                                        formControlName="chietKhau"
+                                        class="w-20" fluid/></td>
+                                <td><input type="number" pInputText
+                                        formControlName="vat"
+                                        class="w-20" fluid/></td>
+                                <td><input type="number" pInputText
+                                        formControlName="giaVon"
+                                        class="w-24" fluid/></td>
+
+                                <td class="text-center">
+                                    <p-button icon="pi pi-trash"
+                                        severity="danger"
+                                        (onClick)="removeRow(i)"></p-button>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="footer">
+                            <p-button label="Thêm dòng" icon="pi pi-plus"
+                                (onClick)="addRow()" class="mt-3"></p-button>
+                        </ng-template>
+
+                    </p-table>
+                </div>
+
+            </div>
+        </ng-template>
+
+        <!-- FOOTER -->
+        <ng-template pTemplate="footer">
+            <p-toolbar>
+                <ng-template pTemplate="end">
+                    <p-button label="Hủy" icon="pi pi-times"
+                        severity="secondary" (onClick)="cancel()"></p-button>
+                    <p-button type="submit" label="Lưu lại" icon="pi pi-check"
+                        [disabled]="form.invalid || btnDisabled"
+                        [loading]="btnDisabled"></p-button>
+                </ng-template>
+            </p-toolbar>
+        </ng-template>
+
+        <!-- Block UI -->
+        <p-blockui [blocked]="blockedPanel" [target]="pnl">
+            <p-progress-spinner style="top: 37%;"></p-progress-spinner>
+        </p-blockui>
+    </p-panel>
+</form>

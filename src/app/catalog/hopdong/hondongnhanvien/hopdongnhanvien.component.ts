@@ -30,7 +30,7 @@ export class HopDongNhanVienComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private notificationService: NotificationService,
     private confirmationService: ConfirmationService
-  ) {}
+  ) { }
 
   ngOnInit(): void { this.loadData(); }
   ngOnDestroy(): void { this.ngUnsubscribe.next(); this.ngUnsubscribe.complete(); }
@@ -48,13 +48,23 @@ export class HopDongNhanVienComponent implements OnInit, OnDestroy {
   pageChanged(event: any) { this.skipCount = event.first; this.maxResultCount = event.rows; this.loadData(); }
 
   showAddModal() {
-    const ref = this.dialogService.open(HopDongNhanVienDetailComponent, { header: 'Thêm hợp đồng', modal: true, width: '70%', dismissableMask: true });
+    const ref = this.dialogService.open(HopDongNhanVienDetailComponent, {
+      header: 'Thêm hợp đồng', modal: true,
+      width: '70%',
+      dismissableMask: true,
+      closable: true,
+    });
     ref.onClose.subscribe(data => { if (data) { this.loadData(); this.notificationService.showSuccess('Thêm hợp đồng thành công'); this.selectedItems = []; } });
   }
 
   showEditModal() {
     if (this.selectedItems.length !== 1) { this.notificationService.showError('Chọn 1 bản ghi'); return; }
-    const ref = this.dialogService.open(HopDongNhanVienDetailComponent, { data: { id: this.selectedItems[0].id }, header: 'Cập nhật hợp đồng', modal: true, width: '70%', dismissableMask: true });
+    const ref = this.dialogService.open(HopDongNhanVienDetailComponent, {
+      data: { id: this.selectedItems[0].id }, header: 'Cập nhật hợp đồng', modal: true,
+      width: '70%',
+      dismissableMask: true,
+      closable: true,
+    });
     ref.onClose.subscribe(data => { if (data) { this.loadData(); this.notificationService.showSuccess('Cập nhật thành công'); this.selectedItems = []; } });
   }
 
@@ -72,5 +82,13 @@ export class HopDongNhanVienComponent implements OnInit, OnDestroy {
     });
   }
 
-  private toggleBlockUI(enabled: boolean) { this.blockedPanel = enabled; if (!enabled) setTimeout(() => this.blockedPanel = false, 1000); }
+  private toggleBlockUI(enabled: boolean) {
+    if (enabled == true) {
+      this.blockedPanel = true;
+    } else {
+      setTimeout(() => {
+        this.blockedPanel = false;
+      }, 1000);
+    }
+  }
 }

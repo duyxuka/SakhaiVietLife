@@ -1,0 +1,101 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết khách hàng">
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Mã khách hàng -->
+          <div>
+            <label class="font-bold mb-2 block">Mã khách hàng <span class="text-red-500">*</span></label>
+            <input pInputText formControlName="maKhachHang" placeholder="Nhập mã khách hàng" fluid/>
+            <app-validation-message [entityForm]="form" fieldName="maKhachHang" [validationMessages]="validationMessages"/>
+          </div>
+
+          <!-- Tên công ty -->
+          <div>
+            <label class="font-bold mb-2 block">Tên công ty <span class="text-red-500">*</span></label>
+            <input pInputText formControlName="tenCongTy" placeholder="Nhập tên công ty" fluid/>
+            <app-validation-message [entityForm]="form" fieldName="tenCongTy" [validationMessages]="validationMessages"/>
+          </div>
+
+          <div>
+            <label class="font-bold mb-2 block">Tên khách hàng <span class="text-red-500">*</span></label>
+            <input pInputText formControlName="tenKhachHang" placeholder="Nhập tên khách hàng" fluid/>
+            <app-validation-message [entityForm]="form" fieldName="tenKhachHang" [validationMessages]="validationMessages"/>
+          </div>
+
+          <!-- Tên giao dịch -->
+          <div>
+            <label class="font-bold mb-2 block">Tên giao dịch</label>
+            <input pInputText formControlName="tenGiaoDich" placeholder="Tên giao dịch" fluid/>
+          </div>
+
+          <!-- Điện thoại -->
+          <div>
+            <label class="font-bold mb-2 block">Điện thoại</label>
+            <input pInputText formControlName="dienThoai" placeholder="Số điện thoại" fluid/>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="font-bold mb-2 block">Email</label>
+            <input pInputText formControlName="email" placeholder="Địa chỉ email" fluid/>
+          </div>
+
+          <!-- Địa chỉ -->
+          <div>
+            <label class="font-bold mb-2 block">Địa chỉ</label>
+            <textarea pTextarea rows="3" formControlName="diaChi" placeholder="Nhập địa chỉ" fluid></textarea>
+          </div>
+
+          <!-- Loại khách hàng -->
+          <div>
+            <label class="font-bold mb-2 block">Loại khách hàng</label>
+            <p-select 
+                id="loaiKhachHangId"
+                [options]="loaiKhachHangOptions" 
+                formControlName="loaiKhachHangId"
+                placeholder="Chọn loại khách hàng"
+                [showClear]="true"
+                fluid>
+            </p-select>
+          </div>
+
+          <!-- Thành phố -->
+          <div>
+            <label class="font-bold mb-2 block">Thành phố</label>
+            <p-select 
+                id="thanhPhoId"
+                [options]="thanhPhoOptions" 
+                formControlName="thanhPhoId"
+                placeholder="Chọn thành phố"
+                [showClear]="true"
+                fluid>
+            </p-select>
+          </div>
+
+          <!-- Trạng thái -->
+          <div class="flex items-center gap-3">
+            <label class="font-bold">Trạng thái</label>
+            <p-toggleswitch formControlName="trangThai"></p-toggleswitch>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button label="Hủy" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="cancel()" class="mr-2"></p-button>
+          <p-button type="submit" label="Lưu lại" icon="pi pi-check" [disabled]="!form.valid || btnDisabled" [loading]="btnDisabled"></p-button>
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner style="top: 37%;" />
+    </p-blockUI>
+  </p-panel>
+</form>

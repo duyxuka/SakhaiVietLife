@@ -1,0 +1,101 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết kho hàng">
+    <!-- Form Body -->
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Tên kho -->
+          <div>
+            <label for="tenKho" class="block font-bold mb-2">
+              Tên kho <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="tenKho"
+              type="text"
+              pInputText
+              formControlName="tenKho"
+              placeholder="Nhập tên kho"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="tenKho"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Thành phố -->
+          <div>
+            <label for="thanhPhoId" class="block font-bold mb-2">
+              Thành phố <span class="text-red-500">*</span>
+            </label>
+            <p-select
+              id="thanhPhoId"
+              [options]="thanhPhoList"
+              formControlName="thanhPhoId"
+              placeholder="Chọn thành phố"
+              [showClear]="true"
+              optionLabel="label"
+              optionValue="value"
+              [style]="{ width: '100%' }"
+            ></p-select>
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="thanhPhoId"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+
+          <!-- Địa chỉ -->
+          <div class="md:col-span-2">
+             <label for="diaChi" class="block font-bold mb-2">
+              Địa chỉ <span class="text-red-500">*</span>
+            </label>
+            <input
+              id="diaChi"
+              type="text"
+              pInputText
+              formControlName="diaChi"
+              placeholder="Nhập địa chỉ"
+              fluid
+            />
+            <app-validation-message
+              [entityForm]="form"
+              fieldName="diaChi"
+              [validationMessages]="validationMessages"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2"
+          />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled"
+          />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockui>
+  </p-panel>
+</form>

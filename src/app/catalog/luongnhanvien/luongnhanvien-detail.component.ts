@@ -89,23 +89,7 @@ export class LuongNhanVienDetailComponent implements OnInit, OnDestroy {
       thuongKhac: [this.selectedEntity.thuongKhac || null],
       khauTru: [this.selectedEntity.khauTru || null],
       congTruCheDo: [this.selectedEntity.congTruCheDo || null],
-      ngayTinhLuong: [this.selectedEntity.ngayTinhLuong ? new Date(this.selectedEntity.ngayTinhLuong) : null],
       ghiChu: [this.selectedEntity.ghiChu || null],
-    });
-  }
-
-  tinhLuong() {
-    this.toggleBlockUI(true);
-    this.luongService.tinhLuongHangNgay().subscribe({
-      next: () => {
-        this.notificationService.showSuccess('Tính lương thành công!');
-        this.toggleBlockUI(false);
-        this.ref.close(true);
-      },
-      error: (err) => {
-        this.notificationService.showError(err.error?.error?.message || 'Lỗi tính lương');
-        this.toggleBlockUI(false);
-      },
     });
   }
 
@@ -130,13 +114,14 @@ export class LuongNhanVienDetailComponent implements OnInit, OnDestroy {
   }
 
   private toggleBlockUI(enabled: boolean) {
-    this.blockedPanel = enabled;
-    this.btnDisabled = enabled;
-    if (!enabled) {
+    if (enabled == true) {
+      this.blockedPanel = true;
+      this.btnDisabled = true;
+    } else {
       setTimeout(() => {
         this.blockedPanel = false;
         this.btnDisabled = false;
-      }, 300);
+      }, 1000);
     }
   }
   cancel() {

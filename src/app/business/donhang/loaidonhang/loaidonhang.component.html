@@ -1,0 +1,68 @@
+<p-panel header="Danh sách loại đơn hàng" #dt>
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button label="Thêm" icon="pi pi-plus" severity="secondary" (onClick)="showAddModal()"></p-button>
+      <p-button label="Sửa" icon="pi pi-pencil" severity="help" class="mx-2"
+        [disabled]="selectedItems.length !== 1" (onClick)="showEditModal()"></p-button>
+      <p-button label="Xóa" icon="pi pi-trash" severity="danger"
+        [disabled]="selectedItems.length === 0" (onClick)="deleteItems()"></p-button>
+    </ng-template>
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          #searchInput
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm kiếm..."
+          class="w-full"
+        />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [value]="items" [(selection)]="selectedItems" selectionMode="multiple" dataKey="id" [rowHover]="true">
+    <ng-template #header>
+      <tr>
+        <th style="width:3rem"><p-tableHeaderCheckbox /></th>
+        <th>Tên loại</th>
+        <th>Hiệu lực</th>
+        <th>Tự động xuất kho</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row" /></td>
+        <td>{{ row.tenLoai }}</td>
+        <td><p-tag [value]="row.hieuLuc ? 'Có' : 'Không'" [severity]="row.hieuLuc ? 'success' : 'danger'" /></td>
+        <td><p-tag [value]="row.tuDongXuatKho ? 'Có' : 'Không'" [severity]="row.tuDongXuatKho ? 'success' : 'warning'" /></td>
+      </tr>
+    </ng-template>
+    <ng-template #summary>
+      <div class="flex justify-between p-4">
+        <span>Tổng số bản ghi: {{ totalCount | number }}</span>
+      </div>
+    </ng-template>
+  </p-table>
+
+   <!-- Paginator -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10,20,30,50,100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
+  <p-blockUI [blocked]="blockedPanel" [target]="dt">
+    <p-progressSpinner style="top: 37%;" />
+  </p-blockUI>
+</p-panel>
