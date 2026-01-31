@@ -27,6 +27,10 @@ export const appRoutes: Routes = [
         path: 'business',
         loadChildren: () => import('./app/business/business-routing.module').then(m => m.BusinessRoutingModule),
       },
+      {
+        path: 'tuongtac',
+        loadChildren: () => import('./app/tuongtac/tuongtac-routing.module').then(m => m.TuongTacRoutingModule),
+      },
       { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
       { path: 'documentation', component: Documentation },
       { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },

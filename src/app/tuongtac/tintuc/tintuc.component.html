@@ -1,0 +1,138 @@
+<p-panel header="Danh sách tin tức" #dt>
+  <!-- Toolbar -->
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Thêm"
+        icon="pi pi-plus"
+        severity="secondary"
+        class="mr-2"
+        (onClick)="showAddModal()"
+      />
+      <p-button
+        label="Sửa"
+        icon="pi pi-pencil"
+        severity="help"
+        class="mr-2"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()"
+      />
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          #searchInput
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm kiếm theo tiêu đề..."
+          class="w-full"
+        />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Table -->
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [rowHover]="true"
+  >
+    <ng-template #caption>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h5 class="m-0">Quản lý tin tức</h5>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
+        </th>
+
+        <th style="min-width: 8rem">Ảnh</th>
+
+        <th pSortableColumn="tieuDe" style="min-width: 18rem">
+          Tiêu đề
+          <p-sortIcon field="tieuDe" />
+        </th>
+
+        <th style="min-width: 14rem">Ngày đăng</th>
+
+        <th style="min-width: 8rem">Trạng thái</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td style="width: 3rem">
+          <p-tableCheckbox [value]="row" />
+        </td>
+
+        <!-- Ảnh -->
+        <td>
+          <p-image
+            *ngIf="row.anh"
+            [src]="getThumbnail(row.anh)"
+            width="80"
+            height="60"
+            [preview]="true">
+          </p-image>
+        </td>
+
+        <!-- Tiêu đề -->
+        <td>{{ row.tieuDe }}</td>
+
+        <!-- Ngày đăng -->
+        <td>{{ row.ngayDang | date: 'dd/MM/yyyy' }}</td>
+
+        <!-- Trạng thái -->
+        <td>
+          <p-tag
+            [severity]="row.trangThai ? 'success' : 'secondary'"
+            [value]="row.trangThai ? 'Hiển thị' : 'Ẩn'">
+          </p-tag>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div class="flex items-center justify-between" style="padding: 20px 0px;">
+        <span>Tổng số bản ghi: {{ totalCount | number }}</span>
+      </div>
+    </ng-template>
+  </p-table>
+
+  <!-- Paginator -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
+
+  <p-blockui [blocked]="blockedPanel" [target]="dt">
+    <p-progress-spinner style="top: 37%;" />
+  </p-blockui>
+</p-panel>

@@ -139,14 +139,14 @@ export class Login  implements OnDestroy {
             this.notificationService.showSuccess(msg);
             setTimeout(() => {
               this.blockedPanel = false;
-              window.location.href = '/dashboard';
+              window.location.href = '/admin/dashboard';
             }, 800);
           },
           error: (err) => {
             console.error(err);
             this.notificationService.showError('Đăng nhập thành công nhưng lỗi chấm công!');
             this.blockedPanel = false;
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['dashboard']);
           }
         });
       },

@@ -29,6 +29,23 @@ export class AppMenu implements OnInit {
         ],
       },
       {
+        label: 'Tương tác người dùng',
+        items: [
+          {
+            label: 'Tin Tức',
+            icon: 'pi pi-fw pi-folder-open',
+            routerLink: ['/tuongtac/tintuc'],
+            permission: 'VietLifeAdminTuongTac.TinTuc.View',
+          },
+          {
+            label: 'Liên Hệ',
+            icon: 'pi pi-fw pi-whatsapp',
+            routerLink: ['/tuongtac/lienhe'],
+            permission: 'VietLifeAdminTuongTac.LienHe.View',
+          },
+        ]
+      },
+      {
         label: 'Nhân sự',
         items: [
           {

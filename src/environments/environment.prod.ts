@@ -1,20 +1,20 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://localhost:4200';
+const baseUrl = 'https://vietlife.com.vn/admin';
 
 const oAuthConfig = {
-  issuer: 'http://42.96.61.186:8099/',
+  issuer: 'https://vietlife.com.vn/',
   redirectUri: baseUrl,
   clientId: 'VietLife_Admin',
   dummyClientSecret:'1q2w3e*',
   responseType: 'code',
   scope: 'offline_access VietLife.Admin',
-  requireHttps: false,
+  requireHttps: true,
   useRefreshToken: true,
 };
 
 export const environment = {
-  production: false,
+  production: true,
   application: {
     baseUrl,
     name: 'VietLife',
@@ -22,7 +22,7 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'http://42.96.61.186:8099',
+      url: 'https://vietlife.com.vn',
       rootNamespace: 'VietLife.Admin',
     },
     AbpAccountPublic: {

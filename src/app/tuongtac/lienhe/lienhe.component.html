@@ -1,0 +1,115 @@
+<p-panel header="Danh sách liên hệ" #dt>
+  <!-- Toolbar: Thay thế các button rời rạc -->
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          #searchInput
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm kiếm..."
+          class="w-full"
+        />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Table: Dùng p-table hiện đại -->
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+  >
+    <ng-template #caption>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h5 class="m-0">Quản lý liên hệ</h5>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
+        </th>
+        <th pSortableColumn="hoVaTen" style="min-width: 14rem">
+          Họ và tên
+          <p-sortIcon field="hoVaTen" />
+        </th>
+        <th pSortableColumn="soDienThoai" style="min-width: 12rem">
+          Số điện thoại
+          <p-sortIcon field="soDienThoai" />
+        </th>
+        <th pSortableColumn="email" style="min-width: 18rem">
+          Email
+          <p-sortIcon field="email" />
+        </th>
+        <th style="min-width: 20rem">Nội dung tư vấn</th>
+        <th style="width: 8rem; text-align: center">Trạng thái</th>
+      </tr>
+    </ng-template>
+
+    <!-- Body -->
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td>
+          <p-tableCheckbox [value]="row" />
+        </td>
+        <td>{{ row.hoVaTen }}</td>
+        <td>{{ row.soDienThoai }}</td>
+        <td>{{ row.email }}</td>
+        <td>
+          <span class="line-clamp-2">
+            {{ row.tuVan }}
+          </span>
+        </td>
+        <td class="text-center">
+          <p-tag
+            [severity]="row.trangThai ? 'success' : 'secondary'"
+            [value]="row.trangThai ? 'Đã xử lý' : 'Chưa xử lý'"
+          />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div class="flex items-center justify-between" style="padding: 20px 0px;">
+        <span>Tổng số bản ghi: {{ totalCount | number }}</span>
+      </div>
+    </ng-template>
+  </p-table>
+
+  <!-- Paginator riêng biệt -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
+  <p-blockui [blocked]="blockedPanel" [target]="dt">
+    <p-progress-spinner style="top: 37%;" />
+  </p-blockui>
+</p-panel>

@@ -1,0 +1,96 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết chi nhánh">
+    <!-- Form Content -->
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+        <!-- Tên chi nhánh -->
+        <div>
+          <label class="font-bold mb-2 block">
+            Tiêu đề <span class="text-red-500">*</span>
+          </label>
+          <input
+            pInputText
+            formControlName="tieuDe"
+            placeholder="Nhập tiêu đề tin tức"
+            fluid />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="tieuDe"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- Mô tả -->
+        <div>
+          <label for="noiDung" class="block font-bold mb-2">Mô tả</label>
+          <p-editor
+            [style]="{ height: '320px' }"
+            id="noiDung"
+            pTextarea
+            formControlName="noiDung"
+            rows="4"
+            placeholder="Nhập mô tả chi nhánh (không bắt buộc)"
+            fluid></p-editor>
+        </div>
+
+        <div>
+            <label for="thumbnailImage" class="block font-bold mb-2">Hình ảnh</label>
+            <input
+              id="thumbnailImage"
+              type="file"
+              (change)="onFileChange($event)"
+              class="w-full"
+            />
+          </div>
+          <div>
+            <p-image
+              [src]="thumbnailImage"
+              [alt]="selectedEntity.tieuDe"
+              width="250"
+              [preview]="true"
+            ></p-image>
+          </div>
+
+        <div>
+          <label class="font-bold mb-2 block">Ngày đăng</label>
+          <p-datepicker 
+            formControlName="ngayDang"
+            dateFormat="dd/mm/yy"
+            showIcon="true"
+            fluid />
+        </div>
+
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch  formControlName="trangThai"></p-toggleswitch >
+          <label>Hiển thị</label>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Footer với Toolbar -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2" />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled" />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockui>
+  </p-panel>
+</form>
