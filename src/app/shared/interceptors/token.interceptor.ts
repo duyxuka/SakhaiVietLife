@@ -10,7 +10,7 @@ import { BehaviorSubject, catchError,finalize, filter, Observable, switchMap, ta
 import { TokenStorageService } from '../services/token.service';
 import { AuthService } from '../services/auth.service';
 import { LoginResponseDto } from '../models/login-response.dto';
-const TOKEN_HEADER_KEY = 'Authorization'; // for Spring Boot back-end
+const TOKEN_HEADER_KEY = 'Authorization'; 
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
