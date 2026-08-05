@@ -2,12 +2,12 @@ import { PagedResultDto } from '@abp/ng.core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { StandaloneSharedModule } from '../../standaloneshare.module';
 import { TinTucDto, TinTucInListDto, TinTucsService } from '@/proxy/viet-life/tuong-tac/tin-tucs';
 import { TinTucDetailComponent } from './tintuc-detail.component';
-import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tintuc',
@@ -23,14 +23,13 @@ export class TinTucComponent implements OnInit, OnDestroy {
   blockedPanel: boolean = false;
   items: TinTucInListDto[] = [];
   public selectedItems: TinTucInListDto[] = [];
-  thumbnailCache: { [key: string]: any } = {};
-  //Paging variables
+
+  mediaBaseUrl = environment.apis.default.url + '/files/';
+
   public skipCount: number = 0;
   public maxResultCount: number = 10;
   public totalCount: number;
 
-  //Filter
-  TinTucs: any[] = [];
   keyword: string = '';
 
   constructor(
@@ -38,7 +37,6 @@ export class TinTucComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private notificationService: NotificationService,
     private confirmationService: ConfirmationService,
-    private sanitizer: DomSanitizer
   ) { }
 
   ngOnDestroy(): void {
@@ -71,11 +69,17 @@ export class TinTucComponent implements OnInit, OnDestroy {
       });
   }
 
+  // ✅ Simple helper để tạo full URL
+  getImageUrl(fileName: string): string {
+    return fileName ? this.mediaBaseUrl + fileName : '';
+  }
+
   pageChanged(event: any): void {
     this.skipCount = event.first;
     this.maxResultCount = event.rows;
     this.loadData();
   }
+
   showAddModal() {
     const ref = this.dialogService.open(TinTucDetailComponent, {
       header: 'Thêm mới tin tức',
@@ -101,9 +105,7 @@ export class TinTucComponent implements OnInit, OnDestroy {
     }
     const id = this.selectedItems[0].id;
     const ref = this.dialogService.open(TinTucDetailComponent, {
-      data: {
-        id: id,
-      },
+      data: { id },
       header: 'Cập nhật tin tức',
       modal: true,
       width: '70%',
@@ -119,44 +121,26 @@ export class TinTucComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   deleteItems() {
     if (this.selectedItems.length == 0) {
-      this.notificationService.showError("Phải chọn ít nhất một bản ghi");
+      this.notificationService.showError('Phải chọn ít nhất một bản ghi');
       return;
     }
-    var ids = [];
-    this.selectedItems.forEach(element => {
-      ids.push(element.id);
-    });
+    const ids = this.selectedItems.map(item => item.id);
     this.confirmationService.confirm({
       message: 'Bạn có chắc muốn xóa bản ghi này?',
       accept: () => {
         this.deleteItemsConfirmed(ids);
       }
-    })
-  }
-  getThumbnail(fileName: string) {
-    if (!fileName) return null;
-
-    if (this.thumbnailCache[fileName]) {
-      return this.thumbnailCache[fileName];
-    }
-
-    this.tintucService.getThumbnailImage(fileName).subscribe(res => {
-      const ext = fileName.split('.').pop();
-      this.thumbnailCache[fileName] =
-        this.sanitizer.bypassSecurityTrustResourceUrl(
-          `data:image/${ext};base64, ${res}`
-        );
     });
-
-    return this.thumbnailCache[fileName];
   }
+
   deleteItemsConfirmed(ids: string[]) {
     this.toggleBlockUI(true);
     this.tintucService.deleteMultiple(ids).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
       next: () => {
-        this.notificationService.showSuccess("Xóa thành công");
+        this.notificationService.showSuccess('Xóa thành công');
         this.loadData();
         this.selectedItems = [];
         this.toggleBlockUI(false);
@@ -164,7 +148,7 @@ export class TinTucComponent implements OnInit, OnDestroy {
       error: () => {
         this.toggleBlockUI(false);
       }
-    })
+    });
   }
 
   private toggleBlockUI(enabled: boolean) {

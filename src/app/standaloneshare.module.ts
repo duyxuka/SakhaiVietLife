@@ -22,6 +22,9 @@ import { InputIconModule } from 'primeng/inputicon';
 import { TextareaModule } from 'primeng/textarea';
 import { EditorModule } from 'primeng/editor';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DividerModule } from 'primeng/divider';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   exports: [
@@ -49,6 +52,9 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
     TextareaModule,
     EditorModule,
     ToggleSwitchModule,
+    CKEditorModule,
+    DividerModule,
+    FileUploadModule
   ]
 })
 export class StandaloneSharedModule {}

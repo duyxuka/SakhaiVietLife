@@ -29,6 +29,47 @@ export class AppMenu implements OnInit {
         ],
       },
       {
+        label: 'Bảo hiểm',
+        items: [
+          {
+            label: 'SEO',
+            icon: 'pi pi-fw pi-search',
+            routerLink: ['/insurer/seos'],
+            permission: 'VietLifeAdminInsurer.SeoConfig.View',
+          },
+          {
+            label: 'Bài viết',
+            icon: 'pi pi-fw pi-folder-open',
+            routerLink: ['/insurer/baiviet'],
+            permission: 'VietLifeAdminInsurer.BaiViet.View',
+          },
+          {
+            label: 'Danh mục',
+            icon: 'pi pi-fw pi-list',
+            routerLink: ['/insurer/danhmuc'],
+            permission: 'VietLifeAdminInsurer.DanhMuc.View',
+          },
+          {
+            label: 'Nhóm',
+            icon: 'pi pi-fw pi-list',
+            routerLink: ['/insurer/nhom'],
+            permission: 'VietLifeAdminInsurer.Nhom.View',
+          },
+          {
+            label: 'Sản phẩm bảo hiểm',
+            icon: 'pi pi-fw pi-list',
+            routerLink: ['/insurer/sanphaminsurer'],
+            permission: 'VietLifeAdminInsurer.SanPhamInsurer.View',
+          },
+          {
+            label: 'Đăng ký tư vấn',
+            icon: 'pi pi-fw pi-list',
+            routerLink: ['/insurer/dangkytuvan'],
+            permission: 'VietLifeAdminInsurer.DangKyTuVan.View',
+          },
+        ]
+      },
+      {
         label: 'Tương tác người dùng',
         items: [
           {

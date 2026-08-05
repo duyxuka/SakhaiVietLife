@@ -1,0 +1,137 @@
+<p-panel header="Danh sách đăng ký tư vấn" #dt>
+  <!-- Toolbar -->
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()"
+      />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          #searchInput
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm theo họ tên, số điện thoại..."
+          class="w-full"
+        />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()"
+      />
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Table -->
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [rowHover]="true"
+  >
+    <ng-template #caption>
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <h5 class="m-0">Quản lý đăng ký tư vấn</h5>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox />
+        </th>
+
+        <th pSortableColumn="hoTen" style="min-width: 16rem">
+          Họ tên
+          <p-sortIcon field="hoTen" />
+        </th>
+
+        <th pSortableColumn="soDienThoai" style="min-width: 12rem">
+          Số điện thoại
+          <p-sortIcon field="soDienThoai" />
+        </th>
+
+        <th style="min-width: 14rem">Nhóm</th>
+
+        <th style="min-width: 18rem">Sản phẩm</th>
+
+        <th pSortableColumn="creationTime" style="min-width: 14rem">
+          Thời gian đăng ký
+          <p-sortIcon field="creationTime" />
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td style="width: 3rem">
+          <p-tableCheckbox [value]="row" />
+        </td>
+
+        <!-- Họ tên -->
+        <td>
+          <div class="flex align-items-center gap-2">
+            <i class="pi pi-user" style="color: #6c757d;"></i>
+            {{ row.hoTen }}
+          </div>
+        </td>
+
+        <!-- Số điện thoại -->
+        <td>
+          <div class="flex align-items-center gap-2">
+            <i class="pi pi-phone" style="color: #6c757d;"></i>
+            {{ row.soDienThoai }}
+          </div>
+        </td>
+
+        <!-- Nhóm -->
+        <td>
+          <span *ngIf="row.nhomId">{{ row.nhomTen }}</span>
+          <span *ngIf="!row.nhomId" class="text-secondary">—</span>
+        </td>
+
+        <!-- Sản phẩm -->
+        <td>
+          <span *ngIf="row.sanPhamId">{{ row.sanPhamTen }}</span>
+          <span *ngIf="!row.sanPhamId" class="text-secondary">—</span>
+        </td>
+
+        <!-- Thời gian đăng ký -->
+        <td>{{ row.creationTime | date: 'dd/MM/yyyy HH:mm' }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div class="flex items-center justify-between" style="padding: 20px 0px;">
+        <span>Tổng số bản ghi: {{ totalCount | number }}</span>
+      </div>
+    </ng-template>
+  </p-table>
+
+  <!-- Paginator -->
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50, 100]"
+    [showPageLinks]="true"
+    [showCurrentPageReport]="true"
+  />
+
+  <p-blockui [blocked]="blockedPanel" [target]="dt">
+    <p-progress-spinner style="top: 37%;" />
+  </p-blockui>
+</p-panel>

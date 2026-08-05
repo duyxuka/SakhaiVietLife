@@ -1,0 +1,119 @@
+<!-- danhmuc.component.html -->
+<p-panel header="Danh sách danh mục" #dt>
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button
+        label="Thêm"
+        icon="pi pi-plus"
+        severity="secondary"
+        class="mr-2"
+        (onClick)="showAddModal()" />
+      <p-button
+        label="Sửa"
+        icon="pi pi-pencil"
+        severity="help"
+        class="mr-2"
+        [disabled]="selectedItems.length !== 1"
+        (onClick)="showEditModal()" />
+      <p-button
+        label="Xóa"
+        icon="pi pi-trash"
+        severity="danger"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="deleteItems()" />
+    </ng-template>
+
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          pInputText
+          type="text"
+          [(ngModel)]="keyword"
+          (keyup.enter)="loadData()"
+          placeholder="Tìm kiếm theo tên..."
+          class="w-full" />
+      </p-iconfield>
+      <p-button
+        icon="pi pi-search"
+        severity="secondary"
+        class="ml-2"
+        (onClick)="loadData()" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    [value]="items"
+    [(selection)]="selectedItems"
+    selectionMode="multiple"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true">
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
+        <th style="min-width: 7rem">Ảnh menu</th>
+        <th pSortableColumn="ten" style="min-width: 16rem">
+          Tên danh mục <p-sortIcon field="ten" />
+        </th>
+        <th style="min-width: 14rem">Slug</th>
+        <th style="min-width: 8rem; text-align: center">Thứ tự</th>
+        <th style="min-width: 16rem">Mô tả</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row" /></td>
+
+        <td>
+          <p-image
+            *ngIf="row.anhMenu"
+            [src]="getImageUrl(row.anhMenu)"
+            width="72"
+            height="52"
+            [preview]="true" />
+          <span
+            *ngIf="!row.anhMenu"
+            style="font-size: 12px; color: var(--text-color-secondary)">
+            Chưa có ảnh
+          </span>
+        </td>
+
+        <td style="font-weight: 500">{{ row.ten }}</td>
+
+        <td>
+          <span style="font-size: 12px; color: var(--text-color-secondary); font-family: monospace">
+            {{ row.slug }}
+          </span>
+        </td>
+
+        <td style="text-align: center">
+          <p-badge [value]="row.thuTu" severity="secondary" />
+        </td>
+
+        <td style="color: var(--text-color-secondary); font-size: 13px">
+          <div [innerHTML]="row.moTa"></div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div style="padding: 12px 0">
+        Tổng số bản ghi: {{ totalCount | number }}
+      </div>
+    </ng-template>
+  </p-table>
+
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50]"
+    [showCurrentPageReport]="true" />
+
+  <p-blockui [blocked]="blockedPanel" [target]="dt">
+    <p-progress-spinner style="top: 37%;" />
+  </p-blockui>
+</p-panel>

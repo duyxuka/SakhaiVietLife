@@ -42,7 +42,11 @@
                             "src/assets/styles.scss"
                         ],
                         "scripts": [],
-                        "allowedCommonJsDependencies": ["quill", "quill-delta"]
+                        "allowedCommonJsDependencies": 
+                        ["quill", "quill-delta","fuzzysort",
+                            "debug",
+                            "extend"
+                        ]
                     },
                     "configurations": {
                         "production": {

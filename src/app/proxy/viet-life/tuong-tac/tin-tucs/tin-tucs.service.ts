@@ -45,6 +45,15 @@ export class TinTucsService {
     { apiName: this.apiName,...config });
   
 
+  getLatest = (take: number = 6, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, TinTucInListDto[]>({
+      method: 'GET',
+      url: '/api/app/tin-tucs/latest',
+      params: { take },
+    },
+    { apiName: this.apiName,...config });
+  
+
   getList = (input: PagedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<TinTucDto>>({
       method: 'GET',

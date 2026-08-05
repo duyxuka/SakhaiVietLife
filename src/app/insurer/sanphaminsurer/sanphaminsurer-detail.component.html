@@ -1,0 +1,197 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết sản phẩm bảo hiểm">
+
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+
+        <!-- Nhóm sản phẩm -->
+        <div>
+          <label class="font-bold mb-2 block">
+            Nhóm sản phẩm <span class="text-red-500">*</span>
+          </label>
+          <p-select
+            formControlName="nhomId"
+            [options]="nhomOptions"
+            optionLabel="ten"
+            optionValue="id"
+            placeholder="Chọn nhóm sản phẩm"
+            fluid />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="nhomId"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- Tên sản phẩm -->
+        <div>
+          <label class="font-bold mb-2 block">
+            Tên sản phẩm <span class="text-red-500">*</span>
+          </label>
+          <input
+            pInputText
+            formControlName="ten"
+            placeholder="Nhập tên sản phẩm"
+            (blur)="onTenBlur()"
+            fluid />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="ten"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- Slug -->
+        <div>
+          <label class="font-bold mb-2 block">
+            Slug <span class="text-red-500">*</span>
+          </label>
+          <input
+            pInputText
+            formControlName="slug"
+            placeholder="Nhập slug (vd: bao-hiem-suc-khoe)"
+            fluid />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="slug"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- Quyền lợi -->
+        <div>
+          <label class="font-bold mb-2 block">Quyền lợi</label>
+          @if (editorReady) {
+            <ckeditor
+              [editor]="Editor"
+              [config]="configCkeditor"
+              formControlName="quyenLoi"
+              (ready)="onEditorReady($event)">
+            </ckeditor>
+          }
+        </div>
+
+        <!-- Biểu phí -->
+        <div>
+          <label class="font-bold mb-2 block">Biểu phí</label>
+          @if (editorReady) {
+            <ckeditor
+              [editor]="Editor"
+              [config]="configCkeditor"
+              formControlName="bieuPhi"
+              (ready)="onEditorReady($event)">
+            </ckeditor>
+          }
+        </div>
+
+        <!-- Khuyến mãi -->
+        <div>
+          <label class="font-bold mb-2 block">Khuyến mãi</label>
+          @if (editorReady) {
+            <ckeditor
+              [editor]="Editor"
+              [config]="configCkeditor"
+              formControlName="khuyenMai"
+              (ready)="onEditorReady($event)">
+            </ckeditor>
+          }
+        </div>
+
+        <!-- Tài liệu -->
+        <div>
+          <label class="font-bold mb-2 block">Tài liệu</label>
+          @if (editorReady) {
+            <ckeditor
+              [editor]="Editor"
+              [config]="configCkeditor"
+              formControlName="taiLieu"
+              (ready)="onEditorReady($event)">
+            </ckeditor>
+          }
+        </div>
+
+        <!-- Đăng ký -->
+        <div>
+          <label class="font-bold mb-2 block">Link đăng ký</label>
+          @if (editorReady) {
+            <ckeditor
+              [editor]="Editor"
+              [config]="configCkeditor"
+              formControlName="dangKy"
+              (ready)="onEditorReady($event)">
+            </ckeditor>
+          }
+        </div>
+
+        <!-- Thứ tự -->
+        <div>
+          <label class="font-bold mb-2 block">
+            Thứ tự <span class="text-red-500">*</span>
+          </label>
+          <p-inputnumber
+            formControlName="thuTu"
+            [min]="0"
+            placeholder="Nhập thứ tự hiển thị"
+            fluid />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="thuTu"
+            [validationMessages]="validationMessages" />
+        </div>
+          <!-- SEO -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold mb-2">Title SEO</label>
+            <input pInputText formControlName="seoTitle" fluid />
+          </div>
+
+          <div>
+            <label class="block font-bold mb-2">Keyword</label>
+            <input pInputText formControlName="seoKeywords" fluid />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold mb-2">Description SEO</label>
+          <textarea
+            pInputTextarea
+            rows="3"
+            formControlName="seoDescription"
+            fluid
+          ></textarea>
+        </div>
+        <!-- Hiển thị -->
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch formControlName="hienThi"></p-toggleswitch>
+          <label>Hiển thị</label>
+        </div>
+
+      </div>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            [rounded]="true"
+            (onClick)="cancel()"
+            class="mr-2" />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled" />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <!-- Block UI -->
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progress-spinner style="top: 37%;" />
+    </p-blockui>
+
+  </p-panel>
+</form>

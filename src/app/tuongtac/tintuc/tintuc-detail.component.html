@@ -33,22 +33,27 @@
         </div>
 
         <div>
-            <label for="thumbnailImage" class="block font-bold mb-2">Hình ảnh</label>
-            <input
-              id="thumbnailImage"
-              type="file"
-              (change)="onFileChange($event)"
-              class="w-full"
-            />
-          </div>
-          <div>
-            <p-image
-              [src]="thumbnailImage"
-              [alt]="selectedEntity.tieuDe"
-              width="250"
-              [preview]="true"
-            ></p-image>
-          </div>
+          <label class="font-bold mb-2 block">Hình ảnh</label>
+
+          <p-fileUpload
+            mode="basic"
+            name="file"
+            accept="image/*"
+            chooseLabel="Chọn ảnh"
+            [auto]="false"
+            [customUpload]="true"
+            (onSelect)="onSelectImage($event)"
+            [maxFileSize]="307200"
+            class="w-full">
+          </p-fileUpload>
+
+          @if (previewImage) {
+            <img
+              [src]="previewImage"
+              class="mt-3 border rounded"
+              style="width:250px;" />
+          }
+        </div>
 
         <div>
           <label class="font-bold mb-2 block">Ngày đăng</label>

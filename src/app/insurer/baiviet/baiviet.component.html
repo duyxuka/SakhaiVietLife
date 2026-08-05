@@ -1,0 +1,83 @@
+<!-- baiviet.component.html -->
+<p-panel header="Danh sách bài viết" #dt>
+  <p-toolbar styleClass="mb-4">
+    <ng-template #start>
+      <p-button label="Thêm" icon="pi pi-plus" severity="secondary" class="mr-2" (onClick)="showAddModal()" />
+      <p-button label="Sửa" icon="pi pi-pencil" severity="help" class="mr-2"
+        [disabled]="selectedItems.length !== 1" (onClick)="showEditModal()" />
+      <p-button label="Xóa" icon="pi pi-trash" severity="danger"
+        [disabled]="selectedItems.length === 0" (onClick)="deleteItems()" />
+    </ng-template>
+    <ng-template #end>
+      <p-iconfield iconPosition="left">
+        <p-inputicon styleClass="pi pi-search" />
+        <input pInputText type="text" [(ngModel)]="keyword"
+          (keyup.enter)="loadData()" placeholder="Tìm kiếm theo tiêu đề..." />
+      </p-iconfield>
+      <p-button icon="pi pi-search" severity="secondary" class="ml-2" (onClick)="loadData()" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [value]="items" [(selection)]="selectedItems"
+    selectionMode="multiple" dataKey="id"
+    [tableStyle]="{ 'min-width': '60rem' }" [rowHover]="true">
+
+    <ng-template #header>
+      <tr>
+        <th style="width: 3rem"><p-tableHeaderCheckbox /></th>
+        <th style="min-width: 8rem">Ảnh</th>
+        <th pSortableColumn="tieuDe" style="min-width: 20rem">
+          Tiêu đề <p-sortIcon field="tieuDe" />
+        </th>
+        <th style="min-width: 12rem">Nhóm</th>
+        <th style="min-width: 12rem">Ngày xuất bản</th>
+        <th style="min-width: 8rem">Trạng thái</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row>
+      <tr [pSelectableRow]="row">
+        <td><p-tableCheckbox [value]="row" /></td>
+        <td>
+          <!-- ✅ Đơn giản nhất - trực tiếp dùng URL -->
+          @if (row.anhDaiDien) {
+            <p-image
+              [src]="getImageUrl(row.anhDaiDien)"
+              alt="Ảnh đại diện"
+              width="80"
+              height="60"
+              [preview]="true" />
+          }
+          @else {
+            <div
+              style="width: 80px; height: 60px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 4px; color: #999;">
+              <i class="pi pi-image" style="font-size: 1.5rem;"></i>
+            </div>
+          }
+        </td>
+        <td>{{ row.tieuDe }}</td>
+        <td>{{ row.tenNhom }}</td>
+        <td>{{ row.xuatBanLuc | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <p-tag [severity]="row.hienThi ? 'success' : 'secondary'"
+            [value]="row.hienThi ? 'Hiển thị' : 'Ẩn'" />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #summary>
+      <div style="padding: 12px 0">
+        Tổng số bản ghi: {{ totalCount | number }}
+      </div>
+    </ng-template>
+  </p-table>
+
+  <p-paginator [rows]="maxResultCount" [totalRecords]="totalCount"
+    (onPageChange)="pageChanged($event)"
+    [rowsPerPageOptions]="[10, 20, 30, 50]"
+    [showCurrentPageReport]="true" />
+
+  <p-blockui [blocked]="blockedPanel" [target]="dt">
+    <p-progress-spinner style="top: 37%;" />
+  </p-blockui>
+</p-panel>

@@ -1,0 +1,191 @@
+<form [formGroup]="form" (ngSubmit)="saveChange()" skipValidation>
+  <p-panel #pnl header="Chi tiết cấu hình SEO">
+
+    <ng-template pTemplate="body">
+      <div class="flex flex-col gap-6 mt-4">
+
+        <!-- Page Key -->
+        <div>
+          <label class="font-bold mb-2 block">
+            Page Key <span class="text-red-500">*</span>
+          </label>
+          <input
+            pInputText
+            formControlName="pageKey"
+            placeholder="Ví dụ: Home, ProductList, About, Contact..."
+            fluid
+            [readOnly]="!!config.data?.id" />
+          <small class="text-gray-500 mt-1 block">
+            Khóa duy nhất để xác định trang. Không thể thay đổi sau khi tạo.
+          </small>
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="pageKey"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- Divider: SEO cơ bản -->
+        <p-divider>
+          <span class="font-bold text-sm text-gray-600">SEO cơ bản</span>
+        </p-divider>
+
+        <!-- SEO Title -->
+        <div>
+          <label class="font-bold mb-2 block">
+            SEO Title <span class="text-red-500">*</span>
+            <span class="text-sm font-normal ml-2"
+              [class.text-red-500]="seoTitleLength > 70"
+              [class.text-gray-400]="seoTitleLength <= 70">
+              {{ seoTitleLength }}/70
+            </span>
+          </label>
+          <input
+            pInputText
+            formControlName="seoTitle"
+            placeholder="Tiêu đề hiển thị trên thanh tab trình duyệt"
+            fluid
+            maxlength="70" />
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="seoTitle"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- SEO Keywords -->
+        <div>
+          <label class="font-bold mb-2 block">SEO Keywords</label>
+          <input
+            pInputText
+            formControlName="seoKeywords"
+            placeholder="từ khóa 1, từ khóa 2, từ khóa 3..."
+            fluid />
+          <small class="text-gray-500 mt-1 block">Các từ khóa cách nhau bởi dấu phẩy</small>
+        </div>
+
+        <!-- SEO Description -->
+        <div>
+          <label class="font-bold mb-2 block">
+            SEO Description
+            <span class="text-sm font-normal ml-2"
+              [class.text-red-500]="seoDescriptionLength > 160"
+              [class.text-gray-400]="seoDescriptionLength <= 160">
+              {{ seoDescriptionLength }}/160
+            </span>
+          </label>
+          <textarea
+            pInputTextarea
+            rows="3"
+            formControlName="seoDescription"
+            placeholder="Mô tả ngắn hiển thị trên kết quả tìm kiếm Google"
+            maxlength="160"
+            style="width: 100%;">
+          </textarea>
+          <app-validation-message
+            [entityForm]="form"
+            fieldName="seoDescription"
+            [validationMessages]="validationMessages" />
+        </div>
+
+        <!-- Robots -->
+        <div>
+          <label class="font-bold mb-2 block">Robots</label>
+          <p-select
+            formControlName="robots"
+            [options]="robotsOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Chọn chế độ robots"
+            fluid />
+          <small class="text-gray-500 mt-1 block">
+            Kiểm soát cách các công cụ tìm kiếm lập chỉ mục trang này
+          </small>
+        </div>
+
+        <!-- Divider: Open Graph -->
+        <p-divider>
+          <span class="font-bold text-sm text-gray-600">Open Graph (Facebook / Zalo / Mạng xã hội)</span>
+        </p-divider>
+
+        <!-- OG Title -->
+        <div>
+          <label class="font-bold mb-2 block">OG Title</label>
+          <input
+            pInputText
+            formControlName="ogTitle"
+            placeholder="Tiêu đề khi chia sẻ lên mạng xã hội (để trống = dùng SEO Title)"
+            fluid />
+        </div>
+
+        <!-- OG Description -->
+        <div>
+          <label class="font-bold mb-2 block">OG Description</label>
+          <textarea
+            pInputTextarea
+            rows="2"
+            formControlName="ogDescription"
+            placeholder="Mô tả khi chia sẻ lên mạng xã hội (để trống = dùng SEO Description)"
+            style="width: 100%;">
+          </textarea>
+        </div>
+
+        <!-- OG Image URL -->
+        <div>
+          <label class="font-bold mb-2 block">OG Image URL</label>
+          <input
+            pInputText
+            formControlName="ogImageUrl"
+            placeholder="https://example.com/og-image.jpg"
+            fluid />
+          <small class="text-gray-500 mt-1 block">
+            Ảnh hiển thị khi chia sẻ lên Facebook, Zalo... (khuyến nghị: 1200×630px)
+          </small>
+        </div>
+
+        <!-- Divider: Nâng cao -->
+        <p-divider>
+          <span class="font-bold text-sm text-gray-600">Nâng cao</span>
+        </p-divider>
+
+        <!-- Canonical URL -->
+        <div>
+          <label class="font-bold mb-2 block">Canonical URL</label>
+          <input
+            pInputText
+            formControlName="canonicalUrl"
+            placeholder="https://example.com/trang-chinh-thuc"
+            fluid />
+          <small class="text-gray-500 mt-1 block">
+            Chỉ định URL chính thức để tránh nội dung trùng lặp
+          </small>
+        </div>
+
+      </div>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+      <p-toolbar>
+        <ng-template pTemplate="end">
+          <p-button
+            label="Hủy"
+            icon="pi pi-times"
+            severity="secondary"
+            [outlined]="true"
+            (onClick)="cancel()"
+            class="mr-2" />
+          <p-button
+            type="submit"
+            label="Lưu lại"
+            icon="pi pi-check"
+            [disabled]="!form.valid || btnDisabled"
+            [loading]="btnDisabled" />
+        </ng-template>
+      </p-toolbar>
+    </ng-template>
+
+    <p-blockui [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner style="top: 37%;" />
+    </p-blockui>
+
+  </p-panel>
+</form>
